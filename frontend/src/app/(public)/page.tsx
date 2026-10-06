@@ -1,27 +1,19 @@
 import React from 'react';
-import Link from 'next/link';
-import {
-  ShieldCheck,
-  Award,
-  Trees,
-  Route,
-  Building,
-  ArrowRight,
-  Phone,
-  Sparkles,
-  CheckCircle2,
-  MapPin,
-  Clock,
-  Compass,
-} from 'lucide-react';
 import { api } from '@/lib/api';
-import { ProjectCard } from '@/components/common/ProjectCard';
-import { LeadForm } from '@/components/common/LeadForm';
-import { WhatsAppButton } from '@/components/common/WhatsAppButton';
-import { getTelLink } from '@/lib/utils';
 import { Project } from '@/types';
+import { HomeHeroInteractive } from '@/components/home/HomeHeroInteractive';
+import { TrustCredentials } from '@/components/home/TrustCredentials';
+import { ProjectShowcaseTabs } from '@/components/home/ProjectShowcaseTabs';
+import { EmiCalculatorWidget } from '@/components/home/EmiCalculatorWidget';
+import { InteractiveBuyingJourney } from '@/components/home/InteractiveBuyingJourney';
+import { LocationsExplorer } from '@/components/home/LocationsExplorer';
+import { MobileStickyBar } from '@/components/home/MobileStickyBar';
+import { Trees, ShieldCheck, Route, Sun, Droplet, Smile, Phone, Car } from 'lucide-react';
+import { WhatsAppButton } from '@/components/common/WhatsAppButton';
+import { LeadForm } from '@/components/common/LeadForm';
+import { getTelLink } from '@/lib/utils';
 
-// Fallback projects in case backend is loading or during SSG build
+// Default initial fallback projects
 const initialProjects: Project[] = [
   {
     id: '1',
@@ -113,11 +105,34 @@ const initialProjects: Project[] = [
     created_at: new Date().toISOString(),
     updated_at: new Date().toISOString(),
   },
+  {
+    id: '4',
+    name: 'Vedic Temple City Layout',
+    slug: 'vedic-temple-city-layout',
+    tagline: 'Fully Sold Out Gated Layout Near Thiruporur Murugan Temple',
+    description:
+      'Completed and delivered gated plot project by Sree Hari Realty Promoters in Thiruporur, OMR.',
+    location: 'OMR - Thiruporur, Chennai',
+    city: 'Chennai',
+    state: 'Tamil Nadu',
+    total_area: '8 Acres',
+    total_units: '95 Plots',
+    price_range: '₹22 Lakhs - ₹50 Lakhs',
+    price_per_sqft: 2200,
+    status: 'COMPLETED',
+    is_featured: false,
+    is_visible: true,
+    main_image_url: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1200&q=80',
+    highlights: [{ title: '100% Sold Out & Delivered', description: 'Families already residing in independent villas.' }],
+    connectivity: [{ title: 'OMR IT Corridor', distance: '2 Mins' }],
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+  },
 ];
 
 async function getFeaturedProjects(): Promise<Project[]> {
   try {
-    const res = await api.getProjects({ featured: true });
+    const res = await api.getProjects();
     if (res.success && res.data && res.data.length > 0) {
       return res.data;
     }
@@ -130,287 +145,119 @@ async function getFeaturedProjects(): Promise<Project[]> {
 export default async function HomePage() {
   const projects = await getFeaturedProjects();
   const phone = process.env.NEXT_PUBLIC_COMPANY_PHONE || '+91 98765 43210';
+  const whatsappNum = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '919876543210';
 
   return (
-    <div>
-      {/* 1. HERO SECTION */}
-      <section className="relative bg-slate-950 text-white overflow-hidden py-16 lg:py-24">
-        {/* Background Image with Overlay */}
-        <div className="absolute inset-0 z-0 opacity-25">
-          <img
-            src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1920&q=85"
-            alt="Sree Hari Realty Promoters Land Development"
-            className="w-full h-full object-cover"
-          />
-        </div>
-        <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/90 to-transparent z-0" />
+    <div className="min-h-screen bg-slate-50">
+      {/* 1. CREATIVE INTERACTIVE HERO SECTION */}
+      <HomeHeroInteractive />
 
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            {/* Left Content Column */}
-            <div className="lg:col-span-7 space-y-6">
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-brand-primary/20 border border-brand-primary/40 text-brand-primaryLight text-xs font-bold uppercase tracking-wider">
-                <Sparkles className="w-3.5 h-3.5" />
-                <span>Premier Gated Community Plots in Chennai</span>
-              </div>
+      {/* 2. GOVERNMENT TRUST & LEGAL VERIFICATION METRICS */}
+      <TrustCredentials />
 
-              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold font-heading text-white tracking-tight leading-tight">
-                Invest in Your Dream Land. <br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-rose-400 via-brand-primaryLight to-amber-300">
-                  Ready to Build Villa Plots
-                </span>{' '}
-                with 100% Clear Titles.
-              </h1>
+      {/* 3. TABBED PROJECT SHOWCASE (MOBILE SNAP-SCROLL + DESKTOP GRID) */}
+      <ProjectShowcaseTabs initialProjects={projects} />
 
-              <p className="text-sm sm:text-base text-slate-300 max-w-xl leading-relaxed">
-                Sree Hari Realty Promoters brings you DTCP & CMDA approved gated plotted communities in high-growth
-                corridors. Equipped with 40ft blacktop roads, solar street lights, abundant groundwater, and instant bank
-                loan approvals.
-              </p>
-
-              {/* Key Bullet Highlights */}
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 pt-2 text-xs font-semibold text-slate-200">
-                <div className="flex items-center gap-2">
-                  <ShieldCheck className="w-4 h-4 text-emerald-400" />
-                  <span>DTCP & RERA Approved</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-                  <span>Immediate Registration</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Award className="w-4 h-4 text-emerald-400" />
-                  <span>Up to 80% Bank Loan</span>
-                </div>
-              </div>
-
-              {/* CTAs */}
-              <div className="flex flex-wrap items-center gap-4 pt-4">
-                <Link
-                  href="/projects"
-                  className="px-6 py-3.5 rounded-xl bg-brand-primary hover:bg-brand-primaryDark text-white font-bold text-sm tracking-wide transition-all shadow-lg hover:shadow-brand-primary/40 flex items-center gap-2"
-                >
-                  <span>Explore Available Plots</span>
-                  <ArrowRight className="w-4 h-4" />
-                </Link>
-
-                <WhatsAppButton
-                  label="Enquire on WhatsApp"
-                  message="Hi Sree Hari Realty, I would like to check plot availability and schedule a free site visit."
-                />
-
-                <a
-                  href={getTelLink(phone)}
-                  className="inline-flex items-center gap-2 px-5 py-3.5 rounded-xl border border-slate-700 hover:border-slate-500 bg-slate-900/80 text-slate-200 hover:text-white font-semibold text-sm transition-all"
-                >
-                  <Phone className="w-4 h-4 text-brand-primaryLight" />
-                  <span>{phone}</span>
-                </a>
-              </div>
-            </div>
-
-            {/* Right Quick Site-Visit Form */}
-            <div className="lg:col-span-5">
-              <LeadForm
-                title="Book a Free Site Visit"
-                subtitle="Get free cab pick-up & drop, project brochure, and price quote directly to your phone."
-                buttonText="Claim Free Site Visit"
-                className="bg-white/95 backdrop-blur-md shadow-2xl border border-white/20"
-              />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 2. TRUST & APPROVAL METRICS BAR */}
-      <section className="bg-slate-900 text-white border-y border-slate-800 py-6">
+      {/* 4. PLOT EMI & INVESTMENT BUDGET CALCULATOR */}
+      <section className="py-12 lg:py-20 bg-white border-y border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-            <div className="p-3">
-              <div className="text-2xl lg:text-3xl font-black text-amber-400 font-heading">100%</div>
-              <div className="text-xs text-slate-400 mt-1 font-medium">Clear Legal Parent Titles</div>
-            </div>
-            <div className="p-3">
-              <div className="text-2xl lg:text-3xl font-black text-emerald-400 font-heading">DTCP / RERA</div>
-              <div className="text-xs text-slate-400 mt-1 font-medium">Government Approved Layouts</div>
-            </div>
-            <div className="p-3">
-              <div className="text-2xl lg:text-3xl font-black text-brand-primaryLight font-heading">80% Loan</div>
-              <div className="text-xs text-slate-400 mt-1 font-medium">Leading Bank Tie-ups (SBI/HDFC)</div>
-            </div>
-            <div className="p-3">
-              <div className="text-2xl lg:text-3xl font-black text-blue-400 font-heading">Ready to Build</div>
-              <div className="text-xs text-slate-400 mt-1 font-medium">Surrounded by Occupied Homes</div>
-            </div>
-          </div>
+          <EmiCalculatorWidget />
         </div>
       </section>
 
-      {/* 3. FEATURED PROJECTS SHOWCASE */}
-      <section className="py-16 lg:py-24 bg-slate-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-12">
-            <div>
-              <div className="inline-flex items-center gap-1.5 text-xs font-bold text-brand-primary uppercase tracking-wider mb-2">
-                <Compass className="w-4 h-4" />
-                <span>Featured Communities</span>
-              </div>
-              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold font-heading text-slate-900">
-                Flagship Plot Projects
-              </h2>
-              <p className="text-sm text-slate-600 mt-2 max-w-xl">
-                Explore handpicked gated layout developments located in prime Chennai corridors with rapid capital
-                appreciation.
-              </p>
-            </div>
-            <Link
-              href="/projects"
-              className="mt-4 md:mt-0 inline-flex items-center gap-2 text-sm font-bold text-brand-primary hover:text-brand-primaryDark transition-colors group"
-            >
-              <span>View All Projects & Plots</span>
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </Link>
-          </div>
+      {/* 5. 4-STEP PLOTTED LAND BUYING JOURNEY */}
+      <InteractiveBuyingJourney />
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {projects.map((project) => (
-              <ProjectCard key={project.id} project={project} />
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* 6. PRIME GROWTH CORRIDORS EXPLORER */}
+      <LocationsExplorer />
 
-      {/* 4. KEY BENEFITS / WHY BUY LAND WITH SREE HARI REALTY */}
-      <section className="py-16 lg:py-20 bg-white border-y border-slate-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-2xl mx-auto mb-16">
-            <span className="text-xs font-bold text-emerald-700 uppercase tracking-wider">
-              The Sree Hari Advantage
-            </span>
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold font-heading text-slate-900 mt-2">
-              Why Smart Investors Choose Our Gated Plots
-            </h2>
-            <p className="text-sm text-slate-600 mt-3">
-              We eliminate uncertainty from land purchasing with transparent legal vetting and world-class infrastructure.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="p-8 rounded-2xl bg-slate-50 border border-slate-200 hover:border-brand-primary/30 transition-all hover:shadow-lg">
-              <div className="w-12 h-12 rounded-xl bg-rose-100 flex items-center justify-center text-brand-primary mb-6">
-                <ShieldCheck className="w-6 h-6" />
-              </div>
-              <h3 className="text-lg font-bold font-heading text-slate-900 mb-2">100% Legal Title Guarantee</h3>
-              <p className="text-xs text-slate-600 leading-relaxed">
-                Every project is verified with 30-year encumbrance-free legal parent documents, approved by DTCP and
-                registered with RERA.
-              </p>
-            </div>
-
-            <div className="p-8 rounded-2xl bg-slate-50 border border-slate-200 hover:border-emerald-500/30 transition-all hover:shadow-lg">
-              <div className="w-12 h-12 rounded-xl bg-emerald-100 flex items-center justify-center text-emerald-700 mb-6">
-                <Route className="w-6 h-6" />
-              </div>
-              <h3 className="text-lg font-bold font-heading text-slate-900 mb-2">Developed Gated Infrastructure</h3>
-              <p className="text-xs text-slate-600 leading-relaxed">
-                Enjoy 30 & 40ft wide blacktop tar roads, grand entrance arch, compound walls, solar street lights, and
-                landscaped avenue trees.
-              </p>
-            </div>
-
-            <div className="p-8 rounded-2xl bg-slate-50 border border-slate-200 hover:border-amber-500/30 transition-all hover:shadow-lg">
-              <div className="w-12 h-12 rounded-xl bg-amber-100 flex items-center justify-center text-amber-700 mb-6">
-                <Building className="w-6 h-6" />
-              </div>
-              <h3 className="text-lg font-bold font-heading text-slate-900 mb-2">High Appreciation Corridors</h3>
-              <p className="text-xs text-slate-600 leading-relaxed">
-                Strategically positioned along Outer Ring Road, GST Highway, and OMR growth corridors with proximity to
-                schools, IT parks, and transit hubs.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 5. GATED COMMUNITY AMENITIES SHOWCASE */}
-      <section className="py-16 lg:py-24 bg-slate-900 text-white">
+      {/* 7. MASTER GATED AMENITIES SHOWCASE */}
+      <section className="py-16 lg:py-24 bg-slate-900 text-white relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-2xl mx-auto mb-14">
-            <span className="text-xs font-bold text-amber-400 uppercase tracking-wider">Premium Specifications</span>
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold font-heading text-white mt-2">
-              Modern Amenities in Every Layout
+            <span className="text-xs font-bold text-amber-400 uppercase tracking-widest">
+              Standard Community Features
+            </span>
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black font-heading text-white mt-2">
+              World-Class Gated Infrastructure
             </h2>
-            <p className="text-sm text-slate-400 mt-2">
-              Designed to give your family a secure, nature-friendly, and comfortable living environment from day one.
+            <p className="text-xs sm:text-sm text-slate-400 mt-2">
+              Every layout by Sree Hari Realty Promoters is built with complete infrastructure ready for immediate villa construction.
             </p>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
             {[
-              { title: '24/7 Security & CCTV', desc: 'Gated boundary with guard post' },
-              { title: '40ft Blacktop Roads', desc: 'Heavy-duty asphalt tar roads' },
-              { title: 'Solar Street Lights', desc: 'Eco-friendly automatic lighting' },
-              { title: 'Sweet Potable Water', desc: 'High ground water table' },
-              { title: 'Avenue Plantation', desc: 'Lush greenery and tree-lined walkways' },
-              { title: 'Children Play Area', desc: 'Dedicated park and leisure space' },
-              { title: 'Underground Drainage', desc: 'Proper storm water channel system' },
-              { title: 'Immediate EB Connection', desc: 'Electricity poles and transformer' },
-            ].map((amenity, idx) => (
-              <div
-                key={idx}
-                className="p-5 rounded-xl bg-slate-800/80 border border-slate-700/60 hover:border-brand-primary/50 transition-colors"
-              >
-                <div className="w-9 h-9 rounded-lg bg-brand-primary/20 text-brand-primaryLight flex items-center justify-center mb-3">
-                  <Trees className="w-5 h-5" />
+              { title: '24/7 Gated Security', desc: 'Guard post & CCTV surveillance', icon: ShieldCheck, color: 'text-emerald-400' },
+              { title: '40ft Blacktop Roads', desc: 'Heavy duty asphalt tar roads', icon: Route, color: 'text-amber-400' },
+              { title: 'Solar Street Lights', desc: 'Eco-friendly automatic illumination', icon: Sun, color: 'text-yellow-400' },
+              { title: 'Sweet Ground Water', desc: 'Abundant potable water table', icon: Droplet, color: 'text-blue-400' },
+              { title: 'Avenue Plantation', desc: 'Tree-lined walkways & gardens', icon: Trees, color: 'text-emerald-400' },
+              { title: 'Children Play Area', desc: 'Parks and walking jogging tracks', icon: Smile, color: 'text-rose-400' },
+              { title: 'Compound Wall Perimeter', desc: '100% fenced secure boundary', icon: ShieldCheck, color: 'text-purple-400' },
+              { title: 'Immediate EB & Patta', desc: 'Fast utility & name transfer', icon: ShieldCheck, color: 'text-brand-primaryLight' },
+            ].map((amenity, idx) => {
+              const Icon = amenity.icon;
+              return (
+                <div
+                  key={idx}
+                  className="p-5 rounded-2xl bg-slate-800/80 border border-slate-700/60 hover:border-brand-primary/50 transition-all hover:bg-slate-800"
+                >
+                  <div className="w-10 h-10 rounded-xl bg-slate-900 flex items-center justify-center mb-3">
+                    <Icon className={`w-5 h-5 ${amenity.color}`} />
+                  </div>
+                  <h4 className="font-bold text-xs sm:text-sm text-white">{amenity.title}</h4>
+                  <p className="text-[11px] text-slate-400 mt-1">{amenity.desc}</p>
                 </div>
-                <h4 className="font-bold text-sm text-white">{amenity.title}</h4>
-                <p className="text-[11px] text-slate-400 mt-1">{amenity.desc}</p>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>
 
-      {/* 6. FREE SITE VISIT & FINAL ENQUIRY CTA */}
-      <section className="py-16 lg:py-20 bg-gradient-to-br from-rose-900 via-brand-primaryDark to-slate-950 text-white">
+      {/* 8. FREE CHAUFFEURED SITE VISIT FINAL INVITATION */}
+      <section className="py-16 lg:py-20 bg-gradient-to-br from-rose-950 via-brand-primaryDark to-slate-950 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
             <div className="lg:col-span-7 space-y-4">
               <span className="text-xs font-bold text-amber-300 uppercase tracking-widest">
-                Complimentary Service
+                Complimentary Buyer Service
               </span>
-              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold font-heading text-white">
-                Book a Free Weekend Site Visit with Pick-up & Drop
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black font-heading text-white leading-tight">
+                Book a Free Weekend Site Visit with Doorstep AC Cab Pick-Up
               </h2>
-              <p className="text-sm text-rose-100 max-w-lg leading-relaxed">
-                Experience the location in person. Our property specialist will guide you through the layout,
-                demonstrate plot dimensions, provide legal copies, and assist with bank loan calculations.
+              <p className="text-xs sm:text-sm text-rose-100 max-w-lg leading-relaxed">
+                Experience our prime locations in person. Our layout supervisor will guide you through plot dimensions,
+                demonstrate road widths, provide legal parent document copies, and calculate exact bank loan EMIs.
               </p>
               <div className="pt-2 flex flex-wrap gap-4">
                 <a
                   href={getTelLink(phone)}
-                  className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-white text-brand-primaryDark font-bold text-sm hover:bg-slate-100 transition-colors"
+                  className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-white text-brand-primaryDark font-bold text-xs sm:text-sm hover:bg-slate-100 transition-colors shadow-lg"
                 >
                   <Phone className="w-4 h-4" />
                   <span>Call {phone}</span>
                 </a>
                 <WhatsAppButton
                   label="Book Site Visit on WhatsApp"
-                  message="Hi Sree Hari Realty, I want to book a free weekend site visit for your plots."
+                  message="Hi Sree Hari Realty, I want to book a free weekend site visit for your gated community plots."
                 />
               </div>
             </div>
 
             <div className="lg:col-span-5">
               <LeadForm
-                title="Instant Callback Request"
-                subtitle="Leave your contact number for immediate pricing & layout assistance."
-                className="bg-white text-slate-900"
+                title="Instant Site Visit Request"
+                subtitle="Leave your contact number for immediate cab scheduling & price quote."
+                className="bg-white text-slate-900 shadow-2xl"
               />
             </div>
           </div>
         </div>
       </section>
+
+      {/* 9. MOBILE STICKY BOTTOM ACTION BAR (ANDROID & IOS OPTIMIZED) */}
+      <MobileStickyBar phone={phone} whatsapp={whatsappNum} />
     </div>
   );
 }
