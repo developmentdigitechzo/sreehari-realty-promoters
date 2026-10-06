@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { MapPin, Phone, Mail, MessageCircle, Clock, Send, CheckCircle2, AlertCircle, Loader2 } from 'lucide-react';
 import { api } from '@/lib/api';
 import { WhatsAppButton } from '@/components/common/WhatsAppButton';
-import { BrandLogo } from '@/components/common/BrandLogo';
+import { LotusIcon } from '@/components/common/BrandLogo';
 import { getTelLink } from '@/lib/utils';
 
 export default function ContactPage() {
@@ -57,8 +57,8 @@ export default function ContactPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         {/* Header */}
         <div className="text-center max-w-2xl mx-auto">
-          <div className="flex justify-center mb-6">
-            <BrandLogo size="lg" />
+          <div className="flex justify-center mb-4">
+            <LotusIcon size="xl" />
           </div>
           <span className="text-xs font-bold text-brand-primary uppercase tracking-wider">Get in Touch</span>
           <h1 className="text-3xl sm:text-4xl font-extrabold font-heading text-slate-900 tracking-tight mt-2">
