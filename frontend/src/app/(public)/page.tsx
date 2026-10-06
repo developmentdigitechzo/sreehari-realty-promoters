@@ -13,7 +13,7 @@ import { WhatsAppButton } from '@/components/common/WhatsAppButton';
 import { LeadForm } from '@/components/common/LeadForm';
 import { getTelLink } from '@/lib/utils';
 
-// Default initial fallback projects
+// Default fallback projects with rich metadata
 const initialProjects: Project[] = [
   {
     id: '1',
@@ -148,7 +148,7 @@ export default async function HomePage() {
   const whatsappNum = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '919876543210';
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-slate-50 pb-20 md:pb-0">
       {/* 1. CREATIVE INTERACTIVE HERO SECTION */}
       <HomeHeroInteractive />
 
@@ -159,7 +159,7 @@ export default async function HomePage() {
       <ProjectShowcaseTabs initialProjects={projects} />
 
       {/* 4. PLOT EMI & INVESTMENT BUDGET CALCULATOR */}
-      <section className="py-12 lg:py-20 bg-white border-y border-slate-200">
+      <section className="py-12 sm:py-16 lg:py-20 bg-white border-y border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <EmiCalculatorWidget />
         </div>
@@ -172,42 +172,42 @@ export default async function HomePage() {
       <LocationsExplorer />
 
       {/* 7. MASTER GATED AMENITIES SHOWCASE */}
-      <section className="py-16 lg:py-24 bg-slate-900 text-white relative">
+      <section className="py-12 sm:py-16 lg:py-24 bg-slate-900 text-white relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-2xl mx-auto mb-14">
-            <span className="text-xs font-bold text-amber-400 uppercase tracking-widest">
+          <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-14">
+            <span className="text-[11px] sm:text-xs font-bold text-amber-400 uppercase tracking-widest">
               Standard Community Features
             </span>
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black font-heading text-white mt-2">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black font-heading text-white mt-1 sm:mt-2">
               World-Class Gated Infrastructure
             </h2>
-            <p className="text-xs sm:text-sm text-slate-400 mt-2">
+            <p className="text-xs sm:text-sm text-slate-400 mt-1 sm:mt-2">
               Every layout by Sree Hari Realty Promoters is built with complete infrastructure ready for immediate villa construction.
             </p>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6">
             {[
               { title: '24/7 Gated Security', desc: 'Guard post & CCTV surveillance', icon: ShieldCheck, color: 'text-emerald-400' },
               { title: '40ft Blacktop Roads', desc: 'Heavy duty asphalt tar roads', icon: Route, color: 'text-amber-400' },
               { title: 'Solar Street Lights', desc: 'Eco-friendly automatic illumination', icon: Sun, color: 'text-yellow-400' },
               { title: 'Sweet Ground Water', desc: 'Abundant potable water table', icon: Droplet, color: 'text-blue-400' },
               { title: 'Avenue Plantation', desc: 'Tree-lined walkways & gardens', icon: Trees, color: 'text-emerald-400' },
-              { title: 'Children Play Area', desc: 'Parks and walking jogging tracks', icon: Smile, color: 'text-rose-400' },
-              { title: 'Compound Wall Perimeter', desc: '100% fenced secure boundary', icon: ShieldCheck, color: 'text-purple-400' },
+              { title: 'Children Play Area', desc: 'Parks & jogging tracks', icon: Smile, color: 'text-rose-400' },
+              { title: 'Compound Perimeter', desc: '100% fenced secure boundary', icon: ShieldCheck, color: 'text-purple-400' },
               { title: 'Immediate EB & Patta', desc: 'Fast utility & name transfer', icon: ShieldCheck, color: 'text-brand-primaryLight' },
             ].map((amenity, idx) => {
               const Icon = amenity.icon;
               return (
                 <div
                   key={idx}
-                  className="p-5 rounded-2xl bg-slate-800/80 border border-slate-700/60 hover:border-brand-primary/50 transition-all hover:bg-slate-800"
+                  className="p-3.5 sm:p-5 rounded-2xl bg-slate-800/80 border border-slate-700/60 hover:border-brand-primary/50 transition-all hover:bg-slate-800"
                 >
-                  <div className="w-10 h-10 rounded-xl bg-slate-900 flex items-center justify-center mb-3">
-                    <Icon className={`w-5 h-5 ${amenity.color}`} />
+                  <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-slate-900 flex items-center justify-center mb-2.5 sm:mb-3">
+                    <Icon className={`w-4 h-4 sm:w-5 sm:h-5 ${amenity.color}`} />
                   </div>
                   <h4 className="font-bold text-xs sm:text-sm text-white">{amenity.title}</h4>
-                  <p className="text-[11px] text-slate-400 mt-1">{amenity.desc}</p>
+                  <p className="text-[10px] sm:text-[11px] text-slate-400 mt-0.5 sm:mt-1">{amenity.desc}</p>
                 </div>
               );
             })}
@@ -216,11 +216,11 @@ export default async function HomePage() {
       </section>
 
       {/* 8. FREE CHAUFFEURED SITE VISIT FINAL INVITATION */}
-      <section className="py-16 lg:py-20 bg-gradient-to-br from-rose-950 via-brand-primaryDark to-slate-950 text-white">
+      <section className="py-12 sm:py-16 lg:py-20 bg-gradient-to-br from-rose-950 via-brand-primaryDark to-slate-950 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
-            <div className="lg:col-span-7 space-y-4">
-              <span className="text-xs font-bold text-amber-300 uppercase tracking-widest">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
+            <div className="lg:col-span-7 space-y-3 sm:space-y-4">
+              <span className="text-[11px] sm:text-xs font-bold text-amber-300 uppercase tracking-widest">
                 Complimentary Buyer Service
               </span>
               <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black font-heading text-white leading-tight">
@@ -230,16 +230,16 @@ export default async function HomePage() {
                 Experience our prime locations in person. Our layout supervisor will guide you through plot dimensions,
                 demonstrate road widths, provide legal parent document copies, and calculate exact bank loan EMIs.
               </p>
-              <div className="pt-2 flex flex-wrap gap-4">
+              <div className="pt-2 flex flex-wrap gap-2.5 sm:gap-4">
                 <a
                   href={getTelLink(phone)}
-                  className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-white text-brand-primaryDark font-bold text-xs sm:text-sm hover:bg-slate-100 transition-colors shadow-lg"
+                  className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-white text-brand-primaryDark font-bold text-xs sm:text-sm hover:bg-slate-100 transition-colors shadow-lg active:scale-95"
                 >
                   <Phone className="w-4 h-4" />
                   <span>Call {phone}</span>
                 </a>
                 <WhatsAppButton
-                  label="Book Site Visit on WhatsApp"
+                  label="Book Visit on WhatsApp"
                   message="Hi Sree Hari Realty, I want to book a free weekend site visit for your gated community plots."
                 />
               </div>

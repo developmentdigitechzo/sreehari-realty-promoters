@@ -21,6 +21,7 @@ import { Project } from '@/types';
 import { PlotCard } from '@/components/common/PlotCard';
 import { LeadForm } from '@/components/common/LeadForm';
 import { WhatsAppButton } from '@/components/common/WhatsAppButton';
+import { MobileStickyBar } from '@/components/home/MobileStickyBar';
 import { getTelLink, getWhatsAppLink } from '@/lib/utils';
 
 // Fallback project data if backend is offline during build
@@ -173,7 +174,7 @@ export default async function ProjectDetailPage({
   const whatsAppMsg = `Hi Sree Hari Realty, I am interested in ${project.name} located at ${project.location}. Please send me the complete brochure, master plan, and pricing.`;
 
   return (
-    <div className="bg-slate-50 min-h-screen">
+    <div className="bg-slate-50 min-h-screen pb-24 md:pb-0">
       {/* Top Project Hero Section */}
       <section className="relative bg-slate-950 text-white py-12 lg:py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -403,6 +404,8 @@ export default async function ProjectDetailPage({
           </div>
         </div>
       </section>
+      {/* Mobile Sticky Bar */}
+      <MobileStickyBar phone={phone} />
     </div>
   );
 }

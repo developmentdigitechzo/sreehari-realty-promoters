@@ -5,6 +5,7 @@ import { Search, Filter, Layers, MapPin, Sparkles, AlertCircle, Loader2 } from '
 import { api } from '@/lib/api';
 import { Project } from '@/types';
 import { ProjectCard } from '@/components/common/ProjectCard';
+import { MobileStickyBar } from '@/components/home/MobileStickyBar';
 
 export default function ProjectsPage() {
   const [projects, setProjects] = useState<Project[]>([]);
@@ -55,43 +56,43 @@ export default function ProjectsPage() {
   });
 
   return (
-    <div className="bg-slate-50 min-h-screen py-12">
+    <div className="bg-slate-50 min-h-screen py-8 sm:py-12 pb-24 md:pb-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Page Header */}
-        <div className="text-center max-w-3xl mx-auto mb-10">
+        <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-10">
           <div className="inline-flex items-center gap-1.5 text-xs font-bold text-brand-primary uppercase tracking-wider mb-2">
             <Sparkles className="w-4 h-4" />
             <span>Gated Plotted Communities</span>
           </div>
-          <h1 className="text-3xl sm:text-4xl font-extrabold font-heading text-slate-900 tracking-tight">
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold font-heading text-slate-900 tracking-tight">
             Explore DTCP & RERA Approved Plots
           </h1>
-          <p className="text-sm text-slate-600 mt-3">
-            Browse our prime residential and commercial land developments across Chennai, Guduvanchery, Tambaram, and
+          <p className="text-xs sm:text-sm text-slate-600 mt-2 sm:mt-3">
+            Browse verified residential and commercial land developments across Chennai, Guduvanchery, Tambaram, and
             Chengalpattu.
           </p>
         </div>
 
         {/* Filter & Search Bar */}
-        <div className="bg-white rounded-2xl p-4 md:p-6 shadow-sm border border-slate-200/80 mb-10">
-          <form onSubmit={handleSearchSubmit} className="grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
+        <div className="bg-white rounded-2xl p-4 md:p-6 shadow-sm border border-slate-200/80 mb-8 sm:mb-10">
+          <form onSubmit={handleSearchSubmit} className="grid grid-cols-1 md:grid-cols-12 gap-3 sm:gap-4 items-center">
             {/* Search Input */}
             <div className="md:col-span-6 relative">
               <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
               <input
                 type="text"
-                placeholder="Search by project name, location (e.g. Tambaram, Guduvanchery)..."
+                placeholder="Search by project name, location (e.g. Tambaram)..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary"
+                className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary"
               />
             </div>
 
             {/* Status Filter Buttons */}
-            <div className="md:col-span-6 flex flex-wrap items-center gap-2">
-              <span className="text-xs font-bold text-slate-500 uppercase mr-1">Status:</span>
+            <div className="md:col-span-6 flex flex-wrap items-center gap-1.5 sm:gap-2">
+              <span className="text-[11px] font-bold text-slate-500 uppercase mr-1 hidden sm:inline">Status:</span>
               {[
-                { label: 'All', value: 'ALL' },
+                { label: 'All Layouts', value: 'ALL' },
                 { label: 'Ongoing', value: 'ONGOING' },
                 { label: 'Upcoming', value: 'UPCOMING' },
                 { label: 'Completed', value: 'COMPLETED' },
@@ -100,7 +101,7 @@ export default function ProjectsPage() {
                   type="button"
                   key={status.value}
                   onClick={() => setSelectedStatus(status.value)}
-                  className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-colors ${
+                  className={`px-3 py-2 rounded-xl text-xs font-bold transition-all active:scale-95 ${
                     selectedStatus === status.value
                       ? 'bg-brand-primary text-white shadow-sm'
                       : 'bg-slate-100 hover:bg-slate-200 text-slate-700'
@@ -148,13 +149,16 @@ export default function ProjectsPage() {
             </button>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
             {filteredProjects.map((project) => (
               <ProjectCard key={project.id} project={project} />
             ))}
           </div>
         )}
       </div>
+
+      {/* Mobile Sticky Bar */}
+      <MobileStickyBar />
     </div>
   );
 }

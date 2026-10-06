@@ -28,10 +28,10 @@ export const WhatsAppButton: React.FC<WhatsAppButtonProps> = ({
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Chat with Sree Hari Realty on WhatsApp"
-        className="fixed bottom-6 right-6 z-50 flex items-center gap-2 bg-[#25D366] hover:bg-[#20ba59] text-white px-4 py-3.5 rounded-full shadow-2xl transition-all duration-300 transform hover:scale-105 group font-medium text-sm border-2 border-white/20"
+        className="hidden md:flex fixed bottom-6 right-6 z-50 items-center gap-2 bg-[#25D366] hover:bg-[#20ba59] text-white px-4 py-3.5 rounded-full shadow-2xl transition-all duration-300 transform hover:scale-105 group font-medium text-sm border-2 border-white/20"
       >
-        <MessageCircle className="w-6 h-6 animate-pulse" />
-        <span className="max-md:hidden font-semibold">Chat on WhatsApp</span>
+        <MessageCircle className="w-5 h-5 animate-pulse" />
+        <span className="font-semibold">Chat on WhatsApp</span>
       </a>
     );
   }
@@ -42,10 +42,10 @@ export const WhatsAppButton: React.FC<WhatsAppButtonProps> = ({
         href={link}
         target="_blank"
         rel="noopener noreferrer"
-        className={`inline-flex items-center justify-center p-2.5 rounded-lg bg-emerald-50 text-emerald-700 hover:bg-emerald-600 hover:text-white transition-colors border border-emerald-200 ${className}`}
+        className={`inline-flex items-center justify-center p-2.5 rounded-xl bg-emerald-50 text-emerald-700 hover:bg-emerald-600 hover:text-white transition-colors border border-emerald-200 ${className}`}
         title="WhatsApp Enquiry"
       >
-        <MessageCircle className="w-5 h-5" />
+        <MessageCircle className="w-4 h-4" />
       </a>
     );
   }
@@ -55,9 +55,9 @@ export const WhatsAppButton: React.FC<WhatsAppButtonProps> = ({
       href={link}
       target="_blank"
       rel="noopener noreferrer"
-      className={`inline-flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#20ba59] text-white font-semibold px-5 py-2.5 rounded-lg transition-all duration-200 shadow-sm hover:shadow-md ${className}`}
+      className={`inline-flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#20ba59] text-white font-bold text-xs sm:text-sm px-5 py-3 rounded-xl transition-all duration-200 shadow-sm hover:shadow-md active:scale-95 ${className}`}
     >
-      <MessageCircle className="w-5 h-5" />
+      <MessageCircle className="w-4 h-4" />
       <span>{label}</span>
     </a>
   );
