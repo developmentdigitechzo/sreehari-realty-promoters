@@ -1,0 +1,67 @@
+<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#020617" />
+    </linearGradient>
+    <linearGradient id="goldBorder" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f59e0b" />
+      <stop offset="100%" stop-color="#d97706" />
+    </linearGradient>
+    <linearGradient id="centerPetal" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#e11d48" />
+      <stop offset="100%" stop-color="#9f1239" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background Badge with Rounded Squircle -->
+  <rect width="100" height="100" rx="24" fill="url(#bgGrad)" />
+  <rect x="2" y="2" width="96" height="96" rx="22" stroke="url(#goldBorder)" stroke-width="2.5" fill="none" />
+
+  <!-- Lotus Group Centered -->
+  <g transform="translate(0, 5)">
+    <!-- Base Green Leaves -->
+    <path
+      d="M16 72 C28 80 44 78 50 74 C56 78 72 80 84 72 C75 83 57 84 50 81 C43 84 25 83 16 72Z"
+      fill="#16a34a"
+    />
+
+    <!-- Outer Left Petal -->
+    <path
+      d="M40 50 C24 44 14 55 18 67 C22 75 36 77 44 73 C42 66 40 57 40 50Z"
+      fill="#f43f5e"
+    />
+
+    <!-- Outer Right Petal -->
+    <path
+      d="M60 50 C76 44 86 55 82 67 C78 75 64 77 56 73 C58 66 60 57 60 50Z"
+      fill="#f43f5e"
+    />
+
+    <!-- Left Main Petal -->
+    <path
+      d="M50 33 C43 19 25 24 22 42 C19 56 32 67 46 71 C47 61 48 47 50 33Z"
+      fill="#e11d48"
+    />
+
+    <!-- Right Main Petal -->
+    <path
+      d="M50 33 C57 19 75 24 78 42 C81 56 68 67 54 71 C53 61 52 47 50 33Z"
+      fill="#e11d48"
+    />
+
+    <!-- Center Dominant Petal -->
+    <path
+      d="M50 6 C50 6 61 24 59 52 C55 66 50 73 50 73 C50 73 45 66 41 52 C39 24 50 6 50 6Z"
+      fill="url(#centerPetal)"
+    />
+
+    <!-- Inner Stylized Monogram Curve -->
+    <path
+      d="M50 23 C46 23 43 26 43 29 C43 33 55 35 55 42 C55 46 50 49 46 48"
+      stroke="#ffffff"
+      stroke-width="3"
+      stroke-linecap="round"
+    />
+  </g>
+</svg>
