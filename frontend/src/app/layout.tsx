@@ -1,6 +1,5 @@
 import type { Metadata, Viewport } from 'next';
 import './globals.css';
-import { WhatsAppButton } from '@/components/common/WhatsAppButton';
 
 export const metadata: Metadata = {
   title: {
@@ -67,8 +66,6 @@ export default function RootLayout({
       </head>
       <body className="flex flex-col min-h-screen">
         {children}
-        {/* Floating WhatsApp CTA across website */}
-        <WhatsAppButton variant="floating" />
       </body>
     </html>
   );
