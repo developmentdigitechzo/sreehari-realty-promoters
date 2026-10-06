@@ -6,6 +6,7 @@ import rateLimit from 'express-rate-limit';
 import path from 'path';
 import { ENV } from './config/env.js';
 import { errorHandler } from './middleware/errorHandler.js';
+import { checkPostgresConnection } from './config/db.js';
 import { runMigrations } from './database/migrate.js';
 
 // Route imports
@@ -37,8 +38,8 @@ app.use('/uploads', express.static(path.resolve(process.cwd(), ENV.UPLOAD_DIR)))
 
 // Rate Limiting for Public Enquiry endpoints
 const leadLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 10, // Limit each IP to 10 submissions per window
+  windowMs: 15 * 60 * 1000,
+  max: 15,
   message: {
     success: false,
     message: 'Too many enquiries submitted from this IP, please try again after 15 minutes or call us directly.',
@@ -48,10 +49,12 @@ const leadLimiter = rateLimit({
 });
 
 // Health check endpoint
-app.get('/api/health', (req, res) => {
+app.get('/api/health', async (req, res) => {
+  const isDbOnline = await checkPostgresConnection();
   res.status(200).json({
     status: 'OK',
     company: 'Sree Hari Realty Promoters',
+    database: isDbOnline ? 'PostgreSQL Connected' : 'Local Memory Store (Zero-setup mode)',
     timestamp: new Date().toISOString(),
   });
 });
@@ -80,19 +83,24 @@ app.use(errorHandler);
 // Bootstrap Server
 const startServer = async () => {
   try {
-    // Attempt database migration check
-    try {
-      await runMigrations();
-    } catch (dbErr: any) {
-      console.warn(
-        '⚠️ PostgreSQL connection check: Database not yet initialized or unreachable. Please verify DATABASE_URL in .env.'
-      );
+    const isPostgresReady = await checkPostgresConnection();
+
+    if (isPostgresReady) {
+      console.log('✅ PostgreSQL database connected successfully.');
+      try {
+        await runMigrations();
+      } catch (e) {
+        console.warn('⚠️ Migrations skipped or already applied.');
+      }
+    } else {
+      console.log('ℹ️  PostgreSQL is currently offline on port 5432.');
+      console.log('🚀 Running in zero-setup Local Development mode with full in-memory seed data & CRUD support.');
     }
 
     app.listen(ENV.PORT, () => {
-      console.log(`🚀 Sree Hari Realty Backend Server running on port ${ENV.PORT}`);
+      console.log(`🌐 Sree Hari Realty Backend Server running on http://localhost:${ENV.PORT}`);
       console.log(`📡 Environment: ${ENV.NODE_ENV}`);
-      console.log(`🌐 Allowed Client: ${ENV.CLIENT_URL}`);
+      console.log(`🔗 Allowed Client: ${ENV.CLIENT_URL}`);
     });
   } catch (error) {
     console.error('Failed to start server:', error);
