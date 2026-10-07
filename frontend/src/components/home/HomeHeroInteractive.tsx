@@ -150,8 +150,8 @@ export const HomeHeroInteractive: React.FC = () => {
 
   return (
     <>
-      <section className="relative bg-[#071c19] text-white overflow-hidden pt-8 pb-14 sm:pt-14 sm:pb-20 lg:pt-18 lg:pb-26">
-        {/* 1. Dynamic Multi-Slide Hero Background Image Method (Thanjai Property Reference) */}
+      <section className="relative bg-slate-950 text-white overflow-hidden pt-8 pb-14 sm:pt-14 sm:pb-20 lg:pt-18 lg:pb-26">
+        {/* 1. Dynamic Multi-Slide Hero Background Image Method (Thanjai Property Reference - Bright & Clearly Visible) */}
         <div className="absolute inset-0 z-0 overflow-hidden">
           {bgSlides.map((slide, idx) => {
             const isActive = idx === currentSlideIndex;
@@ -159,14 +159,14 @@ export const HomeHeroInteractive: React.FC = () => {
               <div
                 key={slide.url}
                 className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
-                  isActive ? 'opacity-35 z-10' : 'opacity-0 z-0 pointer-events-none'
+                  isActive ? 'opacity-90 z-10' : 'opacity-0 z-0 pointer-events-none'
                 }`}
               >
                 <img
                   src={slide.url}
                   alt={slide.title}
-                  className={`w-full h-full object-cover origin-center ${
-                    isActive ? 'scale-105 transition-transform duration-[7000ms] ease-out' : 'scale-100'
+                  className={`w-full h-full object-cover origin-center brightness-95 ${
+                    isActive ? 'scale-105 transition-transform duration-[8000ms] ease-out' : 'scale-100'
                   }`}
                 />
               </div>
@@ -174,16 +174,15 @@ export const HomeHeroInteractive: React.FC = () => {
           })}
         </div>
 
-        {/* Gradient Vignette Overlays for Legibility & Theme Integration */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#063730]/90 via-[#0a2622]/95 to-[#071c19] z-0" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_center,rgba(16,132,116,0.35)_0%,transparent_70%)] z-0 pointer-events-none" />
+        {/* Cinematic Translucent Dark Overlay for Sharp Text Legibility without Hiding Photos */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/65 via-black/40 to-slate-950/85 z-10 pointer-events-none" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_20%,rgba(0,0,0,0.6)_100%)] z-10 pointer-events-none" />
 
-        {/* 2. Floating Ambient Animated Luminous Glow Orbs */}
-        <div className="absolute top-8 left-1/4 w-72 sm:w-96 h-72 sm:h-96 bg-[#108474]/25 rounded-full blur-[120px] pointer-events-none animate-float-orb-1" />
-        <div className="absolute bottom-10 right-1/4 w-72 sm:w-96 h-72 sm:h-96 bg-[#108474]/20 rounded-full blur-[120px] pointer-events-none animate-float-orb-2" />
-        <div className="absolute top-1/2 right-10 w-48 h-48 bg-[#e52e3d]/15 rounded-full blur-[100px] pointer-events-none animate-float-slow" />
+        {/* 2. Floating Ambient Glow Accents */}
+        <div className="absolute top-8 left-1/4 w-72 sm:w-96 h-72 sm:h-96 bg-[#108474]/20 rounded-full blur-[140px] pointer-events-none z-10 animate-float-orb-1" />
+        <div className="absolute bottom-10 right-1/4 w-72 sm:w-96 h-72 sm:h-96 bg-[#108474]/15 rounded-full blur-[140px] pointer-events-none z-10 animate-float-orb-2" />
 
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Live Activity Animated Ticker Pill with #108474 theme & #e52e3d accessory flame */}
           <div className="flex justify-center mb-4 sm:mb-6">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-[11px] font-semibold text-slate-200 animate-float-slow shadow-lg">
