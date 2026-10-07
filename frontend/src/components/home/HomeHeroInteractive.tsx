@@ -42,6 +42,39 @@ export const HomeHeroInteractive: React.FC = () => {
   const [propertyType, setPropertyType] = useState('all');
   const [budgetVal, setBudgetVal] = useState(0); // 0 = Any, in lakhs
 
+  // Dynamic Background Image Carousel (Inspired by Thanjai Property Reference)
+  const bgSlides = [
+    {
+      url: 'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=2000&q=85',
+      title: 'DTCP Gated Community Plots',
+      tag: 'Tambaram & Guduvanchery',
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=2000&q=85',
+      title: 'Luxury Villa Communities',
+      tag: 'Ready to Build Plots',
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=2000&q=85',
+      title: 'Green Farmlands & Agro Layouts',
+      tag: 'Chengalpattu NH 32',
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=2000&q=85',
+      title: 'High-Footfall Commercial Frontage',
+      tag: '400ft Outer Ring Road',
+    },
+  ];
+  const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
+
+  // Background slide auto-transition every 6 seconds
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentSlideIndex((prev) => (prev + 1) % bgSlides.length);
+    }, 6000);
+    return () => clearInterval(timer);
+  }, [bgSlides.length]);
+
   // Dropdown open states
   const [openDropdown, setOpenDropdown] = useState<'location' | 'type' | 'budget' | null>(null);
 
@@ -117,18 +150,33 @@ export const HomeHeroInteractive: React.FC = () => {
 
   return (
     <>
-      <section className="relative bg-[#120B05] text-white overflow-hidden pt-8 pb-14 sm:pt-14 sm:pb-20 lg:pt-18 lg:pb-26">
-        {/* 1. Ken Burns Animated Aerial Background Image */}
+      <section className="relative bg-[#071c19] text-white overflow-hidden pt-8 pb-14 sm:pt-14 sm:pb-20 lg:pt-18 lg:pb-26">
+        {/* 1. Dynamic Multi-Slide Hero Background Image Method (Thanjai Property Reference) */}
         <div className="absolute inset-0 z-0 overflow-hidden">
-          <img
-            src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=2000&q=85"
-            alt="Sree Hari Realty Gated Community Plots"
-            className="w-full h-full object-cover opacity-25 animate-kenburns origin-center"
-          />
+          {bgSlides.map((slide, idx) => {
+            const isActive = idx === currentSlideIndex;
+            return (
+              <div
+                key={slide.url}
+                className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+                  isActive ? 'opacity-35 z-10' : 'opacity-0 z-0 pointer-events-none'
+                }`}
+              >
+                <img
+                  src={slide.url}
+                  alt={slide.title}
+                  className={`w-full h-full object-cover origin-center ${
+                    isActive ? 'scale-105 transition-transform duration-[7000ms] ease-out' : 'scale-100'
+                  }`}
+                />
+              </div>
+            );
+          })}
         </div>
 
-        {/* Gradient Overlay for Ultra-Legibility */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#063730]/90 via-[#0a2622]/95 to-[#063730] z-0" />
+        {/* Gradient Vignette Overlays for Legibility & Theme Integration */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#063730]/90 via-[#0a2622]/95 to-[#071c19] z-0" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_center,rgba(16,132,116,0.35)_0%,transparent_70%)] z-0 pointer-events-none" />
 
         {/* 2. Floating Ambient Animated Luminous Glow Orbs */}
         <div className="absolute top-8 left-1/4 w-72 sm:w-96 h-72 sm:h-96 bg-[#108474]/25 rounded-full blur-[120px] pointer-events-none animate-float-orb-1" />
@@ -445,6 +493,35 @@ export const HomeHeroInteractive: React.FC = () => {
                   <span className="text-[10px] text-emerald-300">List for Free</span>
                 </div>
               </button>
+            </div>
+
+            {/* 6. Thanjai Property Style Hero Background Image Carousel Indicators */}
+            <div className="flex items-center justify-center gap-2 pt-6">
+              {bgSlides.map((slide, sIdx) => {
+                const isCurrent = sIdx === currentSlideIndex;
+                return (
+                  <button
+                    key={sIdx}
+                    type="button"
+                    onClick={() => setCurrentSlideIndex(sIdx)}
+                    className={`group/dot relative flex items-center gap-1.5 px-3 py-1 rounded-full transition-all duration-300 active:scale-95 ${
+                      isCurrent
+                        ? 'bg-[#108474] text-white shadow-md shadow-[#108474]/30 border border-emerald-300/40 scale-105'
+                        : 'bg-black/30 hover:bg-black/50 text-slate-400 hover:text-white border border-white/10'
+                    }`}
+                    title={slide.title}
+                  >
+                    <span
+                      className={`w-2 h-2 rounded-full transition-colors ${
+                        isCurrent ? 'bg-white' : 'bg-slate-400 group-hover/dot:bg-white'
+                      }`}
+                    />
+                    <span className="text-[10px] font-bold hidden sm:inline truncate max-w-[120px]">
+                      {slide.tag}
+                    </span>
+                  </button>
+                );
+              })}
             </div>
           </div>
         </div>
