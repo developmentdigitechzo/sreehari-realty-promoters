@@ -11,14 +11,19 @@ import {
   X,
   AlertCircle,
   Building,
+  CheckCircle2,
+  Filter,
 } from 'lucide-react';
 import { api } from '@/lib/api';
 import { Property, Project } from '@/types';
 import { formatPrice } from '@/lib/utils';
+import { VisualPlotGrid } from '@/components/common/VisualPlotGrid';
 
 export default function AdminPropertiesPage() {
   const [properties, setProperties] = useState<Property[]>([]);
   const [projects, setProjects] = useState<Project[]>([]);
+  const [selectedProjectId, setSelectedProjectId] = useState<string>('ALL');
+  const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(true);
   const [modalOpen, setModalOpen] = useState(false);
   const [editingProperty, setEditingProperty] = useState<Property | null>(null);
@@ -60,6 +65,9 @@ export default function AdminPropertiesPage() {
       }
       if (projRes.success && projRes.data) {
         setProjects(projRes.data);
+        if (projRes.data.length > 0 && selectedProjectId === 'ALL') {
+          // Keep ALL as default or default to first project
+        }
       }
     } catch (err) {
       console.error('Error fetching data:', err);
@@ -70,10 +78,11 @@ export default function AdminPropertiesPage() {
 
   const handleOpenCreate = () => {
     setEditingProperty(null);
+    const nextPlotNum = properties.length + 1;
     setFormData({
-      project_id: projects[0]?.id || '',
-      title: 'Plot 15 - East Facing Villa Plot',
-      plot_number: '15',
+      project_id: selectedProjectId !== 'ALL' ? selectedProjectId : projects[0]?.id || '',
+      title: `Plot ${nextPlotNum} - East Facing Villa Plot`,
+      plot_number: `${nextPlotNum}`,
       property_type: 'RESIDENTIAL_PLOT',
       area_sqft: 1200,
       dimensions: '30 x 40 ft',
@@ -83,7 +92,7 @@ export default function AdminPropertiesPage() {
       status: 'AVAILABLE',
       is_featured: false,
       is_visible: true,
-      description: 'Prime East facing plot opposite to central avenue park.',
+      description: 'Prime residential plot with DTCP approval and immediate registration.',
     });
     setErrorMsg(null);
     setModalOpen(true);
@@ -108,6 +117,19 @@ export default function AdminPropertiesPage() {
     });
     setErrorMsg(null);
     setModalOpen(true);
+  };
+
+  const handleStatusChange = async (plotId: string, newStatus: string) => {
+    try {
+      const res = await api.updateProperty(plotId, { status: newStatus as any });
+      if (res.success) {
+        setProperties((prev) =>
+          prev.map((p) => (p.id === plotId ? { ...p, status: newStatus as any } : p))
+        );
+      }
+    } catch (err) {
+      alert('Failed to update plot status.');
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -167,25 +189,100 @@ export default function AdminPropertiesPage() {
     }
   };
 
+  const displayedProperties = properties.filter((p) => {
+    if (selectedProjectId !== 'ALL' && p.project_id !== selectedProjectId) {
+      return false;
+    }
+    if (searchQuery) {
+      const q = searchQuery.toLowerCase();
+      return (
+        p.title.toLowerCase().includes(q) ||
+        (p.plot_number && p.plot_number.includes(q)) ||
+        (p.facing && p.facing.toLowerCase().includes(q)) ||
+        (p.project_name && p.project_name.toLowerCase().includes(q))
+      );
+    }
+    return true;
+  });
+
+  const activeProjectObj = projects.find((p) => p.id === selectedProjectId);
+
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       {/* Page Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-black font-heading text-slate-900">Plots Inventory</h1>
-          <p className="text-xs text-slate-500">Manage individual plots, facing, dimensions, pricing, and availability.</p>
+          <h1 className="text-2xl font-black font-heading text-slate-900">Plots Inventory & Matrix</h1>
+          <p className="text-xs text-slate-500">Manage individual layout plots, facing, dimensions, pricing, and live availability.</p>
         </div>
         <button
           onClick={handleOpenCreate}
-          className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-brand-primary hover:bg-brand-primaryDark text-white text-xs font-bold transition-colors shadow-sm"
+          className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-brand-primary hover:bg-brand-primaryDark text-white text-xs font-bold transition-colors shadow-sm active:scale-95"
         >
           <Plus className="w-4 h-4" />
           <span>Add New Plot</span>
         </button>
       </div>
 
-      {/* Properties Table */}
+      {/* Project Selector Ribbon */}
+      <div className="bg-white rounded-2xl p-4 border border-slate-200/80 shadow-sm flex flex-wrap items-center justify-between gap-4">
+        <div className="flex items-center gap-2 overflow-x-auto scrollbar-none max-w-full">
+          <span className="text-xs font-bold text-slate-500 uppercase flex items-center gap-1 mr-1">
+            <Building className="w-3.5 h-3.5" /> Project:
+          </span>
+          <button
+            onClick={() => setSelectedProjectId('ALL')}
+            className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap ${
+              selectedProjectId === 'ALL'
+                ? 'bg-slate-900 text-white shadow-sm'
+                : 'bg-slate-100 hover:bg-slate-200 text-slate-700'
+            }`}
+          >
+            All Projects ({properties.length})
+          </button>
+          {projects.map((proj) => (
+            <button
+              key={proj.id}
+              onClick={() => setSelectedProjectId(proj.id)}
+              className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap ${
+                selectedProjectId === proj.id
+                  ? 'bg-brand-primary text-white shadow-sm'
+                  : 'bg-slate-100 hover:bg-slate-200 text-slate-700'
+              }`}
+            >
+              {proj.name}
+            </button>
+          ))}
+        </div>
+
+        {/* Search */}
+        <div className="relative w-full sm:w-64">
+          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+          <input
+            type="text"
+            placeholder="Search plot #, facing, price..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full pl-10 pr-4 py-1.5 rounded-xl border border-slate-200 text-xs focus:ring-1 focus:ring-brand-primary"
+          />
+        </div>
+      </div>
+
+      {/* 1. VISUAL PLOT MATRIX (ADMIN MODE WITH 1-CLICK STATUS TOGGLE) */}
+      <VisualPlotGrid
+        plots={displayedProperties}
+        projectName={activeProjectObj?.name || 'All Projects Inventory'}
+        isAdmin={true}
+        onStatusChange={handleStatusChange}
+        onEditPlot={handleOpenEdit}
+      />
+
+      {/* 2. PLOTS DATA TABLE */}
       <div className="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden">
+        <div className="px-5 py-4 border-b border-slate-100 flex items-center justify-between">
+          <h3 className="font-bold text-sm text-slate-900">Tabular Inventory View</h3>
+          <span className="text-xs font-semibold text-slate-500">{displayedProperties.length} plots displayed</span>
+        </div>
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
@@ -207,14 +304,14 @@ export default function AdminPropertiesPage() {
                     Loading plots...
                   </td>
                 </tr>
-              ) : properties.length === 0 ? (
+              ) : displayedProperties.length === 0 ? (
                 <tr>
                   <td colSpan={7} className="py-12 text-center text-slate-400">
-                    No plots registered yet. Click "Add New Plot" to add individual plots.
+                    No plots found for this selection.
                   </td>
                 </tr>
               ) : (
-                properties.map((prop) => (
+                displayedProperties.map((prop) => (
                   <tr key={prop.id} className="hover:bg-slate-50/80 transition-colors">
                     <td className="py-3.5 px-5">
                       <div className="font-bold text-slate-900">{prop.title}</div>
@@ -234,17 +331,21 @@ export default function AdminPropertiesPage() {
                       {prop.price_display || `₹${(prop.price / 100000).toFixed(2)} Lakhs`}
                     </td>
                     <td className="py-3.5 px-4">
-                      <span
-                        className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase border ${
+                      <select
+                        value={prop.status}
+                        onChange={(e) => handleStatusChange(prop.id, e.target.value)}
+                        className={`text-xs font-bold px-2.5 py-1 rounded-lg border focus:outline-none ${
                           prop.status === 'AVAILABLE'
                             ? 'bg-emerald-50 text-emerald-700 border-emerald-300'
                             : prop.status === 'BOOKED'
                             ? 'bg-amber-50 text-amber-700 border-amber-300'
-                            : 'bg-rose-50 text-rose-700 border-rose-300'
+                            : 'bg-slate-100 text-slate-700 border-slate-300'
                         }`}
                       >
-                        {prop.status}
-                      </span>
+                        <option value="AVAILABLE">AVAILABLE</option>
+                        <option value="BOOKED">BOOKED</option>
+                        <option value="SOLD">SOLD</option>
+                      </select>
                     </td>
                     <td className="py-3.5 px-5 text-right space-x-2">
                       <button
@@ -433,7 +534,7 @@ export default function AdminPropertiesPage() {
                 <button
                   type="submit"
                   disabled={saving}
-                  className="px-6 py-2.5 rounded-xl bg-brand-primary hover:bg-brand-primaryDark text-white font-bold transition-all flex items-center gap-2"
+                  className="px-6 py-2.5 rounded-xl bg-brand-primary hover:bg-brand-primaryDark text-white font-bold transition-all flex items-center gap-2 active:scale-95"
                 >
                   {saving ? (
                     <>

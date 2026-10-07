@@ -1,10 +1,10 @@
 import { Request, Response, NextFunction } from 'express';
 import { sendSuccess, sendError } from '../utils/response.js';
 
-export const handleImageUpload = async (req: Request, res: Response, next: NextFunction) => {
+export const handleFileUpload = async (req: Request, res: Response, next: NextFunction) => {
   try {
     if (!req.file) {
-      return sendError(res, 'No file uploaded or file format invalid.', null, 400);
+      return sendError(res, 'No file uploaded or file format invalid. Supported: JPG, PNG, WEBP, SVG, PDF.', null, 400);
     }
 
     // Construct the accessible URL for the uploaded file
@@ -14,13 +14,14 @@ export const handleImageUpload = async (req: Request, res: Response, next: NextF
 
     return sendSuccess(
       res,
-      'Image uploaded successfully',
+      'File uploaded successfully',
       {
         filename: req.file.filename,
         originalName: req.file.originalname,
         size: req.file.size,
         mimetype: req.file.mimetype,
         url: fileUrl,
+        isPdf: req.file.mimetype === 'application/pdf',
       },
       201
     );

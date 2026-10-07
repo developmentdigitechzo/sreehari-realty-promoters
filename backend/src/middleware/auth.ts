@@ -26,3 +26,22 @@ export const authenticateAdmin = (req: AuthenticatedRequest, res: Response, next
     return sendError(res, 'Invalid authentication token.', null, 401);
   }
 };
+
+export const authorizeRoles = (...allowedRoles: string[]) => {
+  return (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
+    if (!req.user) {
+      return sendError(res, 'Authentication required.', null, 401);
+    }
+
+    if (!allowedRoles.includes(req.user.role)) {
+      return sendError(
+        res,
+        `Access denied. Required role: ${allowedRoles.join(' or ')}. Your role: ${req.user.role}`,
+        null,
+        403
+      );
+    }
+
+    next();
+  };
+};

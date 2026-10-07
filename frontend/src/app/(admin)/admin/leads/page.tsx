@@ -12,10 +12,17 @@ import {
   Loader2,
   X,
   CheckCircle,
+  Download,
+  Calendar,
+  MessageCircle,
+  Send,
+  Building,
+  UserCheck,
+  TrendingUp,
 } from 'lucide-react';
 import { api } from '@/lib/api';
 import { Lead } from '@/types';
-import { formatDate } from '@/lib/utils';
+import { formatDate, getWhatsAppLink, getTelLink } from '@/lib/utils';
 
 export default function AdminLeadsPage() {
   const [leads, setLeads] = useState<Lead[]>([]);
@@ -27,6 +34,10 @@ export default function AdminLeadsPage() {
   const [activeLead, setActiveLead] = useState<Lead | null>(null);
   const [noteText, setNoteText] = useState('');
   const [updatingNote, setUpdatingNote] = useState(false);
+
+  // WhatsApp Quick Send Modal State
+  const [waModalLead, setWaModalLead] = useState<Lead | null>(null);
+  const [waCustomMessage, setWaCustomMessage] = useState('');
 
   useEffect(() => {
     fetchLeads();
@@ -82,6 +93,54 @@ export default function AdminLeadsPage() {
     }
   };
 
+  const handleOpenWhatsAppModal = (lead: Lead) => {
+    setWaModalLead(lead);
+    const projName = lead.project_name || 'our gated community layouts';
+    setWaCustomMessage(
+      `Hello ${lead.name}, this is from Sree Hari Realty Promoters regarding your enquiry on ${projName}. We would like to share the complete layout plan, DTCP approval copy, and price sheet with you. Would this weekend be convenient for your free chauffeured AC cab site visit?`
+    );
+  };
+
+  const handleSendWhatsApp = () => {
+    if (!waModalLead) return;
+    const link = getWhatsAppLink(waModalLead.phone, waCustomMessage);
+    window.open(link, '_blank');
+    // Auto update status to CONTACTED if it was NEW
+    if (waModalLead.status === 'NEW') {
+      handleStatusChange(waModalLead.id, 'CONTACTED');
+    }
+    setWaModalLead(null);
+  };
+
+  // CSV Export Functionality
+  const handleExportCSV = () => {
+    if (leads.length === 0) {
+      alert('No leads available to export.');
+      return;
+    }
+
+    const headers = ['Buyer Name', 'Phone Number', 'Email', 'Interested Project', 'Lead Source', 'Status', 'Notes', 'Enquiry Date'];
+    const rows = filteredLeads.map((l) => [
+      `"${l.name.replace(/"/g, '""')}"`,
+      `"${l.phone}"`,
+      `"${l.email || ''}"`,
+      `"${(l.project_name || 'General Enquiry').replace(/"/g, '""')}"`,
+      `"${l.source}"`,
+      `"${l.status}"`,
+      `"${(l.notes || '').replace(/"/g, '""')}"`,
+      `"${new Date(l.created_at).toLocaleString('en-IN')}"`,
+    ]);
+
+    const csvContent = 'data:text/csv;charset=utf-8,' + [headers.join(','), ...rows.map((e) => e.join(','))].join('\n');
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement('a');
+    link.setAttribute('href', encodedUri);
+    link.setAttribute('download', `sree_hari_realty_leads_${new Date().toISOString().split('T')[0]}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   const filteredLeads = leads.filter((lead) => {
     if (!searchQuery) return true;
     const q = searchQuery.toLowerCase();
@@ -93,20 +152,55 @@ export default function AdminLeadsPage() {
     );
   });
 
+  // Metrics
+  const countNew = leads.filter((l) => l.status === 'NEW').length;
+  const countContacted = leads.filter((l) => l.status === 'CONTACTED' || l.status === 'FOLLOW_UP').length;
+  const countConverted = leads.filter((l) => l.status === 'CONVERTED').length;
+
   return (
     <div className="space-y-6">
       {/* Page Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-black font-heading text-slate-900">Leads & Enquiries</h1>
+          <h1 className="text-2xl font-black font-heading text-slate-900">Leads CRM & Enquiries</h1>
           <p className="text-xs text-slate-500">
-            Track site visit requests, WhatsApp leads, and prospective land buyer enquiries.
+            Manage buyer leads, trigger 1-tap WhatsApp quotes, coordinate site visits, and export sales pipelines.
           </p>
+        </div>
+
+        <button
+          onClick={handleExportCSV}
+          className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition-all shadow-sm active:scale-95 self-start sm:self-auto"
+        >
+          <Download className="w-4 h-4 text-emerald-400" />
+          <span>Export to CSV (Excel)</span>
+        </button>
+      </div>
+
+      {/* Quick Metrics Bar */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+        <div className="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm">
+          <span className="text-[10px] font-bold text-slate-400 uppercase">Total Enquiries</span>
+          <div className="text-xl font-black text-slate-900 font-heading mt-0.5">{leads.length}</div>
+        </div>
+        <div className="bg-rose-50/60 p-4 rounded-2xl border border-rose-200/80 shadow-sm">
+          <span className="text-[10px] font-bold text-rose-700 uppercase flex items-center gap-1">
+            <span className="w-2 h-2 rounded-full bg-rose-500 animate-pulse" /> New Pending
+          </span>
+          <div className="text-xl font-black text-rose-800 font-heading mt-0.5">{countNew}</div>
+        </div>
+        <div className="bg-amber-50/60 p-4 rounded-2xl border border-amber-200/80 shadow-sm">
+          <span className="text-[10px] font-bold text-amber-700 uppercase">In Follow-Up</span>
+          <div className="text-xl font-black text-amber-800 font-heading mt-0.5">{countContacted}</div>
+        </div>
+        <div className="bg-emerald-50/60 p-4 rounded-2xl border border-emerald-200/80 shadow-sm">
+          <span className="text-[10px] font-bold text-emerald-700 uppercase">Converted / Booked</span>
+          <div className="text-xl font-black text-emerald-800 font-heading mt-0.5">{countConverted}</div>
         </div>
       </div>
 
       {/* Filter and Search Bar */}
-      <div className="bg-white rounded-2xl p-4 md:p-6 border border-slate-200/80 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="bg-white rounded-2xl p-4 md:p-5 border border-slate-200/80 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div className="relative flex-1">
           <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
           <input
@@ -124,7 +218,7 @@ export default function AdminLeadsPage() {
             <button
               key={st}
               onClick={() => setSelectedStatus(st)}
-              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-colors ${
+              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all active:scale-95 ${
                 selectedStatus === st
                   ? 'bg-slate-900 text-white shadow-sm'
                   : 'bg-slate-100 hover:bg-slate-200 text-slate-700'
@@ -148,7 +242,7 @@ export default function AdminLeadsPage() {
                 <th className="py-3.5 px-4">Source & Message</th>
                 <th className="py-3.5 px-4">Received On</th>
                 <th className="py-3.5 px-4">Status</th>
-                <th className="py-3.5 px-5 text-right">Actions</th>
+                <th className="py-3.5 px-5 text-right">1-Tap Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100 text-xs">
@@ -171,7 +265,7 @@ export default function AdminLeadsPage() {
                     <td className="py-3.5 px-5">
                       <div className="font-bold text-slate-900">{lead.name}</div>
                       {lead.notes && (
-                        <div className="text-[10px] text-amber-700 bg-amber-50 px-2 py-0.5 rounded mt-1 line-clamp-1 border border-amber-200">
+                        <div className="text-[10px] text-amber-800 bg-amber-50 px-2 py-0.5 rounded mt-1 line-clamp-1 border border-amber-200">
                           Note: {lead.notes}
                         </div>
                       )}
@@ -206,7 +300,7 @@ export default function AdminLeadsPage() {
                       <select
                         value={lead.status}
                         onChange={(e) => handleStatusChange(lead.id, e.target.value)}
-                        className={`text-xs font-bold px-2 py-1 rounded-lg border focus:outline-none ${
+                        className={`text-xs font-bold px-2.5 py-1 rounded-lg border focus:outline-none ${
                           lead.status === 'NEW'
                             ? 'bg-rose-50 text-rose-700 border-rose-300'
                             : lead.status === 'CONTACTED'
@@ -225,20 +319,35 @@ export default function AdminLeadsPage() {
                         <option value="ARCHIVED">ARCHIVED</option>
                       </select>
                     </td>
-                    <td className="py-3.5 px-5 text-right space-x-2 whitespace-nowrap">
+                    <td className="py-3.5 px-5 text-right space-x-1.5 whitespace-nowrap">
+                      {/* 1-Tap WhatsApp Button */}
+                      <button
+                        onClick={() => handleOpenWhatsAppModal(lead)}
+                        className="inline-flex items-center gap-1 text-xs font-bold text-emerald-700 bg-emerald-50 hover:bg-emerald-100 px-2.5 py-1.5 rounded-lg border border-emerald-200 transition-colors active:scale-95"
+                        title="Send WhatsApp Quote"
+                      >
+                        <MessageCircle className="w-3.5 h-3.5 text-emerald-600" />
+                        <span>WhatsApp</span>
+                      </button>
+
+                      {/* 1-Tap Call */}
                       <a
-                        href={`tel:${lead.phone}`}
-                        className="inline-flex items-center gap-1 text-xs font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1.5 rounded-lg hover:bg-emerald-100 border border-emerald-200"
+                        href={getTelLink(lead.phone)}
+                        className="inline-flex items-center gap-1 text-xs font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 px-2.5 py-1.5 rounded-lg border border-slate-200 transition-colors active:scale-95"
                         title="Call Buyer"
                       >
-                        <Phone className="w-3.5 h-3.5" /> Call
+                        <Phone className="w-3.5 h-3.5" />
+                        <span>Call</span>
                       </a>
+
+                      {/* Add/Edit Note */}
                       <button
                         onClick={() => handleOpenNoteModal(lead)}
-                        className="inline-flex items-center gap-1 text-xs font-bold text-slate-700 bg-slate-100 px-2.5 py-1.5 rounded-lg hover:bg-slate-200"
-                        title="Add/Edit Internal Note"
+                        className="inline-flex items-center gap-1 text-xs font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 px-2.5 py-1.5 rounded-lg border border-slate-200 transition-colors active:scale-95"
+                        title="Add/Edit Follow-Up Note"
                       >
-                        <Edit className="w-3.5 h-3.5" /> Note
+                        <Edit className="w-3.5 h-3.5" />
+                        <span>Note</span>
                       </button>
                     </td>
                   </tr>
@@ -249,13 +358,66 @@ export default function AdminLeadsPage() {
         </div>
       </div>
 
+      {/* 1-Tap WhatsApp Custom Quote Modal */}
+      {waModalLead && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className="bg-white rounded-3xl p-6 sm:p-7 max-w-lg w-full shadow-2xl border border-slate-100">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-100 mb-4">
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center">
+                  <MessageCircle className="w-4 h-4" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-slate-900 text-sm">Send WhatsApp to {waModalLead.name}</h3>
+                  <span className="text-[11px] text-slate-500 font-mono">{waModalLead.phone}</span>
+                </div>
+              </div>
+              <button
+                onClick={() => setWaModalLead(null)}
+                className="p-1.5 rounded-full hover:bg-slate-100 text-slate-400"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            <label className="block text-xs font-bold text-slate-700 uppercase mb-1.5">
+              Personalized Message Template
+            </label>
+            <textarea
+              rows={5}
+              value={waCustomMessage}
+              onChange={(e) => setWaCustomMessage(e.target.value)}
+              className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-1 focus:ring-brand-primary"
+            />
+
+            <div className="mt-4 flex items-center justify-end gap-2">
+              <button
+                type="button"
+                onClick={() => setWaModalLead(null)}
+                className="px-4 py-2 rounded-xl text-slate-600 text-xs font-bold hover:bg-slate-100"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={handleSendWhatsApp}
+                className="px-5 py-2.5 rounded-xl bg-[#25D366] hover:bg-[#20ba59] text-white text-xs font-bold flex items-center gap-1.5 shadow-md active:scale-95"
+              >
+                <Send className="w-3.5 h-3.5" />
+                <span>Launch WhatsApp Chat</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Internal Note Modal */}
       {activeLead && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
-          <div className="bg-white rounded-3xl p-6 max-w-md w-full shadow-2xl">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className="bg-white rounded-3xl p-6 max-w-md w-full shadow-2xl border border-slate-100">
             <div className="flex items-center justify-between pb-3 border-b border-slate-100 mb-4">
               <h3 className="font-bold text-slate-900 text-sm">
-                Internal Note for {activeLead.name}
+                Follow-Up Note for {activeLead.name}
               </h3>
               <button
                 onClick={() => setActiveLead(null)}
@@ -269,7 +431,7 @@ export default function AdminLeadsPage() {
               rows={4}
               value={noteText}
               onChange={(e) => setNoteText(e.target.value)}
-              placeholder="e.g., Called on 7th Oct. Customer interested in 1200 sqft corner plot. Scheduled Sunday cab visit."
+              placeholder="e.g., Customer requested 1200 sqft corner plot brochure. Scheduled AC cab site visit for Saturday 10:30 AM."
               className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-1 focus:ring-brand-primary"
             />
 
@@ -285,7 +447,7 @@ export default function AdminLeadsPage() {
                 type="button"
                 disabled={updatingNote}
                 onClick={handleSaveNote}
-                className="px-4 py-1.5 rounded-lg bg-brand-primary hover:bg-brand-primaryDark text-white text-xs font-bold flex items-center gap-1.5"
+                className="px-4 py-1.5 rounded-lg bg-brand-primary hover:bg-brand-primaryDark text-white text-xs font-bold flex items-center gap-1.5 active:scale-95"
               >
                 {updatingNote ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <CheckCircle className="w-3.5 h-3.5" />}
                 <span>Save Note</span>

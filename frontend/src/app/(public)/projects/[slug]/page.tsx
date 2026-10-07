@@ -19,6 +19,7 @@ import {
 import { api } from '@/lib/api';
 import { Project } from '@/types';
 import { PlotCard } from '@/components/common/PlotCard';
+import { VisualPlotGrid } from '@/components/common/VisualPlotGrid';
 import { LeadForm } from '@/components/common/LeadForm';
 import { WhatsAppButton } from '@/components/common/WhatsAppButton';
 import { MobileStickyBar } from '@/components/home/MobileStickyBar';
@@ -319,25 +320,9 @@ export default async function ProjectDetailPage({
               </div>
             )}
 
-            {/* Individual Plot Inventory */}
+            {/* Individual Plot Inventory & Interactive Availability Matrix */}
             {project.properties && project.properties.length > 0 && (
-              <div className="bg-white p-6 md:p-8 rounded-2xl border border-slate-200 shadow-sm space-y-5">
-                <div className="flex items-center justify-between">
-                  <h2 className="text-xl md:text-2xl font-bold font-heading text-slate-900 flex items-center gap-2">
-                    <Layers className="w-5 h-5 text-brand-primary" />
-                    <span>Available Plots in this Layout</span>
-                  </h2>
-                  <span className="text-xs font-bold text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
-                    {project.properties.filter((p) => p.status === 'AVAILABLE').length} Available
-                  </span>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                  {project.properties.map((plot) => (
-                    <PlotCard key={plot.id} plot={plot} projectName={project.name} />
-                  ))}
-                </div>
-              </div>
+              <VisualPlotGrid plots={project.properties} projectName={project.name} />
             )}
 
             {/* Gated Community Amenities */}

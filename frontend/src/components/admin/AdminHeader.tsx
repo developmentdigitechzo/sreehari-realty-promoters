@@ -1,10 +1,10 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { User as UserIcon, Bell } from 'lucide-react';
+import { User as UserIcon, ShieldCheck } from 'lucide-react';
 
 export const AdminHeader: React.FC = () => {
-  const [adminUser, setAdminUser] = useState<{ name: string; email: string } | null>(null);
+  const [adminUser, setAdminUser] = useState<{ name: string; email: string; role?: string } | null>(null);
 
   useEffect(() => {
     const userStr = localStorage.getItem('sreehari_admin_user');
@@ -31,8 +31,11 @@ export const AdminHeader: React.FC = () => {
             <UserIcon className="w-4 h-4" />
           </div>
           <div className="hidden sm:block text-left">
-            <div className="text-xs font-bold text-slate-900 leading-tight">
-              {adminUser?.name || 'Sree Hari Admin'}
+            <div className="text-xs font-bold text-slate-900 leading-tight flex items-center gap-1.5">
+              <span>{adminUser?.name || 'Sree Hari Admin'}</span>
+              <span className="text-[9px] font-extrabold px-1.5 py-0.5 rounded bg-slate-900 text-amber-300">
+                {adminUser?.role || 'SUPER_ADMIN'}
+              </span>
             </div>
             <div className="text-[10px] text-slate-500">{adminUser?.email || 'admin@sreeharirealty.com'}</div>
           </div>

@@ -46,6 +46,37 @@ export const api = {
     }),
   getMe: () => request<any>('/auth/me'),
 
+  // Media / File Uploads
+  uploadFile: async (file: File): Promise<ApiResponse<{ url: string; filename: string; mimetype: string; size: number; isPdf: boolean }>> => {
+    const formData = new FormData();
+    formData.append('file', file);
+    
+    let token: string | null = null;
+    if (typeof window !== 'undefined') {
+      token = localStorage.getItem('sreehari_admin_token');
+    }
+
+    const headers: Record<string, string> = {};
+    if (token) {
+      headers['Authorization'] = `Bearer ${token}`;
+    }
+
+    try {
+      const res = await fetch(`${API_BASE_URL}/uploads`, {
+        method: 'POST',
+        headers,
+        body: formData,
+      });
+      return await res.json();
+    } catch (error: any) {
+      return {
+        success: false,
+        message: error?.message || 'Failed to upload file. Check backend connection.',
+        error,
+      };
+    }
+  },
+
   // Projects
   getProjects: (params: { status?: string; featured?: boolean; search?: string; admin?: boolean } = {}) => {
     const query = new URLSearchParams();
