@@ -19,16 +19,10 @@ export const SiteVisitCarAd: React.FC<SiteVisitCarAdProps> = ({ className = '' }
 
   return (
     <>
-      {/* Site Theme #108474 Animated Car Ad Ribbon */}
+      {/* Site Theme Solid #108474 Animated Car Ad Ribbon */}
       <div
-        className={`relative z-30 bg-[#108474] bg-gradient-to-r from-[#084138] via-[#108474] to-[#084138] text-white py-2 overflow-hidden border-b border-emerald-400/25 shadow-md select-none ${className}`}
+        className={`relative z-30 bg-[#108474] text-white py-2 overflow-hidden border-b border-[#0d6d5f] shadow-md select-none ${className}`}
       >
-        {/* Subtle Animated Road Track Lines */}
-        <div className="absolute inset-0 bg-[repeating-linear-gradient(90deg,transparent,transparent_80px,rgba(255,255,255,0.06)_80px,rgba(255,255,255,0.06)_140px)] pointer-events-none" />
-
-        {/* Ambient Top Glow Line */}
-        <div className="absolute top-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-emerald-300/50 to-transparent" />
-
         {/* Dismiss Button */}
         <button
           type="button"
