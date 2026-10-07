@@ -22,6 +22,7 @@ import { PlotCard } from '@/components/common/PlotCard';
 import { VisualPlotGrid } from '@/components/common/VisualPlotGrid';
 import { LeadForm } from '@/components/common/LeadForm';
 import { WhatsAppButton } from '@/components/common/WhatsAppButton';
+import { ProjectDetailActions } from '@/components/common/ProjectDetailActions';
 import { MobileStickyBar } from '@/components/home/MobileStickyBar';
 import { getTelLink, getWhatsAppLink } from '@/lib/utils';
 
@@ -404,14 +405,21 @@ export default async function ProjectDetailPage({
               </div>
             </div>
 
-            {/* Right Sticky Enquiry Box */}
+            {/* Right Sticky Enquiry & Brochure Box */}
             <div className="lg:col-span-4 lg:sticky lg:top-24 space-y-4">
+              <ProjectDetailActions
+                projectId={project.id}
+                projectName={project.name}
+                brochureUrl={project.brochure_url}
+                location={project.location}
+              />
+
               <LeadForm
                 projectId={project.id}
                 projectName={project.name}
                 source="PROJECT_PAGE"
                 title={`Enquire for ${project.name}`}
-                subtitle="Download brochure, plot map, and get a personalized price quotation."
+                subtitle="Request complete price breakup, layout map, and arrange an immediate site visit."
                 className="bg-white shadow-2xl border border-slate-200"
               />
 
