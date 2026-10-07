@@ -13,6 +13,9 @@ import { WhatsAppButton } from '@/components/common/WhatsAppButton';
 import { LeadForm } from '@/components/common/LeadForm';
 import { getTelLink } from '@/lib/utils';
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 // Default fallback projects with rich metadata
 const initialProjects: Project[] = [
   {

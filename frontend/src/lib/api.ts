@@ -22,6 +22,7 @@ async function request<T>(endpoint: string, options: RequestInit = {}): Promise<
 
   try {
     const res = await fetch(url, {
+      cache: 'no-store', // Always get real-time fresh database updates
       ...options,
       headers,
     });

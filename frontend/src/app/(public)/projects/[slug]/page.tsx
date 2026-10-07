@@ -25,6 +25,9 @@ import { WhatsAppButton } from '@/components/common/WhatsAppButton';
 import { MobileStickyBar } from '@/components/home/MobileStickyBar';
 import { getTelLink, getWhatsAppLink } from '@/lib/utils';
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 // Fallback project data if backend is offline or compiling
 const fallbackProjects: Record<string, Partial<Project>> = {
   'sri-hari-green-enclave': {
