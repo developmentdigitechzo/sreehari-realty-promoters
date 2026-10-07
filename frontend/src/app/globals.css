@@ -154,7 +154,7 @@
 }
 
 .animate-drive-right-to-left {
-  animation: driveRightToLeft 14s linear infinite;
+  animation: driveRightToLeft 28s linear infinite;
 }
 
 .animate-drive-right-to-left:hover {
