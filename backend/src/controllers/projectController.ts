@@ -133,15 +133,29 @@ export const getProjects = async (req: Request, res: Response, next: NextFunctio
 export const getProjectBySlug = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { slug } = req.params;
+    const cleanSlug = slug.trim().toLowerCase();
 
     if (db.isPostgres()) {
       const projectRes = await db.query(
-        `SELECT * FROM projects WHERE slug = $1 OR id::text = $1`,
-        [slug]
+        `SELECT * FROM projects 
+         WHERE LOWER(slug) = $1 
+            OR id::text = $2 
+            OR LOWER(REPLACE(name, ' ', '-')) = $1
+            OR LOWER(name) = LOWER(REPLACE($1, '-', ' '))
+         ORDER BY created_at DESC LIMIT 1`,
+        [cleanSlug, slug]
       );
 
       if (projectRes.rows.length === 0) {
-        return sendError(res, 'Project not found', null, 404);
+        // Try fallback wildcard search
+        const fallbackRes = await db.query(
+          `SELECT * FROM projects WHERE LOWER(slug) LIKE $1 OR LOWER(name) LIKE $1 ORDER BY created_at DESC LIMIT 1`,
+          [`%${cleanSlug}%`]
+        );
+        if (fallbackRes.rows.length === 0) {
+          return sendError(res, 'Project not found', null, 404);
+        }
+        projectRes.rows = fallbackRes.rows;
       }
 
       const project = projectRes.rows[0];
@@ -172,7 +186,20 @@ export const getProjectBySlug = async (req: Request, res: Response, next: NextFu
     }
 
     // In-memory fallback
-    const project = memoryStore.projects.find((p) => p.slug === slug || p.id === slug);
+    const project = memoryStore.projects.find((p) => {
+      const pSlug = (p.slug || '').toLowerCase();
+      const pNameSlug = (p.name || '').toLowerCase().replace(/\s+/g, '-');
+      const pName = (p.name || '').toLowerCase();
+      return (
+        pSlug === cleanSlug ||
+        p.id === slug ||
+        pNameSlug === cleanSlug ||
+        pName === cleanSlug.replace(/-/g, ' ') ||
+        pSlug.includes(cleanSlug) ||
+        cleanSlug.includes(pSlug)
+      );
+    });
+
     if (!project) {
       return sendError(res, 'Project not found', null, 404);
     }

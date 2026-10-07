@@ -100,6 +100,7 @@ export const getProperties = async (req: Request, res: Response, next: NextFunct
 export const getPropertyBySlug = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { slug } = req.params;
+    const cleanSlug = slug.trim().toLowerCase();
 
     if (db.isPostgres()) {
       const propertyRes = await db.query(
@@ -111,9 +112,10 @@ export const getPropertyBySlug = async (req: Request, res: Response, next: NextF
           p.location as project_location
         FROM properties pr
         LEFT JOIN projects p ON p.id = pr.project_id
-        WHERE pr.slug = $1 OR pr.id::text = $1
+        WHERE LOWER(pr.slug) = $1 OR pr.id::text = $2
+        LIMIT 1
       `,
-        [slug]
+        [cleanSlug, slug]
       );
 
       if (propertyRes.rows.length === 0) {
@@ -123,7 +125,7 @@ export const getPropertyBySlug = async (req: Request, res: Response, next: NextF
       return sendSuccess(res, 'Property details fetched successfully', propertyRes.rows[0]);
     }
 
-    const prop = memoryStore.properties.find((p) => p.slug === slug || p.id === slug);
+    const prop = memoryStore.properties.find((p) => (p.slug || '').toLowerCase() === cleanSlug || p.id === slug);
     if (!prop) {
       return sendError(res, 'Property not found', null, 404);
     }

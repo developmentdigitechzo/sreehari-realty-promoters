@@ -230,6 +230,8 @@ const fallbackProjects: Record<string, Partial<Project>> = {
 };
 
 async function getProject(slug: string): Promise<Project | null> {
+  const normalizedSlug = slug.trim().toLowerCase();
+
   try {
     const res = await api.getProjectBySlug(slug);
     if (res.success && res.data) {
@@ -239,9 +241,34 @@ async function getProject(slug: string): Promise<Project | null> {
     console.error('Error fetching project by slug:', error);
   }
 
-  if (fallbackProjects[slug]) {
-    return fallbackProjects[slug] as Project;
+  // Check static fallback projects
+  if (fallbackProjects[normalizedSlug]) {
+    return fallbackProjects[normalizedSlug] as Project;
   }
+  for (const [k, p] of Object.entries(fallbackProjects)) {
+    if (k.toLowerCase() === normalizedSlug || p.name?.toLowerCase().replace(/\s+/g, '-') === normalizedSlug) {
+      return p as Project;
+    }
+  }
+
+  // Fetch all projects from API to match against ID or name variations
+  try {
+    const allRes = await api.getProjects({ admin: true });
+    if (allRes.success && allRes.data && allRes.data.length > 0) {
+      const match = allRes.data.find(
+        (p) =>
+          p.slug?.toLowerCase() === normalizedSlug ||
+          p.id === slug ||
+          p.name?.toLowerCase().replace(/\s+/g, '-') === normalizedSlug
+      );
+      if (match) {
+        return match;
+      }
+    }
+  } catch (err) {
+    console.error('Error fetching all projects fallback:', err);
+  }
+
   return null;
 }
 
