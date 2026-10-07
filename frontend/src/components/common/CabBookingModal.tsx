@@ -18,13 +18,10 @@ import {
   MessageCircle,
   Loader2,
   Navigation,
-  Coffee,
-  FileCheck,
   ChevronDown,
 } from 'lucide-react';
 import { api } from '@/lib/api';
 import { getWhatsAppLink, getTelLink } from '@/lib/utils';
-import { Project } from '@/types';
 
 interface CabBookingModalProps {
   isOpen: boolean;
@@ -82,10 +79,9 @@ export const CabBookingModal: React.FC<CabBookingModalProps> = ({
   const [selectedTimeSlot, setSelectedTimeSlot] = useState('09:30 AM');
   const [pickupHub, setPickupHub] = useState('Tambaram');
   const [customAddress, setCustomAddress] = useState('');
-  const [passengers, setPassengers] = useState('3-4 Family Members');
+  const [passengers, setPassengers] = useState('3-4 Family');
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
-  const [specialRequest, setSpecialRequest] = useState('');
   const [sendWhatsAppUpdates, setSendWhatsAppUpdates] = useState(true);
 
   // Submission State
@@ -94,23 +90,20 @@ export const CabBookingModal: React.FC<CabBookingModalProps> = ({
   const [bookingId, setBookingId] = useState('');
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
-  // Fetch real projects from API or infer from pathname / props
+  // Auto-detect project from prop or URL
   useEffect(() => {
     let activeName = projectName;
 
-    // If no explicit projectName prop, infer from URL slug e.g. /projects/lotus-gated-county
     if (!activeName && pathname && pathname.startsWith('/projects/')) {
       const slug = pathname.replace('/projects/', '').replace(/\/$/, '');
       if (slug) {
-        const titleFromSlug = slug
+        activeName = slug
           .split('-')
           .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
           .join(' ');
-        activeName = titleFromSlug;
       }
     }
 
-    // Try fetching database projects
     api.getProjects({ limit: 10 }).then((res) => {
       if (res.success && res.data && res.data.length > 0) {
         const dbList = res.data.map((p) => ({
@@ -119,7 +112,6 @@ export const CabBookingModal: React.FC<CabBookingModalProps> = ({
           location: p.location || p.city || 'Chennai',
         }));
         
-        // If activeName is not in list, add to top
         if (activeName && !dbList.some((p) => p.name.toLowerCase() === activeName!.toLowerCase())) {
           dbList.unshift({ id: 'custom', name: activeName, location: location || 'Prime Location' });
         }
@@ -146,8 +138,8 @@ export const CabBookingModal: React.FC<CabBookingModalProps> = ({
   const getEffectiveDate = () => {
     if (selectedDateOption === 'today') return `Today (${getTodayDate()})`;
     if (selectedDateOption === 'tomorrow') return `Tomorrow (${getTomorrowDate()})`;
-    if (selectedDateOption === 'saturday') return `This Saturday (${getNextSaturday()})`;
-    if (selectedDateOption === 'sunday') return `This Sunday (${getNextSunday()})`;
+    if (selectedDateOption === 'saturday') return `Saturday (${getNextSaturday()})`;
+    if (selectedDateOption === 'sunday') return `Sunday (${getNextSunday()})`;
     return customDate;
   };
 
@@ -155,32 +147,10 @@ export const CabBookingModal: React.FC<CabBookingModalProps> = ({
     'Tambaram',
     'Velachery',
     'Guindy',
-    'Airport / Pallavaram',
+    'Airport',
     'Porur',
-    'Chromepet',
-    'OMR / Sholinganallur',
-    'Doorstep Home Pick-up',
-  ];
-
-  const timeSlots = [
-    {
-      time: '09:30 AM',
-      period: 'Morning Tour',
-      desc: 'Clear morning sunlight & fresh layout breeze',
-      badge: 'Popular',
-    },
-    {
-      time: '02:00 PM',
-      period: 'Afternoon Tour',
-      desc: 'Relaxed post-lunch visit with site consultant',
-      badge: 'Available',
-    },
-    {
-      time: '04:30 PM',
-      period: 'Evening Golden Hour',
-      desc: 'Pleasant evening ambience & clubhouse view',
-      badge: 'High Demand',
-    },
+    'OMR',
+    'Home Pick-up',
   ];
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -196,21 +166,18 @@ export const CabBookingModal: React.FC<CabBookingModalProps> = ({
     }
 
     const finalPickupLocation =
-      pickupHub === 'Doorstep Home Pick-up' || customAddress.trim()
-        ? `${pickupHub} - ${customAddress.trim() || 'Address to be confirmed on call'}`
+      pickupHub === 'Home Pick-up' || customAddress.trim()
+        ? `${pickupHub} - ${customAddress.trim() || 'Doorstep address to be confirmed on call'}`
         : pickupHub;
 
     const formattedMessage = [
       `🚕 FREE CHAUFFEURED AC CAB SITE VISIT BOOKING`,
-      `• Destination Layout: ${selectedProject || 'Lotus Gated County'}`,
-      `• Preferred Schedule: ${getEffectiveDate()} at ${selectedTimeSlot}`,
+      `• Destination: ${selectedProject || 'Lotus Gated County'}`,
+      `• Schedule: ${getEffectiveDate()} at ${selectedTimeSlot}`,
       `• Pick-up Location: ${finalPickupLocation}`,
       `• Passengers: ${passengers}`,
       `• WhatsApp Driver Alert: ${sendWhatsAppUpdates ? 'Yes' : 'No'}`,
-      specialRequest.trim() ? `• Special Notes: ${specialRequest.trim()}` : '',
-    ]
-      .filter(Boolean)
-      .join('\n');
+    ].join('\n');
 
     try {
       const res = await api.submitLead({
@@ -226,7 +193,7 @@ export const CabBookingModal: React.FC<CabBookingModalProps> = ({
         setBookingId(randomRef);
         setSubmitted(true);
       } else {
-        setErrorMsg(res.message || 'Unable to schedule cab right now. Please call our helpline.');
+        setErrorMsg(res.message || 'Unable to schedule cab right now. Please call our hotline.');
       }
     } catch (err: any) {
       setErrorMsg('Network issue. Please call our dispatch desk directly.');
@@ -241,124 +208,88 @@ export const CabBookingModal: React.FC<CabBookingModalProps> = ({
   const whatsappNum = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '919876543210';
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-slate-950/80 backdrop-blur-md p-3 sm:p-4 md:p-6 flex items-center justify-center min-h-screen animate-in fade-in duration-200">
-      <div className="relative w-full max-w-2xl bg-white rounded-3xl shadow-2xl overflow-hidden border border-slate-200 my-auto flex flex-col max-h-[92vh]">
-        {/* Top Header Banner - Sticky & Elegant */}
-        <div className="relative bg-gradient-to-br from-[#0a4a40] via-[#108474] to-[#07362f] text-white p-4 sm:p-5 shrink-0 overflow-hidden">
-          {/* Subtle Background Car Silhouette */}
-          <div className="absolute -right-6 -bottom-6 w-36 h-36 bg-white/10 rounded-full blur-xl pointer-events-none" />
-          <div className="absolute top-2 right-12 opacity-10 pointer-events-none">
-            <Car className="w-28 h-28" />
-          </div>
-
+    <div className="fixed inset-0 z-50 overflow-y-auto bg-slate-950/80 backdrop-blur-sm p-3 sm:p-4 md:p-6 flex items-center justify-center min-h-screen animate-in fade-in duration-200">
+      <div className="relative w-full max-w-lg bg-white rounded-2xl sm:rounded-3xl shadow-2xl overflow-hidden border border-slate-200 my-auto flex flex-col max-h-[85vh]">
+        {/* Compact Header */}
+        <div className="relative bg-gradient-to-r from-[#0a483e] via-[#108474] to-[#0d594e] text-white px-4 sm:px-5 py-3.5 sm:py-4 shrink-0">
           {/* Close Button */}
           <button
             onClick={onClose}
-            className="absolute top-3.5 right-3.5 z-10 p-2 rounded-full bg-white/15 hover:bg-white/25 text-white transition-all active:scale-95"
+            className="absolute top-3 right-3 p-1.5 rounded-full bg-white/10 hover:bg-white/20 text-white transition-all active:scale-95"
             aria-label="Close Cab Booking Modal"
           >
-            <X className="w-5 h-5" />
+            <X className="w-4 h-4" />
           </button>
 
-          {/* Top VIP Badge */}
-          <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-white/15 backdrop-blur-md border border-white/20 text-amber-300 text-[10px] sm:text-xs font-black uppercase tracking-wider mb-1.5">
-            <Sparkles className="w-3.5 h-3.5 text-amber-300" />
-            <span>VIP Chauffeur Service • 100% Free Doorstep Visit</span>
+          <div className="flex items-center gap-2 mb-1">
+            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-white/15 text-amber-300 text-[10px] font-black uppercase tracking-wider">
+              <Sparkles className="w-3 h-3 text-amber-300" />
+              100% Free VIP Doorstep Visit
+            </span>
+            <span className="text-[10px] font-bold text-emerald-200">• DTCP & CMDA Plots</span>
           </div>
 
-          <h2 className="text-lg sm:text-2xl font-black font-heading tracking-tight text-white leading-tight">
-            Book Your Free Chauffeured AC Cab
+          <h2 className="text-base sm:text-lg font-black font-heading tracking-tight text-white flex items-center gap-1.5">
+            <Car className="w-4 h-4 text-amber-300 shrink-0" />
+            <span>Book Free Chauffeured AC Cab</span>
           </h2>
-          <p className="text-xs text-emerald-100/90 mt-0.5 max-w-lg font-medium">
-            Travel in luxury with your family to inspect our DTCP & RERA approved gated community layouts. Zero cost & zero obligation.
+          <p className="text-[11px] text-emerald-100/90 leading-tight mt-0.5">
+            Chauffeured AC sedan & guided layout tour with your family. Zero cost & zero obligation.
           </p>
-
-          {/* 4 Feature Badges Strip */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5 mt-3 pt-3 border-t border-white/15 text-[10px] sm:text-[11px] font-bold text-white/95">
-            <div className="flex items-center gap-1.5">
-              <div className="w-4 h-4 rounded-full bg-emerald-400/20 flex items-center justify-center shrink-0 text-emerald-300">
-                <Navigation className="w-2.5 h-2.5" />
-              </div>
-              <span className="truncate">Doorstep Pick & Drop</span>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <div className="w-4 h-4 rounded-full bg-emerald-400/20 flex items-center justify-center shrink-0 text-emerald-300">
-                <Car className="w-2.5 h-2.5" />
-              </div>
-              <span className="truncate">Sanitized AC Sedan</span>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <div className="w-4 h-4 rounded-full bg-emerald-400/20 flex items-center justify-center shrink-0 text-emerald-300">
-                <FileCheck className="w-2.5 h-2.5" />
-              </div>
-              <span className="truncate">Legal Expert Tour</span>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <div className="w-4 h-4 rounded-full bg-emerald-400/20 flex items-center justify-center shrink-0 text-emerald-300">
-                <Coffee className="w-2.5 h-2.5" />
-              </div>
-              <span className="truncate">Refreshments Kit</span>
-            </div>
-          </div>
         </div>
 
         {/* Modal Scrollable Body */}
-        <div className="p-4 sm:p-6 overflow-y-auto overscroll-contain flex-1">
+        <div className="p-4 sm:p-5 overflow-y-auto overscroll-contain flex-1">
           {submitted ? (
             /* Success State */
-            <div className="text-center py-4 space-y-4 animate-in zoom-in-95 duration-300">
-              <div className="w-14 h-14 bg-emerald-100 text-[#108474] rounded-full flex items-center justify-center mx-auto shadow-inner">
-                <CheckCircle2 className="w-8 h-8" />
+            <div className="text-center py-3 space-y-3 animate-in zoom-in-95 duration-300">
+              <div className="w-12 h-12 bg-emerald-100 text-[#108474] rounded-full flex items-center justify-center mx-auto shadow-inner">
+                <CheckCircle2 className="w-7 h-7" />
               </div>
 
               <div>
-                <span className="inline-block px-3 py-1 bg-emerald-100 text-[#108474] rounded-full text-xs font-black tracking-widest uppercase mb-1.5">
-                  Booking Confirmed • {bookingId}
+                <span className="inline-block px-2.5 py-0.5 bg-emerald-100 text-[#108474] rounded-full text-[10px] font-black tracking-widest uppercase mb-1">
+                  Confirmed • {bookingId}
                 </span>
-                <h3 className="text-xl sm:text-2xl font-black text-slate-900 font-heading">
+                <h3 className="text-lg font-black text-slate-900 font-heading">
                   Your Free AC Cab is Scheduled!
                 </h3>
-                <p className="text-xs sm:text-sm text-slate-600 mt-1 max-w-md mx-auto">
-                  Thank you, <strong className="text-slate-900">{name}</strong>. Our fleet coordinator is assigning your chauffeur for{' '}
+                <p className="text-xs text-slate-600 mt-1 max-w-sm mx-auto">
+                  Thank you, <strong className="text-slate-900">{name}</strong>. Your chauffeur is assigned for{' '}
                   <strong className="text-[#108474]">{selectedProject}</strong>.
                 </p>
               </div>
 
-              {/* Reservation Boarding Pass Card */}
-              <div className="bg-slate-50 border-2 border-dashed border-[#108474]/30 rounded-2xl p-4 text-left max-w-lg mx-auto space-y-2.5">
-                <div className="flex items-center justify-between border-b border-slate-200 pb-2">
+              {/* Reservation Pass Card */}
+              <div className="bg-slate-50 border border-dashed border-[#108474]/30 rounded-xl p-3 text-left max-w-md mx-auto space-y-2 text-xs">
+                <div className="flex items-center justify-between border-b border-slate-200 pb-1.5">
                   <div>
-                    <span className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Destination Layout</span>
-                    <p className="text-sm font-black text-slate-900">{selectedProject}</p>
+                    <span className="text-[9px] uppercase font-bold text-slate-400">Layout</span>
+                    <p className="font-black text-slate-900 text-xs">{selectedProject}</p>
                   </div>
                   <div className="text-right">
-                    <span className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Pass Type</span>
-                    <p className="text-xs font-bold text-[#108474]">VIP Chauffeured Pass</p>
+                    <span className="text-[9px] uppercase font-bold text-slate-400">Fare</span>
+                    <p className="font-black text-emerald-700 bg-emerald-100 px-2 py-0.2 rounded-full text-[10px]">
+                      ₹0 (Free)
+                    </p>
                   </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-3 text-xs">
+                <div className="grid grid-cols-2 gap-2 text-[11px]">
                   <div>
-                    <span className="text-[10px] uppercase font-bold text-slate-400">Date & Slot</span>
+                    <span className="text-[9px] uppercase font-bold text-slate-400">Schedule</span>
                     <p className="font-bold text-slate-800">{getEffectiveDate()}</p>
-                    <p className="text-[11px] font-semibold text-[#108474]">{selectedTimeSlot}</p>
+                    <p className="font-semibold text-[#108474]">{selectedTimeSlot}</p>
                   </div>
                   <div>
-                    <span className="text-[10px] uppercase font-bold text-slate-400">Pick-up Point</span>
+                    <span className="text-[9px] uppercase font-bold text-slate-400">Pick-up</span>
                     <p className="font-bold text-slate-800 truncate">{pickupHub}</p>
-                    <p className="text-[11px] text-slate-500">{passengers}</p>
+                    <p className="text-slate-500">{passengers}</p>
                   </div>
-                </div>
-
-                <div className="pt-2 border-t border-slate-200 flex items-center justify-between text-[11px] font-bold text-slate-600">
-                  <span>Cab Fare & Tolls</span>
-                  <span className="text-emerald-700 bg-emerald-100 px-2.5 py-0.5 rounded-full font-black">
-                    ₹0 (100% Complimentary)
-                  </span>
                 </div>
               </div>
 
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-2.5 pt-2">
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-2 pt-1">
                 <a
                   href={getWhatsAppLink(
                     whatsappNum,
@@ -366,46 +297,41 @@ export const CabBookingModal: React.FC<CabBookingModalProps> = ({
                   )}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs tracking-wide shadow-md transition-all active:scale-95"
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs tracking-wide shadow transition-all active:scale-95"
                 >
-                  <MessageCircle className="w-4 h-4" />
+                  <MessageCircle className="w-3.5 h-3.5" />
                   <span>Receive Driver Details on WhatsApp</span>
                 </a>
 
                 <button
                   type="button"
                   onClick={onClose}
-                  className="w-full sm:w-auto px-5 py-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition-all"
+                  className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition-all"
                 >
-                  Done / Close
+                  Close
                 </button>
               </div>
             </div>
           ) : (
-            /* Booking Form */
-            <form onSubmit={handleSubmit} className="space-y-4">
+            /* Compact Booking Form */
+            <form onSubmit={handleSubmit} className="space-y-3.5">
               {errorMsg && (
-                <div className="p-3 bg-rose-50 border border-rose-200 rounded-xl text-rose-700 text-xs font-semibold flex items-center gap-2">
-                  <X className="w-4 h-4 shrink-0 text-rose-500" />
+                <div className="p-2.5 bg-rose-50 border border-rose-200 rounded-xl text-rose-700 text-xs font-semibold flex items-center gap-1.5">
+                  <X className="w-3.5 h-3.5 shrink-0 text-rose-500" />
                   <span>{errorMsg}</span>
                 </div>
               )}
 
-              {/* 1. Destination Project Selection */}
+              {/* 1. Destination Project */}
               <div>
-                <div className="flex items-center justify-between mb-1">
-                  <label className="text-xs font-black text-slate-800 uppercase tracking-wider">
-                    1. Select Layout to Visit
-                  </label>
-                  <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200 uppercase">
-                    DTCP & CMDA Approved
-                  </span>
-                </div>
+                <label className="block text-[11px] font-black text-slate-800 uppercase tracking-wider mb-1">
+                  1. Layout to Visit
+                </label>
                 <div className="relative">
                   <select
                     value={selectedProject}
                     onChange={(e) => setSelectedProject(e.target.value)}
-                    className="w-full px-4 py-2.5 rounded-xl border border-slate-200 bg-white text-slate-900 text-xs sm:text-sm font-bold focus:outline-none focus:ring-2 focus:ring-[#108474]/20 focus:border-[#108474] appearance-none cursor-pointer transition-all shadow-sm"
+                    className="w-full px-3 py-2 rounded-xl border border-slate-200 bg-white text-slate-900 text-xs font-bold focus:outline-none focus:ring-2 focus:ring-[#108474]/20 focus:border-[#108474] appearance-none cursor-pointer transition-all shadow-sm"
                   >
                     {projectList.map((proj) => (
                       <option key={proj.id} value={proj.name}>
@@ -413,141 +339,96 @@ export const CabBookingModal: React.FC<CabBookingModalProps> = ({
                       </option>
                     ))}
                   </select>
-                  <ChevronDown className="absolute right-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
+                  <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400 pointer-events-none" />
                 </div>
               </div>
 
-              {/* 2. Date Selection with Quick Chips */}
-              <div>
-                <div className="flex items-center justify-between mb-1.5">
-                  <label className="text-xs font-black text-slate-800 uppercase tracking-wider">
-                    2. Choose Preferred Date
+              {/* 2. Date & Time Selection (Compact Grid) */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {/* Date */}
+                <div>
+                  <label className="block text-[11px] font-black text-slate-800 uppercase tracking-wider mb-1">
+                    2. Preferred Date
                   </label>
-                  <span className="text-[11px] font-bold text-[#108474]">
-                    {getEffectiveDate()}
-                  </span>
-                </div>
-                
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-2">
-                  <button
-                    type="button"
-                    onClick={() => handleDateOptionChange('today')}
-                    className={`py-2 px-2 rounded-xl text-xs font-bold transition-all border text-center ${
-                      selectedDateOption === 'today'
-                        ? 'bg-[#108474] text-white border-[#108474] shadow-sm'
-                        : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
-                    }`}
-                  >
-                    Today
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => handleDateOptionChange('tomorrow')}
-                    className={`py-2 px-2 rounded-xl text-xs font-bold transition-all border text-center ${
-                      selectedDateOption === 'tomorrow'
-                        ? 'bg-[#108474] text-white border-[#108474] shadow-sm'
-                        : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
-                    }`}
-                  >
-                    Tomorrow
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => handleDateOptionChange('saturday')}
-                    className={`py-2 px-2 rounded-xl text-xs font-bold transition-all border text-center relative ${
-                      selectedDateOption === 'saturday'
-                        ? 'bg-[#108474] text-white border-[#108474] shadow-sm'
-                        : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
-                    }`}
-                  >
-                    Saturday
-                    <span className="absolute -top-1.5 -right-1 px-1.5 py-0.2 bg-amber-400 text-slate-950 text-[8px] font-black rounded-full">
-                      Hot
-                    </span>
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => handleDateOptionChange('sunday')}
-                    className={`py-2 px-2 rounded-xl text-xs font-bold transition-all border text-center relative ${
-                      selectedDateOption === 'sunday'
-                        ? 'bg-[#108474] text-white border-[#108474] shadow-sm'
-                        : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
-                    }`}
-                  >
-                    Sunday
-                    <span className="absolute -top-1.5 -right-1 px-1.5 py-0.2 bg-amber-400 text-slate-950 text-[8px] font-black rounded-full">
-                      Hot
-                    </span>
-                  </button>
-                </div>
-
-                {/* Date Picker Input */}
-                <div className="relative">
-                  <Calendar className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-                  <input
-                    type="date"
-                    min={getTodayDate()}
-                    value={customDate}
-                    onChange={(e) => {
-                      setCustomDate(e.target.value);
-                      setSelectedDateOption('custom');
-                    }}
-                    className="w-full pl-10 pr-4 py-2 rounded-xl border border-slate-200 text-slate-800 text-xs font-bold focus:outline-none focus:ring-2 focus:ring-[#108474]/20 focus:border-[#108474]"
-                  />
-                </div>
-              </div>
-
-              {/* 3. Time Slot Selection */}
-              <div>
-                <label className="block text-xs font-black text-slate-800 uppercase tracking-wider mb-1.5">
-                  3. Select Chauffeur Pick-up Slot
-                </label>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
-                  {timeSlots.map((slot) => {
-                    const isSelected = selectedTimeSlot === slot.time;
-                    return (
+                  <div className="grid grid-cols-4 gap-1 mb-1.5">
+                    {[
+                      { key: 'today', label: 'Today' },
+                      { key: 'tomorrow', label: 'Tmrw' },
+                      { key: 'saturday', label: 'Sat' },
+                      { key: 'sunday', label: 'Sun' },
+                    ].map((d) => (
                       <button
-                        key={slot.time}
+                        key={d.key}
                         type="button"
-                        onClick={() => setSelectedTimeSlot(slot.time)}
-                        className={`p-2.5 rounded-xl border text-left transition-all ${
-                          isSelected
-                            ? 'border-[#108474] bg-[#f0fdfa] ring-2 ring-[#108474]/20 shadow-sm'
-                            : 'border-slate-200 bg-white hover:border-slate-300'
+                        onClick={() => handleDateOptionChange(d.key as any)}
+                        className={`py-1 rounded-lg text-[10px] font-bold transition-all border text-center ${
+                          selectedDateOption === d.key
+                            ? 'bg-[#108474] text-white border-[#108474]'
+                            : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
                         }`}
                       >
-                        <div className="flex items-center justify-between mb-0.5">
-                          <span className="text-xs font-black text-slate-900">{slot.time}</span>
-                          <span
-                            className={`text-[8px] font-black px-1.5 py-0.5 rounded-full ${
-                              isSelected
-                                ? 'bg-[#108474] text-white'
-                                : 'bg-slate-100 text-slate-600'
-                            }`}
-                          >
-                            {slot.badge}
-                          </span>
-                        </div>
-                        <p className="text-[11px] font-bold text-slate-700">{slot.period}</p>
-                        <p className="text-[9px] text-slate-500 leading-tight mt-0.5">{slot.desc}</p>
+                        {d.label}
                       </button>
-                    );
-                  })}
+                    ))}
+                  </div>
+                  <div className="relative">
+                    <Calendar className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3 h-3 text-slate-400" />
+                    <input
+                      type="date"
+                      min={getTodayDate()}
+                      value={customDate}
+                      onChange={(e) => {
+                        setCustomDate(e.target.value);
+                        setSelectedDateOption('custom');
+                      }}
+                      className="w-full pl-8 pr-2 py-1.5 rounded-lg border border-slate-200 text-slate-800 text-[11px] font-bold focus:outline-none focus:ring-2 focus:ring-[#108474]/20 focus:border-[#108474]"
+                    />
+                  </div>
+                </div>
+
+                {/* Time Slot */}
+                <div>
+                  <label className="block text-[11px] font-black text-slate-800 uppercase tracking-wider mb-1">
+                    3. Pick-up Time Slot
+                  </label>
+                  <div className="space-y-1">
+                    {[
+                      { time: '09:30 AM', label: 'Morning (09:30 AM)' },
+                      { time: '02:00 PM', label: 'Afternoon (02:00 PM)' },
+                      { time: '04:30 PM', label: 'Evening (04:30 PM)' },
+                    ].map((t) => (
+                      <button
+                        key={t.time}
+                        type="button"
+                        onClick={() => setSelectedTimeSlot(t.time)}
+                        className={`w-full py-1.5 px-2.5 rounded-lg border text-left text-[11px] font-bold transition-all flex items-center justify-between ${
+                          selectedTimeSlot === t.time
+                            ? 'border-[#108474] bg-[#f0fdfa] text-[#108474]'
+                            : 'border-slate-200 bg-white text-slate-700 hover:bg-slate-50'
+                        }`}
+                      >
+                        <span>{t.label}</span>
+                        {selectedTimeSlot === t.time && (
+                          <CheckCircle2 className="w-3.5 h-3.5 text-[#108474]" />
+                        )}
+                      </button>
+                    ))}
+                  </div>
                 </div>
               </div>
 
-              {/* 4. Pick-up Area / Hub */}
+              {/* 3. Pick-up Area */}
               <div>
-                <label className="block text-xs font-black text-slate-800 uppercase tracking-wider mb-1.5">
-                  4. Your Pick-up Area / Hub
+                <label className="block text-[11px] font-black text-slate-800 uppercase tracking-wider mb-1">
+                  4. Pick-up Hub / Location
                 </label>
-                <div className="flex flex-wrap gap-1.5 mb-2">
+                <div className="flex flex-wrap gap-1 mb-1.5">
                   {popularHubs.map((hub) => (
                     <button
                       key={hub}
                       type="button"
                       onClick={() => setPickupHub(hub)}
-                      className={`text-[10px] sm:text-[11px] font-bold px-2.5 py-1 rounded-lg border transition-all ${
+                      className={`text-[10px] font-bold px-2 py-0.5 rounded-md border transition-all ${
                         pickupHub === hub
                           ? 'bg-[#108474] text-white border-[#108474]'
                           : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
@@ -559,30 +440,30 @@ export const CabBookingModal: React.FC<CabBookingModalProps> = ({
                 </div>
 
                 <div className="relative">
-                  <MapPin className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                  <MapPin className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400" />
                   <input
                     type="text"
                     value={customAddress}
                     onChange={(e) => setCustomAddress(e.target.value)}
-                    placeholder="Enter landmark or street address (e.g. Near Tambaram Rly Station)"
-                    className="w-full pl-10 pr-4 py-2 rounded-xl border border-slate-200 text-slate-800 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-[#108474]/20 focus:border-[#108474]"
+                    placeholder="Enter landmark or street (e.g. Near Tambaram Rly Station)"
+                    className="w-full pl-8 pr-3 py-1.5 rounded-xl border border-slate-200 text-slate-800 text-[11px] font-medium focus:outline-none focus:ring-2 focus:ring-[#108474]/20 focus:border-[#108474]"
                   />
                 </div>
               </div>
 
-              {/* 5. Passenger Count & Contact Details */}
-              <div className="space-y-2.5">
-                <div className="flex items-center justify-between">
-                  <label className="text-xs font-black text-slate-800 uppercase tracking-wider">
-                    5. Passengers & Contact Details
+              {/* 4. Contact Details & Passengers */}
+              <div>
+                <div className="flex items-center justify-between mb-1">
+                  <label className="text-[11px] font-black text-slate-800 uppercase tracking-wider">
+                    5. Passengers & Contact
                   </label>
-                  <div className="flex gap-1 text-[10px]">
-                    {['1-2 Persons', '3-4 Family', '5+ Group (SUV)'].map((p) => (
+                  <div className="flex gap-1 text-[9px]">
+                    {['1-2 Persons', '3-4 Family', '5+ Group'].map((p) => (
                       <button
                         key={p}
                         type="button"
                         onClick={() => setPassengers(p)}
-                        className={`px-2 py-0.5 rounded-lg font-bold border transition-all ${
+                        className={`px-1.5 py-0.5 rounded font-bold border transition-all ${
                           passengers === p
                             ? 'bg-slate-800 text-white border-slate-800'
                             : 'bg-slate-100 text-slate-600 border-slate-200 hover:bg-slate-200'
@@ -594,91 +475,81 @@ export const CabBookingModal: React.FC<CabBookingModalProps> = ({
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                  <div>
-                    <label className="block text-[11px] font-bold text-slate-600 mb-1">
-                      Full Name <span className="text-rose-500">*</span>
-                    </label>
-                    <div className="relative">
-                      <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-                      <input
-                        type="text"
-                        required
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                        placeholder="e.g. Ramesh Kumar"
-                        className="w-full pl-9 pr-3 py-2 rounded-xl border border-slate-200 text-slate-900 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-[#108474]/20 focus:border-[#108474]"
-                      />
-                    </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  <div className="relative">
+                    <User className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400" />
+                    <input
+                      type="text"
+                      required
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                      placeholder="Your Full Name *"
+                      className="w-full pl-8 pr-3 py-1.5 rounded-xl border border-slate-200 text-slate-900 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-[#108474]/20 focus:border-[#108474]"
+                    />
                   </div>
 
-                  <div>
-                    <label className="block text-[11px] font-bold text-slate-600 mb-1">
-                      WhatsApp / Mobile <span className="text-rose-500">*</span>
-                    </label>
-                    <div className="flex">
-                      <span className="inline-flex items-center px-2.5 rounded-l-xl border border-r-0 border-slate-200 bg-slate-50 text-slate-600 text-xs font-bold">
-                        +91
-                      </span>
-                      <input
-                        type="tel"
-                        required
-                        value={phone}
-                        onChange={(e) => setPhone(e.target.value)}
-                        placeholder="98765 43210"
-                        className="w-full px-3 py-2 rounded-r-xl border border-slate-200 text-slate-900 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-[#108474]/20 focus:border-[#108474]"
-                      />
-                    </div>
+                  <div className="flex">
+                    <span className="inline-flex items-center px-2 rounded-l-xl border border-r-0 border-slate-200 bg-slate-50 text-slate-600 text-[11px] font-bold">
+                      +91
+                    </span>
+                    <input
+                      type="tel"
+                      required
+                      value={phone}
+                      onChange={(e) => setPhone(e.target.value)}
+                      placeholder="10-digit Mobile *"
+                      className="w-full px-2.5 py-1.5 rounded-r-xl border border-slate-200 text-slate-900 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-[#108474]/20 focus:border-[#108474]"
+                    />
                   </div>
                 </div>
 
                 {/* WhatsApp toggle */}
-                <div className="flex items-center gap-2 pt-0.5">
+                <div className="flex items-center gap-1.5 pt-1.5">
                   <input
                     type="checkbox"
-                    id="cab-whatsapp-consent"
+                    id="cab-whatsapp-compact"
                     checked={sendWhatsAppUpdates}
                     onChange={(e) => setSendWhatsAppUpdates(e.target.checked)}
-                    className="w-4 h-4 rounded text-[#108474] focus:ring-[#108474] accent-[#108474]"
+                    className="w-3.5 h-3.5 rounded text-[#108474] focus:ring-[#108474] accent-[#108474]"
                   />
-                  <label htmlFor="cab-whatsapp-consent" className="text-[10px] sm:text-[11px] font-medium text-slate-600 flex items-center gap-1 cursor-pointer">
-                    <MessageCircle className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
-                    <span>Send driver phone number & live vehicle tracker on WhatsApp</span>
+                  <label htmlFor="cab-whatsapp-compact" className="text-[10px] text-slate-600 flex items-center gap-1 cursor-pointer">
+                    <MessageCircle className="w-3 h-3 text-emerald-600 shrink-0" />
+                    <span>Send driver tracking & layout route map on WhatsApp</span>
                   </label>
                 </div>
               </div>
 
               {/* Submit CTA */}
-              <div className="pt-2 space-y-2">
+              <div className="pt-1 space-y-1.5">
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full py-3.5 px-6 rounded-2xl bg-[#108474] hover:bg-[#0c6a5d] text-white font-black text-xs sm:text-sm uppercase tracking-wider transition-all shadow-lg shadow-[#108474]/25 active:scale-95 disabled:opacity-70 flex items-center justify-center gap-2"
+                  className="w-full py-3 px-4 rounded-xl bg-[#108474] hover:bg-[#0c6a5d] text-white font-black text-xs sm:text-sm uppercase tracking-wider transition-all shadow-md shadow-[#108474]/25 active:scale-95 disabled:opacity-70 flex items-center justify-center gap-2"
                 >
                   {loading ? (
                     <>
                       <Loader2 className="w-4 h-4 animate-spin" />
-                      <span>Scheduling Your Chauffeur...</span>
+                      <span>Scheduling Chauffeur...</span>
                     </>
                   ) : (
                     <>
-                      <Car className="w-4 h-4 animate-pulse" />
+                      <Car className="w-4 h-4" />
                       <span>Confirm Free AC Cab Booking</span>
-                      <ArrowRight className="w-4 h-4" />
+                      <ArrowRight className="w-3.5 h-3.5" />
                     </>
                   )}
                 </button>
 
-                <div className="flex flex-col sm:flex-row items-center justify-between text-[10px] sm:text-[11px] text-slate-500 font-medium px-1 gap-1">
-                  <span className="flex items-center gap-1 text-slate-600">
-                    <ShieldCheck className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
-                    100% Free • Zero Obligation • Sanitized AC Cabs
+                <div className="flex items-center justify-between text-[10px] text-slate-500 font-medium px-0.5">
+                  <span className="flex items-center gap-1">
+                    <ShieldCheck className="w-3 h-3 text-emerald-600 shrink-0" />
+                    100% Free • Zero Obligation
                   </span>
                   <a
                     href={getTelLink(companyPhone)}
-                    className="text-[#108474] hover:text-[#0c6a5d] font-bold underline underline-offset-2"
+                    className="text-[#108474] hover:text-[#0c6a5d] font-bold underline"
                   >
-                    Need Urgent Cab? Call {companyPhone}
+                    Need Urgent Cab? Call Us
                   </a>
                 </div>
               </div>
