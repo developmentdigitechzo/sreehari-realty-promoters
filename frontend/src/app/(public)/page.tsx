@@ -4,11 +4,12 @@ import { Project } from '@/types';
 import { HomeHeroInteractive } from '@/components/home/HomeHeroInteractive';
 import { TrustCredentials } from '@/components/home/TrustCredentials';
 import { ProjectShowcaseTabs } from '@/components/home/ProjectShowcaseTabs';
+import { SellerPromotionSection } from '@/components/home/SellerPromotionSection';
 import { EmiCalculatorWidget } from '@/components/home/EmiCalculatorWidget';
 import { InteractiveBuyingJourney } from '@/components/home/InteractiveBuyingJourney';
 import { LocationsExplorer } from '@/components/home/LocationsExplorer';
 import { MobileStickyBar } from '@/components/home/MobileStickyBar';
-import { Trees, ShieldCheck, Route, Sun, Droplet, Smile, Phone, Car } from 'lucide-react';
+import { Trees, ShieldCheck, Route, Sun, Droplet, Smile, Phone, Car, Sparkles } from 'lucide-react';
 import { WhatsAppButton } from '@/components/common/WhatsAppButton';
 import { LeadForm } from '@/components/common/LeadForm';
 import { getTelLink } from '@/lib/utils';
@@ -151,8 +152,8 @@ export default async function HomePage() {
   const whatsappNum = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '919876543210';
 
   return (
-    <div className="min-h-screen bg-slate-50 pb-20 md:pb-0">
-      {/* 1. CREATIVE INTERACTIVE HERO SECTION */}
+    <div className="min-h-screen bg-[#FAF8F5] pb-20 md:pb-0">
+      {/* 1. CREATIVE INTERACTIVE HERO SECTION (THANJAI PROPERTY SEARCH PANEL) */}
       <HomeHeroInteractive />
 
       {/* 2. GOVERNMENT TRUST & LEGAL VERIFICATION METRICS */}
@@ -161,24 +162,27 @@ export default async function HomePage() {
       {/* 3. TABBED PROJECT SHOWCASE (MOBILE SNAP-SCROLL + DESKTOP GRID) */}
       <ProjectShowcaseTabs initialProjects={projects} />
 
-      {/* 4. PLOT EMI & INVESTMENT BUDGET CALCULATOR */}
-      <section className="py-12 sm:py-16 lg:py-20 bg-white border-y border-slate-200">
+      {/* 4. SELLER DESK / PROMOTE LAND SECTION (DIRECT THANJAI PROPERTY FEATURE) */}
+      <SellerPromotionSection />
+
+      {/* 5. PLOT EMI & INVESTMENT BUDGET CALCULATOR */}
+      <section className="py-12 sm:py-16 lg:py-20 bg-white border-y border-amber-900/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <EmiCalculatorWidget />
         </div>
       </section>
 
-      {/* 5. 4-STEP PLOTTED LAND BUYING JOURNEY */}
+      {/* 6. 4-STEP PLOTTED LAND BUYING JOURNEY */}
       <InteractiveBuyingJourney />
 
-      {/* 6. PRIME GROWTH CORRIDORS EXPLORER */}
+      {/* 7. PRIME GROWTH CORRIDORS EXPLORER */}
       <LocationsExplorer />
 
-      {/* 7. MASTER GATED AMENITIES SHOWCASE */}
-      <section className="py-12 sm:py-16 lg:py-24 bg-slate-900 text-white relative">
+      {/* 8. MASTER GATED AMENITIES SHOWCASE */}
+      <section className="py-12 sm:py-16 lg:py-24 bg-[#1C1917] text-white relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-14">
-            <span className="text-[11px] sm:text-xs font-bold text-amber-400 uppercase tracking-widest">
+            <span className="text-[11px] sm:text-xs font-black text-amber-400 uppercase tracking-widest">
               Standard Community Features
             </span>
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black font-heading text-white mt-1 sm:mt-2">
@@ -198,15 +202,15 @@ export default async function HomePage() {
               { title: 'Avenue Plantation', desc: 'Tree-lined walkways & gardens', icon: Trees, color: 'text-emerald-400' },
               { title: 'Children Play Area', desc: 'Parks & jogging tracks', icon: Smile, color: 'text-rose-400' },
               { title: 'Compound Perimeter', desc: '100% fenced secure boundary', icon: ShieldCheck, color: 'text-purple-400' },
-              { title: 'Immediate EB & Patta', desc: 'Fast utility & name transfer', icon: ShieldCheck, color: 'text-brand-primaryLight' },
+              { title: 'Immediate EB & Patta', desc: 'Fast utility & name transfer', icon: ShieldCheck, color: 'text-amber-300' },
             ].map((amenity, idx) => {
               const Icon = amenity.icon;
               return (
                 <div
                   key={idx}
-                  className="p-3.5 sm:p-5 rounded-2xl bg-slate-800/80 border border-slate-700/60 hover:border-brand-primary/50 transition-all hover:bg-slate-800"
+                  className="p-3.5 sm:p-5 rounded-2xl bg-white/5 border border-white/10 hover:border-amber-400/50 transition-all hover:bg-white/10"
                 >
-                  <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-slate-900 flex items-center justify-center mb-2.5 sm:mb-3">
+                  <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-black/40 flex items-center justify-center mb-2.5 sm:mb-3">
                     <Icon className={`w-4 h-4 sm:w-5 sm:h-5 ${amenity.color}`} />
                   </div>
                   <h4 className="font-bold text-xs sm:text-sm text-white">{amenity.title}</h4>
@@ -218,8 +222,8 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* 8. FREE CHAUFFEURED SITE VISIT FINAL INVITATION */}
-      <section className="py-12 sm:py-16 lg:py-20 bg-gradient-to-br from-rose-950 via-brand-primaryDark to-slate-950 text-white">
+      {/* 9. FREE CHAUFFEURED SITE VISIT FINAL INVITATION */}
+      <section className="py-12 sm:py-16 lg:py-20 bg-gradient-to-br from-[#1C1917] via-slate-950 to-brand-primaryDark text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
             <div className="lg:col-span-7 space-y-3 sm:space-y-4">
@@ -229,16 +233,16 @@ export default async function HomePage() {
               <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black font-heading text-white leading-tight">
                 Book a Free Weekend Site Visit with Doorstep AC Cab Pick-Up
               </h2>
-              <p className="text-xs sm:text-sm text-rose-100 max-w-lg leading-relaxed">
+              <p className="text-xs sm:text-sm text-slate-300 max-w-lg leading-relaxed">
                 Experience our prime locations in person. Our layout supervisor will guide you through plot dimensions,
                 demonstrate road widths, provide legal parent document copies, and calculate exact bank loan EMIs.
               </p>
               <div className="pt-2 flex flex-wrap gap-2.5 sm:gap-4">
                 <a
                   href={getTelLink(phone)}
-                  className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-white text-brand-primaryDark font-bold text-xs sm:text-sm hover:bg-slate-100 transition-colors shadow-lg active:scale-95"
+                  className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-white text-slate-950 font-black text-xs sm:text-sm hover:bg-slate-100 transition-colors shadow-lg active:scale-95"
                 >
-                  <Phone className="w-4 h-4" />
+                  <Phone className="w-4 h-4 text-brand-primary" />
                   <span>Call {phone}</span>
                 </a>
                 <WhatsAppButton
@@ -259,7 +263,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* 9. MOBILE STICKY BOTTOM ACTION BAR (ANDROID & IOS OPTIMIZED) */}
+      {/* 10. MOBILE STICKY BOTTOM ACTION BAR (ANDROID & IOS OPTIMIZED) */}
       <MobileStickyBar phone={phone} whatsapp={whatsappNum} />
     </div>
   );

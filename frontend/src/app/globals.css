@@ -14,7 +14,9 @@
   }
 
   body {
-    @apply bg-slate-50 text-slate-900 antialiased selection:bg-rose-500 selection:text-white;
+    background-color: #FAF8F5;
+    color: #1C1917;
+    @apply antialiased selection:bg-rose-500 selection:text-white;
   }
 
   h1, h2, h3, h4, h5, h6 {

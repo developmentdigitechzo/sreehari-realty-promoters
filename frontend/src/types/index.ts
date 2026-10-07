@@ -90,7 +90,7 @@ export interface Property {
   updated_at: string;
 }
 
-export type LeadSource = 'WEBSITE_FORM' | 'PROJECT_PAGE' | 'PROPERTY_PAGE' | 'WHATSAPP_CLICK' | 'DIRECT_CALL';
+export type LeadSource = 'WEBSITE_FORM' | 'PROJECT_PAGE' | 'PROPERTY_PAGE' | 'WHATSAPP_CLICK' | 'DIRECT_CALL' | 'SELLER_DESK';
 export type LeadStatus = 'NEW' | 'CONTACTED' | 'FOLLOW_UP' | 'CONVERTED' | 'ARCHIVED';
 
 export interface Lead {

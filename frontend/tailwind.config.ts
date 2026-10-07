@@ -9,24 +9,32 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        warmBg: "#FAF8F5",
+        warmCream: "#F5EFEB",
+        warmBorder: "#E8E0D7",
+        terracotta: {
+          DEFAULT: "#EB5E28",
+          dark: "#C84B19",
+          light: "#F78354",
+        },
         brand: {
-          primary: "#c0175b", // Elegant magenta/rose inspired by logo lotus
-          primaryDark: "#910e42",
-          primaryLight: "#e3427d",
-          secondary: "#15803d", // Lush green nature / land / prosperity
-          secondaryDark: "#166534",
-          secondaryLight: "#22c55e",
-          navy: "#0f172a",
-          gold: "#d97706",
-          dark: "#0b0f19",
-          card: "#1e293b",
-          lightBg: "#f8fafc",
-          muted: "#64748b",
+          primary: "#E52E3D", // High energy crimson / terracotta red
+          primaryDark: "#BD1E2B",
+          primaryLight: "#F87171",
+          secondary: "#059669", // DTCP & Clear Titles Emerald Green
+          secondaryDark: "#047857",
+          secondaryLight: "#10B981",
+          navy: "#0F172A",
+          dark: "#1C1917",
+          gold: "#D97706",
+          card: "#1E293B",
+          lightBg: "#FAF8F5",
+          muted: "#64748B",
         },
       },
       fontFamily: {
         sans: ["var(--font-inter)", "system-ui", "-apple-system", "sans-serif"],
-        heading: ["var(--font-outfit)", "system-ui", "-apple-system", "sans-serif"],
+        heading: ["var(--font-outfit)", "Georgia", "serif", "-apple-system", "sans-serif"],
       },
     },
   },

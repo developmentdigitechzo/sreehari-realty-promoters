@@ -4,12 +4,14 @@ import React, { useState } from 'react';
 import { Send, CheckCircle2, AlertCircle, Loader2 } from 'lucide-react';
 import { api } from '@/lib/api';
 
+import { LeadSource } from '@/types';
+
 interface LeadFormProps {
   projectId?: string;
   projectName?: string;
   propertyId?: string;
   propertyTitle?: string;
-  source?: 'WEBSITE_FORM' | 'PROJECT_PAGE' | 'PROPERTY_PAGE' | 'WHATSAPP_CLICK' | 'DIRECT_CALL';
+  source?: LeadSource;
   title?: string;
   subtitle?: string;
   buttonText?: string;
