@@ -88,35 +88,40 @@
   }
 }
 
-/* Driving Animation from Right to Left matching Reference Image 1 */
-@keyframes driveRightToLeft {
+/* Hero Section Animations */
+@keyframes kenburns {
   0% {
-    transform: translateX(100vw);
+    transform: scale(1) translate(0, 0);
+  }
+  50% {
+    transform: scale(1.08) translate(-1%, -1%);
   }
   100% {
-    transform: translateX(-100%);
+    transform: scale(1) translate(0, 0);
   }
 }
 
-@keyframes driveSeamless1 {
+@keyframes textGradient {
   0% {
-    transform: translateX(100%);
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
   }
   100% {
-    transform: translateX(-100%);
+    background-position: 0% 50%;
   }
 }
 
-@keyframes driveSeamless2 {
-  0% {
-    transform: translateX(0%);
+@keyframes floatSlow {
+  0%, 100% {
+    transform: translateY(0px);
   }
-  100% {
-    transform: translateX(-200%);
+  50% {
+    transform: translateY(-8px);
   }
 }
 
-/* Custom Animation Utility Classes */
 .animate-kenburns {
   animation: kenburns 25s ease-in-out infinite alternate;
 }
@@ -130,35 +135,8 @@
   animation: floatSlow 4s ease-in-out infinite;
 }
 
-.animate-float-orb-1 {
-  animation: floatOrb 14s ease-in-out infinite;
-}
-
-.animate-float-orb-2 {
-  animation: floatOrb 18s ease-in-out infinite reverse;
-}
-
-.animate-shimmer-sweep {
-  background: linear-gradient(
-    90deg,
-    rgba(255, 255, 255, 0) 0%,
-    rgba(255, 255, 255, 0.25) 50%,
-    rgba(255, 255, 255, 0) 100%
-  );
-  background-size: 200% 100%;
-  animation: shimmer 3.5s infinite;
-}
-
 .animate-pulse-glow {
   animation: pulseGlow 3s ease-in-out infinite;
-}
-
-.animate-drive-right-to-left {
-  animation: driveRightToLeft 34s linear infinite;
-}
-
-.animate-drive-right-to-left:hover {
-  animation-play-state: paused;
 }
 
 /* Custom subtle scrollbar */
