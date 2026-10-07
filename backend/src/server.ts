@@ -64,8 +64,8 @@ app.use('/api/auth', authRoutes);
 app.use('/api/projects', projectRoutes);
 app.use('/api/properties', propertyRoutes);
 app.use('/api/amenities', amenityRoutes);
-app.use('/api/leads', leadLimiter, leadRoutes);
-app.use('/api/contact', leadLimiter, contactRoutes);
+app.use('/api/leads', leadRoutes);
+app.use('/api/contact', contactRoutes);
 app.use('/api/uploads', uploadRoutes);
 app.use('/api/dashboard', dashboardRoutes);
 

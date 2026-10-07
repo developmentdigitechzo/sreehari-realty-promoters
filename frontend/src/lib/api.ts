@@ -162,6 +162,10 @@ export const api = {
       method: 'PUT',
       body: JSON.stringify(data),
     }),
+  deleteLead: (id: string) =>
+    request<{ id: string; name: string }>(`/leads/${id}`, {
+      method: 'DELETE',
+    }),
 
   // Contact
   submitContact: (data: { name: string; phone: string; email: string; subject?: string; message: string }) =>

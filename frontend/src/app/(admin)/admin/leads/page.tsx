@@ -19,6 +19,7 @@ import {
   Building,
   UserCheck,
   TrendingUp,
+  Trash2,
 } from 'lucide-react';
 import { api } from '@/lib/api';
 import { Lead } from '@/types';
@@ -58,6 +59,21 @@ export default function AdminLeadsPage() {
       console.error('Error fetching leads:', err);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleDeleteLead = async (leadId: string, leadName: string) => {
+    if (confirm(`Delete enquiry from "${leadName}"? This action cannot be undone.`)) {
+      try {
+        const res = await api.deleteLead(leadId);
+        if (res.success) {
+          setLeads((prev) => prev.filter((l) => l.id !== leadId));
+        } else {
+          alert('Failed to delete lead: ' + res.message);
+        }
+      } catch (err) {
+        alert('Failed to delete lead.');
+      }
     }
   };
 
@@ -348,6 +364,15 @@ export default function AdminLeadsPage() {
                       >
                         <Edit className="w-3.5 h-3.5" />
                         <span>Note</span>
+                      </button>
+
+                      {/* Delete Lead */}
+                      <button
+                        onClick={() => handleDeleteLead(lead.id, lead.name)}
+                        className="inline-flex items-center justify-center p-1.5 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition-colors active:scale-95"
+                        title="Delete Enquiry"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
                       </button>
                     </td>
                   </tr>

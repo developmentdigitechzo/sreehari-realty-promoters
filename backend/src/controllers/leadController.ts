@@ -252,3 +252,28 @@ export const updateLead = async (req: Request, res: Response, next: NextFunction
     next(error);
   }
 };
+
+// DELETE /api/leads/:id (Protected Admin)
+export const deleteLead = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { id } = req.params;
+
+    if (db.isPostgres()) {
+      const result = await db.query(`DELETE FROM leads WHERE id = $1 RETURNING id, name`, [id]);
+      if (result.rows.length === 0) {
+        return sendError(res, 'Lead not found', null, 404);
+      }
+      return sendSuccess(res, 'Lead deleted successfully', result.rows[0]);
+    }
+
+    const index = memoryStore.leads.findIndex((l) => l.id === id);
+    if (index === -1) {
+      return sendError(res, 'Lead not found', null, 404);
+    }
+
+    const deleted = memoryStore.leads.splice(index, 1);
+    return sendSuccess(res, 'Lead deleted successfully', deleted[0]);
+  } catch (error) {
+    next(error);
+  }
+};

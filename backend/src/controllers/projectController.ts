@@ -251,8 +251,11 @@ export const createProject = async (req: Request, res: Response, next: NextFunct
       is_featured: data.is_featured || false,
       is_visible: data.is_visible !== undefined ? data.is_visible : true,
       main_image_url: data.main_image_url,
+      brochure_url: data.brochure_url,
       highlights: data.highlights || [],
       connectivity: data.connectivity || [],
+      seo_title: data.seo_title || `${data.name} - Plots in ${data.location}`,
+      seo_description: data.seo_description || data.description.slice(0, 160),
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString(),
     };
@@ -300,8 +303,13 @@ export const updateProject = async (req: Request, res: Response, next: NextFunct
           is_featured = COALESCE($14, is_featured),
           is_visible = COALESCE($15, is_visible),
           main_image_url = COALESCE($16, main_image_url),
+          brochure_url = COALESCE($17, brochure_url),
+          highlights = COALESCE($18, highlights),
+          connectivity = COALESCE($19, connectivity),
+          seo_title = COALESCE($20, seo_title),
+          seo_description = COALESCE($21, seo_description),
           updated_at = CURRENT_TIMESTAMP
-        WHERE id = $17
+        WHERE id = $22
         RETURNING *;
       `,
         [
@@ -321,6 +329,11 @@ export const updateProject = async (req: Request, res: Response, next: NextFunct
           data.is_featured,
           data.is_visible,
           data.main_image_url,
+          data.brochure_url,
+          data.highlights ? JSON.stringify(data.highlights) : null,
+          data.connectivity ? JSON.stringify(data.connectivity) : null,
+          data.seo_title,
+          data.seo_description,
           id,
         ]
       );
