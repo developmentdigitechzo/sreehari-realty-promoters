@@ -112,19 +112,15 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
       {/* Official Sree Hari Realty Logo Lotus Crest */}
       <LotusIcon size={size} />
 
-      {/* Official Logo Typography Matching PDF Image (SREE HARI in Bold Red, REALTY PROMOTERS in Bold Red) */}
+      {/* Official Logo Typography Matching Header (SREE HARI & REALTY PROMOTERS in Bold Red) */}
       <div className="flex flex-col justify-center select-none">
         <span
-          className={`${titleSizes[size]} font-heading uppercase leading-none ${
-            isLight ? 'text-white' : 'text-[#E52E3D]'
-          } drop-shadow-sm`}
+          className={`${titleSizes[size]} font-heading uppercase leading-none text-[#E52E3D] drop-shadow-sm`}
         >
           Sree Hari
         </span>
         <span
-          className={`${subTextSizes[size]} uppercase leading-tight mt-0.5 ${
-            isLight ? 'text-emerald-300' : 'text-[#E52E3D]'
-          }`}
+          className={`${subTextSizes[size]} uppercase leading-tight mt-0.5 text-[#E52E3D]`}
         >
           Realty Promoters
         </span>

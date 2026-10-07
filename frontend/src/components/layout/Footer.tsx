@@ -17,7 +17,9 @@ export const Footer: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
           {/* Brand Col */}
           <div className="space-y-4">
-            <BrandLogo size="lg" isLight={true} />
+            <div className="inline-flex p-2.5 bg-white rounded-2xl shadow-md border border-slate-200/80">
+              <BrandLogo size="md" />
+            </div>
             <p className="text-xs text-slate-400 leading-relaxed font-medium">
               Sree Hari Realty Promoters is a trusted real estate promoter and land development firm specializing in premium, DTCP & CMDA approved gated community plots, villa layouts, and farmlands with 100% clear titles.
             </p>

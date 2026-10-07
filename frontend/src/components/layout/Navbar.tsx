@@ -22,6 +22,7 @@ import {
 import { BrandLogo } from '../common/BrandLogo';
 import { getTelLink, getWhatsAppLink } from '@/lib/utils';
 import { EnquiryModal } from '../common/EnquiryModal';
+import { CabBookingModal } from '../common/CabBookingModal';
 
 export const Navbar: React.FC = () => {
   const pathname = usePathname();
@@ -253,11 +254,10 @@ export const Navbar: React.FC = () => {
         </nav>
       </header>
 
-      {/* Book Site Visit Modal */}
-      <EnquiryModal
+      {/* Book Free Chauffeured AC Cab Site Visit Modal */}
+      <CabBookingModal
         isOpen={isSiteVisitOpen}
         onClose={() => setIsSiteVisitOpen(false)}
-        source="WEBSITE_FORM"
       />
 
       {/* Sell / Promote Land Modal */}

@@ -29,6 +29,7 @@ import {
 } from 'lucide-react';
 import { WhatsAppButton } from '../common/WhatsAppButton';
 import { EnquiryModal } from '../common/EnquiryModal';
+import { CabBookingModal } from '../common/CabBookingModal';
 import { getTelLink, getWhatsAppLink } from '@/lib/utils';
 
 export const HomeHeroInteractive: React.FC = () => {
@@ -526,11 +527,10 @@ export const HomeHeroInteractive: React.FC = () => {
         </div>
       </section>
 
-      {/* Free Site Visit Modal */}
-      <EnquiryModal
+      {/* Free Chauffeured AC Cab Site Visit Modal */}
+      <CabBookingModal
         isOpen={isSiteVisitModalOpen}
         onClose={() => setIsSiteVisitModalOpen(false)}
-        source="WEBSITE_FORM"
       />
 
       {/* Sell / Promote Property Modal */}

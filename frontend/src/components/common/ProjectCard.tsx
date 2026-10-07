@@ -19,7 +19,7 @@ import {
 } from 'lucide-react';
 import { Project } from '@/types';
 import { WhatsAppButton } from './WhatsAppButton';
-import { EnquiryModal } from './EnquiryModal';
+import { CabBookingModal } from './CabBookingModal';
 
 interface ProjectCardProps {
   project: Project;
@@ -232,13 +232,13 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
         </div>
       </div>
 
-      {/* Book Site Visit Modal */}
-      <EnquiryModal
+      {/* Book Free Chauffeured AC Cab Site Visit Modal */}
+      <CabBookingModal
         isOpen={isSiteVisitOpen}
         onClose={() => setIsSiteVisitOpen(false)}
         projectId={project.id}
         projectName={project.name}
-        source="WEBSITE_FORM"
+        location={project.location}
       />
     </>
   );

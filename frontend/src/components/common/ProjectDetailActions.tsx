@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { Download, Car, MessageCircle, Phone } from 'lucide-react';
 import { BrochureModal } from './BrochureModal';
-import { EnquiryModal } from './EnquiryModal';
+import { CabBookingModal } from './CabBookingModal';
 import { WhatsAppButton } from './WhatsAppButton';
 import { getTelLink } from '@/lib/utils';
 
@@ -69,12 +69,12 @@ export const ProjectDetailActions: React.FC<ProjectDetailActionsProps> = ({
       />
 
       {/* Free AC Cab Visit Modal */}
-      <EnquiryModal
+      <CabBookingModal
         isOpen={isCabVisitOpen}
         onClose={() => setIsCabVisitOpen(false)}
         projectId={projectId}
         projectName={projectName}
-        source="PROJECT_PAGE"
+        location={location}
       />
     </>
   );
