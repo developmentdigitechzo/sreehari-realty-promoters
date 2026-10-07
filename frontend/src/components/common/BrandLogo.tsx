@@ -8,52 +8,68 @@ interface LotusIconProps {
 
 export const LotusIcon: React.FC<LotusIconProps> = ({ className = '', size = 'md' }) => {
   const iconSizes = {
-    sm: 'w-7 h-7',
-    md: 'w-10 h-10',
-    lg: 'w-14 h-14',
-    xl: 'w-20 h-20',
+    sm: 'w-8 h-8',
+    md: 'w-11 h-11',
+    lg: 'w-16 h-16',
+    xl: 'w-24 h-24',
   };
 
   return (
-    <div className={`relative flex items-center justify-center ${iconSizes[size]} ${className}`}>
-      <svg viewBox="0 0 100 90" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full drop-shadow-sm">
-        {/* Center Lotus Petal */}
+    <div className={`relative flex items-center justify-center shrink-0 ${iconSizes[size]} ${className}`}>
+      {/* Official Sree Hari Realty Lotus Crest matching PDF Asset */}
+      <svg
+        viewBox="0 0 120 100"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        className="w-full h-full filter drop-shadow-sm select-none"
+      >
+        {/* Center Main Lotus Petal (Vibrant Magenta #D4145A / #D81B60) */}
         <path
-          d="M50 5 C50 5 62 25 60 55 C55 70 50 78 50 78 C50 78 45 70 40 55 C38 25 50 5 50 5Z"
-          fill="#108474"
+          d="M60 4 C60 4 75 22 72 56 C68 71 60 78 60 78 C60 78 52 71 48 56 C45 22 60 4 60 4Z"
+          fill="#D81B60"
         />
-        {/* Left Petal */}
+
+        {/* Inner Left Petal */}
         <path
-          d="M50 35 C42 20 22 25 18 45 C15 60 30 72 45 76 C46 65 48 50 50 35Z"
-          fill="#149b88"
+          d="M60 38 C49 20 28 26 24 46 C20 62 38 73 54 77 C55 66 57 52 60 38Z"
+          fill="#E91E63"
         />
-        {/* Right Petal */}
+
+        {/* Inner Right Petal */}
         <path
-          d="M50 35 C58 20 78 25 82 45 C85 60 70 72 55 76 C54 65 52 50 50 35Z"
-          fill="#149b88"
+          d="M60 38 C71 20 92 26 96 46 C100 62 82 73 66 77 C65 66 63 52 60 38Z"
+          fill="#E91E63"
         />
-        {/* Outer Left Petal */}
+
+        {/* Outer Left Low Petal */}
         <path
-          d="M38 52 C20 46 8 58 12 72 C16 80 32 82 42 78 C40 70 38 60 38 52Z"
-          fill="#2dd4bf"
+          d="M44 54 C22 47 6 60 12 74 C17 83 36 84 48 80 C46 72 44 63 44 54Z"
+          fill="#D81B60"
         />
-        {/* Outer Right Petal */}
+
+        {/* Outer Right Low Petal */}
         <path
-          d="M62 52 C80 46 92 58 88 72 C84 80 68 82 58 78 C60 70 62 60 62 52Z"
-          fill="#2dd4bf"
+          d="M76 54 C98 47 114 60 108 74 C103 83 84 84 72 80 C74 72 76 63 76 54Z"
+          fill="#D81B60"
         />
-        {/* Base Green / Accessory Leaves */}
+
+        {/* Base Curving Fresh Green Leaves (#6BB324 / #5CB826) */}
         <path
-          d="M10 75 C25 85 45 82 50 78 C55 82 75 85 90 75 C80 88 58 89 50 85 C42 89 20 88 10 75Z"
-          fill="#0c6a5d"
+          d="M8 73 C26 86 52 83 60 78 C68 83 94 86 112 73 C98 90 70 91 60 86 C50 91 22 90 8 73Z"
+          fill="#6BB324"
         />
-        {/* Inner S-Monogram Stylized Accent */}
+
+        {/* Stylized White "S" Calligraphic Monogram in Central Petal */}
         <path
-          d="M50 24 C46 24 43 27 43 30 C43 35 55 37 55 44 C55 49 50 52 46 51"
-          stroke="#ffffff"
-          strokeWidth="3.5"
+          d="M60 18 C54 18 49 22 49 27 C49 34 66 38 66 48 C66 56 58 61 50 59 C46 58 43 55 42 51 M58 48 C58 44 50 40 50 33 C50 28 55 25 60 25 C63 25 65 26 66 28"
+          stroke="#FFFFFF"
+          strokeWidth="3.2"
           strokeLinecap="round"
+          strokeLinejoin="round"
+          fill="none"
         />
+        <circle cx="61" cy="18" r="2.2" fill="#FFFFFF" />
+        <circle cx="43" cy="51" r="2.2" fill="#FFFFFF" />
       </svg>
     </div>
   );
@@ -72,16 +88,16 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
   size = 'md',
   iconOnly = false,
 }) => {
-  const textSizes = {
-    sm: 'text-base font-bold tracking-tight',
-    md: 'text-xl font-extrabold tracking-tight',
-    lg: 'text-2xl font-black tracking-tight',
+  const titleSizes = {
+    sm: 'text-base font-black tracking-tight',
+    md: 'text-xl font-black tracking-tight',
+    lg: 'text-2xl sm:text-3xl font-black tracking-tight',
   };
 
   const subTextSizes = {
-    sm: 'text-[9px] tracking-wider',
-    md: 'text-[11px] tracking-widest',
-    lg: 'text-xs tracking-widest',
+    sm: 'text-[9px] tracking-widest font-black',
+    md: 'text-[11px] tracking-widest font-black',
+    lg: 'text-xs tracking-widest font-black',
   };
 
   if (iconOnly) {
@@ -89,22 +105,25 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
   }
 
   return (
-    <Link href="/" className={`inline-flex items-center gap-3 transition-opacity hover:opacity-95 ${className}`}>
-      {/* Brand Lotus Vector Icon */}
+    <Link
+      href="/"
+      className={`inline-flex items-center gap-2.5 sm:gap-3 transition-opacity hover:opacity-95 group ${className}`}
+    >
+      {/* Official Sree Hari Realty Logo Lotus Crest */}
       <LotusIcon size={size} />
 
-      {/* Brand Text */}
-      <div className="flex flex-col">
+      {/* Official Logo Typography Matching PDF Image (SREE HARI in Bold Red, REALTY PROMOTERS in Bold Red) */}
+      <div className="flex flex-col justify-center select-none">
         <span
-          className={`${textSizes[size]} leading-none ${
-            isLight ? 'text-white' : 'text-slate-900'
-          } font-heading uppercase`}
+          className={`${titleSizes[size]} font-heading uppercase leading-none ${
+            isLight ? 'text-white' : 'text-[#E52E3D]'
+          } drop-shadow-sm`}
         >
           Sree Hari
         </span>
         <span
-          className={`${subTextSizes[size]} font-semibold leading-tight mt-0.5 uppercase ${
-            isLight ? 'text-emerald-300' : 'text-[#108474] font-bold'
+          className={`${subTextSizes[size]} uppercase leading-tight mt-0.5 ${
+            isLight ? 'text-emerald-300' : 'text-[#E52E3D]'
           }`}
         >
           Realty Promoters
