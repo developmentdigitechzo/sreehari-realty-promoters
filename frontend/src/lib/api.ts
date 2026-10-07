@@ -79,14 +79,23 @@ export const api = {
   },
 
   // Projects
-  getProjects: (params: { status?: string; featured?: boolean; search?: string; admin?: boolean } = {}) => {
-    const query = new URLSearchParams();
-    if (params.status) query.set('status', params.status);
-    if (params.featured) query.set('featured', 'true');
-    if (params.search) query.set('search', params.search);
-    if (params.admin) query.set('admin', 'true');
-    return request<Project[]>(`/projects?${query.toString()}`);
-  },
+ getProjects: (params?: {
+  status?: string;
+  featured?: boolean;
+  search?: string;
+  admin?: boolean;
+  limit?: number;
+}) => {
+  const query = new URLSearchParams();
+
+  if (params?.status) query.set('status', params.status);
+  if (params?.featured) query.set('featured', 'true');
+  if (params?.search) query.set('search', params.search);
+  if (params?.admin) query.set('admin', 'true');
+  if (params?.limit) query.set('limit', params.limit.toString());
+
+  return request<Project[]>(`/projects?${query.toString()}`);
+},
   getProjectBySlug: (slug: string) => request<Project>(`/projects/${slug}`),
   createProject: (data: Partial<Project>) =>
     request<Project>('/projects', {

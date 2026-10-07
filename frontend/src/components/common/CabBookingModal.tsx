@@ -85,7 +85,7 @@ export const CabBookingModal: React.FC<CabBookingModalProps> = ({
       }
     }
 
-    api.getProjects({ limit: 10 }).then((res) => {
+    api.getProjects({}).then((res) => {
       if (res.success && res.data && res.data.length > 0) {
         const dbList = res.data.map((p) => ({
           id: p.id,
