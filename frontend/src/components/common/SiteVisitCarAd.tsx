@@ -46,74 +46,19 @@ export const SiteVisitCarAd: React.FC<SiteVisitCarAdProps> = ({ className = '' }
             onClick={() => setIsModalOpen(true)}
             className="inline-flex items-center gap-4 animate-drive-car will-change-transform group-hover:[animation-play-state:paused]"
           >
-            {/* The Exact Mint-Cyan Luxury SUV Graphic (Facing Left with Light Beam) */}
+            {/* The Photorealistic Mint-Cyan Luxury SUV Graphic (Facing Left with Light Beam) */}
             <div className="relative flex items-center shrink-0">
-              {/* Headlight Beam Illuminating Forward to the Left */}
-              <div className="w-28 sm:w-36 h-7 bg-gradient-to-l from-cyan-100/95 via-sky-300/40 to-transparent blur-[4px] absolute -left-24 sm:-left-32 rounded-full pointer-events-none" />
+              {/* Volumetric LED Light Beam Illuminating Forward to the Left */}
+              <div className="w-32 sm:w-44 h-8 bg-gradient-to-l from-white/95 via-cyan-200/50 to-transparent blur-[3px] absolute -left-28 sm:-left-40 rounded-full pointer-events-none" />
 
-              {/* Mint-Cyan Luxury SUV Vector (Exact Match to User Reference) */}
-              <div className="relative flex items-center justify-center filter drop-shadow-[0_4px_8px_rgba(0,0,0,0.45)] transition-transform duration-300 group-hover:scale-105">
-                <svg
-                  className="w-20 h-7 sm:w-24 sm:h-8"
-                  viewBox="0 0 110 38"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  {/* Car Main Metallic Body (Mint Cyan #2DD4BF / #3DE4B6) */}
-                  <path
-                    d="M10 25L20 14C23 11 27 9 33 9H78C84 9 88 11 91 14.5L99 22C102 23 103 24.5 103 27V29H6V27C6 25 8 25 10 25Z"
-                    fill="#3DE4B6"
-                  />
-
-                  {/* Lower Gloss Black Skirt */}
-                  <path
-                    d="M6 28H103V30.5C103 31.5 102 32 100 32H8C7 32 6 31.5 6 30.5V28Z"
-                    fill="#0F172A"
-                  />
-
-                  {/* Black Floating Contrast Roof & Pillars */}
-                  <path
-                    d="M24 14L32 9.5H78C82 9.5 85 11 87 13.5L91 19H18L24 14Z"
-                    fill="#38BDF8"
-                    fillOpacity="0.85"
-                  />
-
-                  {/* Roof Top Bar */}
-                  <path
-                    d="M30 9H80C82 9 84 9.5 85 10.5L88 12H25L28 10C29 9.5 29.5 9 30 9Z"
-                    fill="#0F172A"
-                  />
-
-                  {/* Window Trim Pillars */}
-                  <line x1="52" y1="9.5" x2="52" y2="19" stroke="#0F172A" strokeWidth="2" />
-                  <line x1="72" y1="9.5" x2="74" y2="19" stroke="#0F172A" strokeWidth="1.8" />
-
-                  {/* Side Body Crease Highlight Line */}
-                  <path
-                    d="M28 23H78"
-                    stroke="#A7F3D0"
-                    strokeWidth="1.2"
-                  />
-
-                  {/* Projector LED Headlight on the LEFT */}
-                  <path d="M7 23.5L14 23L13 26.5L7 26V23.5Z" fill="#FFFFFF" />
-                  <circle cx="9" cy="24.5" r="2" fill="#E0F2FE" />
-
-                  {/* LED Taillight on the RIGHT */}
-                  <path d="M100 23.5L103 24V26.5L100 26V23.5Z" fill="#EF4444" />
-
-                  {/* Front Alloy Wheel with Sport Caliper */}
-                  <circle cx="23" cy="29" r="6.5" fill="#0A0A0A" />
-                  <circle cx="23" cy="29" r="4.5" fill="#CBD5E1" />
-                  <circle cx="23" cy="29" r="2.2" fill="#3DE4B6" />
-                  <circle cx="21" cy="28" r="1" fill="#EF4444" />
-
-                  {/* Rear Alloy Wheel with Sport Caliper */}
-                  <circle cx="83" cy="29" r="6.5" fill="#0A0A0A" />
-                  <circle cx="83" cy="29" r="4.5" fill="#CBD5E1" />
-                  <circle cx="83" cy="29" r="2.2" fill="#3DE4B6" />
-                  <circle cx="81" cy="28" r="1" fill="#EF4444" />
-                </svg>
+              {/* Real Photorealistic Luxury SUV Cutout Image */}
+              <div className="relative flex items-center justify-center filter drop-shadow-[0_4px_10px_rgba(0,0,0,0.5)] transition-transform duration-300 group-hover:scale-105">
+                <img
+                  src="/images/real-luxury-cab.png"
+                  alt="Real Luxury Site Visit AC Cab"
+                  className="h-8 sm:h-9 w-auto object-contain select-none pointer-events-none"
+                  draggable={false}
+                />
               </div>
             </div>
 
