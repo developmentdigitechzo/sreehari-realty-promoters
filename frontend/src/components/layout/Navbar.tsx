@@ -23,6 +23,7 @@ import { BrandLogo } from '../common/BrandLogo';
 import { getTelLink, getWhatsAppLink } from '@/lib/utils';
 import { EnquiryModal } from '../common/EnquiryModal';
 import { CabBookingModal } from '../common/CabBookingModal';
+import { SiteVisitCarAd } from '../common/SiteVisitCarAd';
 
 export const Navbar: React.FC = () => {
   const pathname = usePathname();
@@ -85,6 +86,9 @@ export const Navbar: React.FC = () => {
             </div>
           </div>
         </div>
+
+        {/* Site Visit Car Animated Ad Ribbon */}
+        <SiteVisitCarAd />
 
         {/* Main Navbar */}
         <nav
