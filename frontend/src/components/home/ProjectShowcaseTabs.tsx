@@ -31,8 +31,8 @@ export const ProjectShowcaseTabs: React.FC<ProjectShowcaseTabsProps> = ({ initia
         {/* Section Heading & Filter Tabs */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-5 mb-8 sm:mb-10">
           <div>
-            <div className="inline-flex items-center gap-1.5 text-xs font-bold text-brand-primary uppercase tracking-wider mb-2">
-              <Compass className="w-4 h-4" />
+            <div className="inline-flex items-center gap-1.5 text-xs font-bold text-[#108474] uppercase tracking-wider mb-2">
+              <Compass className="w-4 h-4 text-[#108474]" />
               <span>Verified Gated Communities</span>
             </div>
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black font-heading text-slate-900 tracking-tight">
@@ -51,7 +51,7 @@ export const ProjectShowcaseTabs: React.FC<ProjectShowcaseTabsProps> = ({ initia
                 onClick={() => setActiveTab(tab.value)}
                 className={`px-3.5 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all ${
                   activeTab === tab.value
-                    ? 'bg-white text-slate-950 shadow-md scale-100'
+                    ? 'bg-[#108474] text-white shadow-md scale-100'
                     : 'text-slate-600 hover:text-slate-900'
                 }`}
               >
@@ -76,7 +76,7 @@ export const ProjectShowcaseTabs: React.FC<ProjectShowcaseTabsProps> = ({ initia
         {/* Mobile Swipe Guidance */}
         <div className="md:hidden flex items-center justify-between mt-3 px-1 text-xs text-slate-500 font-semibold">
           <span>👈 Swipe cards horizontally 👉</span>
-          <Link href="/projects" className="text-brand-primary font-bold inline-flex items-center gap-0.5">
+          <Link href="/projects" className="text-[#108474] font-bold inline-flex items-center gap-0.5">
             <span>View All</span>
             <ChevronRight className="w-3.5 h-3.5" />
           </Link>
@@ -86,7 +86,7 @@ export const ProjectShowcaseTabs: React.FC<ProjectShowcaseTabsProps> = ({ initia
         <div className="text-center mt-10 sm:mt-12">
           <Link
             href="/projects"
-            className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-slate-950 hover:bg-brand-primary text-white font-bold text-xs sm:text-sm transition-all shadow-md group active:scale-95"
+            className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-[#108474] hover:bg-[#0c6a5d] text-white font-bold text-xs sm:text-sm transition-all shadow-md shadow-[#108474]/25 group active:scale-95"
           >
             <span>Explore All Layouts & Plots</span>
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />

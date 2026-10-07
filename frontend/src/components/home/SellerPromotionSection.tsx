@@ -55,8 +55,8 @@ export const SellerPromotionSection: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="max-w-3xl mx-auto text-center space-y-4 mb-12">
             {/* Eyebrow */}
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-100 border border-amber-300 text-amber-900 text-xs font-black uppercase tracking-widest">
-              <Sparkles className="w-3.5 h-3.5 text-amber-700" />
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#f0fdfa] border border-[#108474]/30 text-[#108474] text-xs font-black uppercase tracking-widest">
+              <Sparkles className="w-3.5 h-3.5 text-[#108474]" />
               <span>SELL YOUR LAND & PROPERTY WITH ZERO BROKERAGE</span>
             </div>
 
@@ -65,7 +65,7 @@ export const SellerPromotionSection: React.FC = () => {
               Sell Your Property Faster to Genuine Buyers
             </h2>
 
-            <p className="text-sm sm:text-base text-brand-primary font-black">
+            <p className="text-sm sm:text-base text-[#108474] font-black">
               List for Free & Connect with Thousands of Active Plot Seekers & NRIs
             </p>
 
@@ -79,9 +79,9 @@ export const SellerPromotionSection: React.FC = () => {
             {stats.map((s, idx) => (
               <div
                 key={idx}
-                className="bg-white p-4 sm:p-5 rounded-3xl border border-amber-900/10 shadow-sm text-center"
+                className="bg-white p-4 sm:p-5 rounded-3xl border border-[#108474]/15 shadow-sm text-center"
               >
-                <div className="text-2xl sm:text-3xl font-black font-heading text-brand-primary">
+                <div className="text-2xl sm:text-3xl font-black font-heading text-[#108474]">
                   {s.value}
                 </div>
                 <div className="text-xs font-bold text-slate-600 mt-1 uppercase tracking-wider">
@@ -98,9 +98,9 @@ export const SellerPromotionSection: React.FC = () => {
               return (
                 <div
                   key={idx}
-                  className="bg-white p-6 rounded-3xl border border-amber-900/10 shadow-sm hover:shadow-md transition-shadow space-y-3"
+                  className="bg-white p-6 rounded-3xl border border-slate-200/90 hover:border-[#108474]/40 shadow-sm hover:shadow-md transition-all space-y-3"
                 >
-                  <div className="w-12 h-12 rounded-2xl bg-amber-50 text-amber-800 flex items-center justify-center font-bold">
+                  <div className="w-12 h-12 rounded-2xl bg-[#f0fdfa] text-[#108474] flex items-center justify-center font-bold border border-[#108474]/20">
                     <Icon className="w-6 h-6" />
                   </div>
                   <h3 className="text-base font-black text-slate-900">{b.title}</h3>
@@ -111,7 +111,7 @@ export const SellerPromotionSection: React.FC = () => {
           </div>
 
           {/* Action Callout Box */}
-          <div className="bg-gradient-to-br from-[#1C1917] to-slate-950 text-white rounded-3xl p-6 sm:p-10 border border-amber-900/20 shadow-2xl flex flex-col sm:flex-row items-center justify-between gap-6">
+          <div className="bg-gradient-to-br from-[#071c19] via-[#0a2622] to-[#071c19] text-white rounded-3xl p-6 sm:p-10 border border-[#108474]/30 shadow-2xl flex flex-col sm:flex-row items-center justify-between gap-6">
             <div className="space-y-2 text-center sm:text-left">
               <h3 className="text-xl sm:text-2xl font-black font-heading text-white">
                 Ready to Sell Your Property in 15 Days?
@@ -125,9 +125,9 @@ export const SellerPromotionSection: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setIsSellModalOpen(true)}
-                className="w-full sm:w-auto px-6 py-3.5 rounded-2xl bg-brand-primary hover:bg-brand-primaryDark text-white font-black text-xs sm:text-sm flex items-center justify-center gap-2 shadow-lg shadow-brand-primary/30 transition-all active:scale-95"
+                className="w-full sm:w-auto px-6 py-3.5 rounded-2xl bg-[#108474] hover:bg-[#0c6a5d] text-white font-black text-xs sm:text-sm flex items-center justify-center gap-2 shadow-lg shadow-[#108474]/30 transition-all active:scale-95 cursor-pointer"
               >
-                <PlusCircle className="w-4 h-4" />
+                <PlusCircle className="w-4 h-4 text-[#e52e3d]" />
                 <span>List Property Free</span>
               </button>
 

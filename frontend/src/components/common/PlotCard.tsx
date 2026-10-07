@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useState } from 'react';
-import { Compass, Maximize2, Tag } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Compass, Maximize2, Tag, Heart } from 'lucide-react';
 import { Property } from '@/types';
 import { WhatsAppButton } from './WhatsAppButton';
 import { EnquiryModal } from './EnquiryModal';
@@ -13,11 +13,42 @@ interface PlotCardProps {
 
 export const PlotCard: React.FC<PlotCardProps> = ({ plot, projectName }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isLiked, setIsLiked] = useState(false);
+
+  useEffect(() => {
+    try {
+      const savedLikes = JSON.parse(localStorage.getItem('user_liked_plots') || '[]');
+      if (savedLikes.includes(plot.id)) {
+        setIsLiked(true);
+      }
+    } catch {
+      // ignore
+    }
+  }, [plot.id]);
+
+  const toggleLike = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const newLikedState = !isLiked;
+    setIsLiked(newLikedState);
+    try {
+      const savedLikes: string[] = JSON.parse(localStorage.getItem('user_liked_plots') || '[]');
+      if (newLikedState) {
+        if (!savedLikes.includes(plot.id)) savedLikes.push(plot.id);
+      } else {
+        const idx = savedLikes.indexOf(plot.id);
+        if (idx !== -1) savedLikes.splice(idx, 1);
+      }
+      localStorage.setItem('user_liked_plots', JSON.stringify(savedLikes));
+    } catch {
+      // ignore
+    }
+  };
 
   const statusBadge = {
-    AVAILABLE: 'bg-emerald-100 text-emerald-800 border-emerald-300',
-    BOOKED: 'bg-amber-100 text-amber-800 border-amber-300',
-    SOLD: 'bg-rose-100 text-rose-800 border-rose-300',
+    AVAILABLE: 'bg-emerald-50 text-[#108474] border-emerald-300',
+    BOOKED: 'bg-amber-50 text-amber-800 border-amber-300',
+    SOLD: 'bg-rose-50 text-rose-800 border-rose-300',
   };
 
   const statusLabel = {
@@ -30,36 +61,53 @@ export const PlotCard: React.FC<PlotCardProps> = ({ plot, projectName }) => {
 
   return (
     <>
-      <div className="bg-white rounded-xl border border-slate-200 p-4 shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
+      <div className="bg-white rounded-2xl border border-slate-200/90 hover:border-[#108474]/50 p-4 shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
         <div>
           {/* Header Row */}
           <div className="flex items-center justify-between mb-2">
-            <span className="text-xs font-black text-slate-800 font-heading bg-slate-100 px-2 py-0.5 rounded">
+            <span className="text-xs font-black text-[#108474] font-heading bg-[#f0fdfa] border border-[#108474]/20 px-2.5 py-0.5 rounded-lg">
               Plot #{plot.plot_number || plot.title.slice(0, 10)}
             </span>
-            <span
-              className={`text-[11px] font-bold px-2 py-0.5 rounded-full border ${
-                statusBadge[plot.status] || 'bg-slate-100 text-slate-700'
-              }`}
-            >
-              {statusLabel[plot.status] || plot.status}
-            </span>
+            <div className="flex items-center gap-1.5">
+              <span
+                className={`text-[11px] font-bold px-2 py-0.5 rounded-full border ${
+                  statusBadge[plot.status] || 'bg-slate-100 text-slate-700'
+                }`}
+              >
+                {statusLabel[plot.status] || plot.status}
+              </span>
+
+              {/* Heart / Like Button Accessory (#e52e3d) */}
+              <button
+                type="button"
+                onClick={toggleLike}
+                className={`p-1.5 rounded-full transition-all active:scale-75 ${
+                  isLiked
+                    ? 'text-[#e52e3d] bg-rose-50 ring-1 ring-[#e52e3d]/30'
+                    : 'text-slate-400 hover:text-[#e52e3d] hover:bg-rose-50/50'
+                }`}
+                title={isLiked ? 'Remove from favorites' : 'Like plot'}
+                aria-label="Like plot"
+              >
+                <Heart className={`w-3.5 h-3.5 ${isLiked ? 'fill-[#e52e3d]' : ''}`} />
+              </button>
+            </div>
           </div>
 
-          <h4 className="font-bold text-slate-900 text-sm mb-2 line-clamp-1">{plot.title}</h4>
+          <h4 className="font-bold text-slate-900 text-sm mb-2 line-clamp-1 hover:text-[#108474] transition-colors">{plot.title}</h4>
 
           {/* Specs List */}
-          <div className="space-y-1.5 text-xs text-slate-600 mb-3 bg-slate-50 p-2.5 rounded-lg">
+          <div className="space-y-1.5 text-xs text-slate-600 mb-3 bg-[#f0fdfa]/50 p-2.5 rounded-xl border border-slate-100">
             <div className="flex items-center justify-between">
               <span className="flex items-center gap-1 text-slate-400">
-                <Maximize2 className="w-3.5 h-3.5 text-slate-500" /> Area:
+                <Maximize2 className="w-3.5 h-3.5 text-[#108474]" /> Area:
               </span>
               <span className="font-bold text-slate-800">{plot.area_sqft} Sq.Ft</span>
             </div>
             {plot.dimensions && (
               <div className="flex items-center justify-between">
                 <span className="flex items-center gap-1 text-slate-400">
-                  <Tag className="w-3.5 h-3.5 text-slate-500" /> Dimensions:
+                  <Tag className="w-3.5 h-3.5 text-[#108474]" /> Dimensions:
                 </span>
                 <span className="font-semibold text-slate-700">{plot.dimensions}</span>
               </div>
@@ -67,7 +115,7 @@ export const PlotCard: React.FC<PlotCardProps> = ({ plot, projectName }) => {
             {plot.facing && (
               <div className="flex items-center justify-between">
                 <span className="flex items-center gap-1 text-slate-400">
-                  <Compass className="w-3.5 h-3.5 text-slate-500" /> Facing:
+                  <Compass className="w-3.5 h-3.5 text-[#108474]" /> Facing:
                 </span>
                 <span className="font-semibold text-slate-700">{plot.facing}</span>
               </div>
@@ -79,7 +127,7 @@ export const PlotCard: React.FC<PlotCardProps> = ({ plot, projectName }) => {
         <div className="pt-2 border-t border-slate-100">
           <div className="mb-2.5">
             <div className="text-[10px] uppercase font-bold text-slate-400">Investment</div>
-            <div className="text-base font-black text-brand-primary font-heading">
+            <div className="text-base font-black text-[#108474] font-heading">
               {plot.price_display || `₹${(plot.price / 100000).toFixed(2)} Lakhs`}
             </div>
           </div>
@@ -88,7 +136,7 @@ export const PlotCard: React.FC<PlotCardProps> = ({ plot, projectName }) => {
             <button
               onClick={() => setIsModalOpen(true)}
               disabled={plot.status === 'SOLD'}
-              className="flex-1 py-2 px-3 bg-brand-primary hover:bg-brand-primaryDark disabled:bg-slate-300 text-white rounded-lg text-xs font-bold transition-colors text-center"
+              className="flex-1 py-2 px-3 bg-[#108474] hover:bg-[#0c6a5d] disabled:bg-slate-300 text-white rounded-xl text-xs font-bold transition-all text-center active:scale-95 shadow-sm"
             >
               {plot.status === 'SOLD' ? 'Sold Out' : 'Book Site Visit'}
             </button>

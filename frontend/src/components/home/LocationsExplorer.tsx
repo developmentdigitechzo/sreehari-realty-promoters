@@ -42,8 +42,8 @@ export const LocationsExplorer: React.FC = () => {
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-12">
           <div>
-            <div className="inline-flex items-center gap-1.5 text-xs font-bold text-brand-primary uppercase tracking-wider mb-2">
-              <TrendingUp className="w-4 h-4" />
+            <div className="inline-flex items-center gap-1.5 text-xs font-bold text-[#108474] uppercase tracking-wider mb-2">
+              <TrendingUp className="w-4 h-4 text-[#108474]" />
               <span>Strategic Growth Corridors</span>
             </div>
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold font-heading text-slate-900">
@@ -57,7 +57,7 @@ export const LocationsExplorer: React.FC = () => {
 
           <Link
             href="/projects"
-            className="mt-4 md:mt-0 inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-brand-primary hover:text-brand-primaryDark transition-colors group"
+            className="mt-4 md:mt-0 inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-[#108474] hover:text-[#0c6a5d] transition-colors group"
           >
             <span>Browse All Corridors</span>
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -76,7 +76,7 @@ export const LocationsExplorer: React.FC = () => {
             return (
               <div
                 key={idx}
-                className="group bg-white rounded-3xl border border-slate-200/80 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between"
+                className="group bg-white rounded-3xl border border-slate-200/80 hover:border-[#108474]/40 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between"
               >
                 {/* Image & Status Tag */}
                 <div className="relative aspect-[16/10] overflow-hidden bg-slate-100">
@@ -89,13 +89,13 @@ export const LocationsExplorer: React.FC = () => {
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-black/20" />
 
                   <div className="absolute top-4 left-4">
-                    <span className="px-3 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-wider bg-white/90 backdrop-blur-md text-slate-900 shadow-md">
+                    <span className="px-3 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-wider bg-white/90 backdrop-blur-md text-[#108474] shadow-md border border-[#108474]/20">
                       {loc.status}
                     </span>
                   </div>
 
                   <div className="absolute bottom-3 left-4 right-4 text-white">
-                    <span className="text-[11px] font-semibold text-amber-300 drop-shadow">
+                    <span className="text-[11px] font-semibold text-emerald-300 drop-shadow">
                       {loc.tagline}
                     </span>
                     <h3 className="text-lg font-bold font-heading text-white drop-shadow-md leading-tight">
@@ -111,7 +111,7 @@ export const LocationsExplorer: React.FC = () => {
                     <ul className="space-y-1.5 text-xs text-slate-600">
                       {loc.highlights.map((hl, hIdx) => (
                         <li key={hIdx} className="flex items-center gap-2">
-                          <span className="w-1.5 h-1.5 rounded-full bg-brand-primary flex-shrink-0" />
+                          <span className="w-1.5 h-1.5 rounded-full bg-[#108474] flex-shrink-0" />
                           <span>{hl}</span>
                         </li>
                       ))}
@@ -121,14 +121,14 @@ export const LocationsExplorer: React.FC = () => {
                   <div className="pt-4 border-t border-slate-100 flex items-center justify-between">
                     <div>
                       <div className="text-[10px] uppercase font-bold text-slate-400">Starting From</div>
-                      <div className="text-base font-black text-brand-primary font-heading">{loc.price}</div>
+                      <div className="text-base font-black text-[#108474] font-heading">{loc.price}</div>
                     </div>
 
                     <a
                       href={waLink}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-900 hover:bg-brand-primary text-white text-xs font-bold transition-colors"
+                      className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[#108474] hover:bg-[#0c6a5d] text-white text-xs font-bold transition-all shadow-md shadow-[#108474]/20 active:scale-95"
                     >
                       <span>Get Details</span>
                       <ArrowRight className="w-3.5 h-3.5" />

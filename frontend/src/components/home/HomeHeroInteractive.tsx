@@ -128,41 +128,41 @@ export const HomeHeroInteractive: React.FC = () => {
         </div>
 
         {/* Gradient Overlay for Ultra-Legibility */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#120B05]/85 via-[#1C1917]/90 to-[#120B05] z-0" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#063730]/90 via-[#0a2622]/95 to-[#063730] z-0" />
 
         {/* 2. Floating Ambient Animated Luminous Glow Orbs */}
-        <div className="absolute top-8 left-1/4 w-72 sm:w-96 h-72 sm:h-96 bg-amber-600/20 rounded-full blur-[120px] pointer-events-none animate-float-orb-1" />
-        <div className="absolute bottom-10 right-1/4 w-72 sm:w-96 h-72 sm:h-96 bg-brand-primary/20 rounded-full blur-[120px] pointer-events-none animate-float-orb-2" />
-        <div className="absolute top-1/2 right-10 w-48 h-48 bg-emerald-500/15 rounded-full blur-[100px] pointer-events-none animate-float-slow" />
+        <div className="absolute top-8 left-1/4 w-72 sm:w-96 h-72 sm:h-96 bg-[#108474]/25 rounded-full blur-[120px] pointer-events-none animate-float-orb-1" />
+        <div className="absolute bottom-10 right-1/4 w-72 sm:w-96 h-72 sm:h-96 bg-[#108474]/20 rounded-full blur-[120px] pointer-events-none animate-float-orb-2" />
+        <div className="absolute top-1/2 right-10 w-48 h-48 bg-[#e52e3d]/15 rounded-full blur-[100px] pointer-events-none animate-float-slow" />
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Live Activity Animated Ticker Pill */}
+          {/* Live Activity Animated Ticker Pill with #108474 theme & #e52e3d accessory flame */}
           <div className="flex justify-center mb-4 sm:mb-6">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-[11px] font-semibold text-slate-200 animate-float-slow shadow-lg">
               <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#108474] opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#108474]"></span>
               </span>
               <span>14 Gated Plots Booked This Week in Tambaram & Guduvanchery</span>
-              <Flame className="w-3.5 h-3.5 text-amber-400 animate-bounce" />
+              <Flame className="w-3.5 h-3.5 text-[#e52e3d] animate-bounce" />
             </div>
           </div>
 
           {/* 3. Hero Text Header */}
           <div className="text-center max-w-3xl mx-auto space-y-4 mb-8 sm:mb-12">
             {/* Shimmering Eyebrow Pill */}
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-500/15 border border-amber-500/35 text-amber-300 text-[10px] sm:text-xs font-black uppercase tracking-widest backdrop-blur-md shadow-md relative overflow-hidden group">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#108474]/20 border border-[#108474]/40 text-emerald-300 text-[10px] sm:text-xs font-black uppercase tracking-widest backdrop-blur-md shadow-md relative overflow-hidden group">
               <div className="absolute inset-0 animate-shimmer-sweep pointer-events-none" />
-              <Sparkles className="w-3.5 h-3.5 text-amber-400 animate-spin" style={{ animationDuration: '8s' }} />
+              <Sparkles className="w-3.5 h-3.5 text-emerald-300 animate-spin" style={{ animationDuration: '8s' }} />
               <span>SREE HARI REALTY • SINCE 2009 • TAMIL NADU</span>
-              <Sparkles className="w-3.5 h-3.5 text-amber-400 animate-spin" style={{ animationDuration: '8s' }} />
+              <Sparkles className="w-3.5 h-3.5 text-emerald-300 animate-spin" style={{ animationDuration: '8s' }} />
             </div>
 
             {/* Main Headline with Dynamic Animated Text */}
             <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black font-heading text-white tracking-tight leading-[1.12]">
               Find a Property That<br />
               <span
-                className={`inline-block transition-all duration-300 transform text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-rose-300 to-amber-400 animate-text-gradient ${
+                className={`inline-block transition-all duration-300 transform text-transparent bg-clip-text bg-gradient-to-r from-emerald-200 via-teal-300 to-emerald-400 animate-text-gradient ${
                   isFading ? 'opacity-0 translate-y-2' : 'opacity-100 translate-y-0'
                 }`}
               >
@@ -178,11 +178,11 @@ export const HomeHeroInteractive: React.FC = () => {
 
           {/* 4. Floating Luxury Property Search Panel */}
           <div className="max-w-5xl mx-auto transform transition-all duration-500 hover:shadow-2xl">
-            <div className="bg-white rounded-3xl p-4 sm:p-6 sm:pb-7 shadow-2xl border border-amber-900/10 text-slate-900 relative">
+            <div className="bg-white rounded-3xl p-4 sm:p-6 sm:pb-7 shadow-2xl border border-[#108474]/20 text-slate-900 relative">
               {/* Top Bar: Eyebrow + Segmented Control Tabs */}
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 mb-4 border-b border-slate-100">
-                <div className="flex items-center gap-1.5 text-xs font-black text-amber-900 uppercase tracking-wider">
-                  <Sparkles className="w-4 h-4 text-brand-primary animate-pulse" />
+                <div className="flex items-center gap-1.5 text-xs font-black text-[#108474] uppercase tracking-wider">
+                  <Sparkles className="w-4 h-4 text-[#e52e3d] animate-pulse" />
                   <span>FIND YOUR PERFECT PROPERTY</span>
                 </div>
 
@@ -204,9 +204,9 @@ export const HomeHeroInteractive: React.FC = () => {
                         onClick={() => handleTabClick(tab.id as any)}
                         className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-black transition-all duration-200 active:scale-95 shrink-0 ${
                           isActive
-                            ? 'bg-slate-900 text-white shadow-md scale-102'
+                            ? 'bg-[#108474] text-white shadow-md scale-102'
                             : tab.isHighlight
-                            ? 'text-brand-primary hover:bg-rose-50'
+                            ? 'text-[#e52e3d] hover:bg-rose-50'
                             : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
                         }`}
                       >
@@ -224,10 +224,10 @@ export const HomeHeroInteractive: React.FC = () => {
                 <div className="md:col-span-4 relative">
                   <div
                     onClick={() => setOpenDropdown(openDropdown === 'location' ? null : 'location')}
-                    className="p-3 bg-slate-50 hover:bg-slate-100/80 border border-slate-200 rounded-2xl cursor-pointer flex items-center justify-between transition-all hover:border-amber-400"
+                    className="p-3 bg-slate-50 hover:bg-slate-100/80 border border-slate-200 rounded-2xl cursor-pointer flex items-center justify-between transition-all hover:border-[#108474]"
                   >
                     <div className="flex items-center gap-2.5">
-                      <div className="w-8 h-8 rounded-xl bg-amber-100 text-amber-800 flex items-center justify-center shrink-0">
+                      <div className="w-8 h-8 rounded-xl bg-[#f0fdfa] text-[#108474] flex items-center justify-center shrink-0 border border-[#108474]/20">
                         <MapPin className="w-4 h-4" />
                       </div>
                       <div className="text-left">
@@ -253,11 +253,11 @@ export const HomeHeroInteractive: React.FC = () => {
                             setOpenDropdown(null);
                           }}
                           className={`px-3 py-2 rounded-xl text-xs font-bold flex items-center justify-between cursor-pointer transition-colors ${
-                            location === l.value ? 'bg-amber-50 text-amber-900 font-black' : 'hover:bg-slate-50 text-slate-700'
+                            location === l.value ? 'bg-[#f0fdfa] text-[#108474] font-black' : 'hover:bg-slate-50 text-slate-700'
                           }`}
                         >
                           <span>{l.label}</span>
-                          {location === l.value && <Check className="w-4 h-4 text-amber-700" />}
+                          {location === l.value && <Check className="w-4 h-4 text-[#108474]" />}
                         </div>
                       ))}
                     </div>
@@ -268,10 +268,10 @@ export const HomeHeroInteractive: React.FC = () => {
                 <div className="md:col-span-4 relative">
                   <div
                     onClick={() => setOpenDropdown(openDropdown === 'type' ? null : 'type')}
-                    className="p-3 bg-slate-50 hover:bg-slate-100/80 border border-slate-200 rounded-2xl cursor-pointer flex items-center justify-between transition-all hover:border-brand-primaryLight"
+                    className="p-3 bg-slate-50 hover:bg-slate-100/80 border border-slate-200 rounded-2xl cursor-pointer flex items-center justify-between transition-all hover:border-[#108474]"
                   >
                     <div className="flex items-center gap-2.5">
-                      <div className="w-8 h-8 rounded-xl bg-rose-100 text-brand-primary flex items-center justify-center shrink-0">
+                      <div className="w-8 h-8 rounded-xl bg-[#f0fdfa] text-[#108474] flex items-center justify-center shrink-0 border border-[#108474]/20">
                         <Building className="w-4 h-4" />
                       </div>
                       <div className="text-left">
@@ -297,11 +297,11 @@ export const HomeHeroInteractive: React.FC = () => {
                             setOpenDropdown(null);
                           }}
                           className={`px-3 py-2 rounded-xl text-xs font-bold flex items-center justify-between cursor-pointer transition-colors ${
-                            propertyType === t.value ? 'bg-rose-50 text-brand-primary font-black' : 'hover:bg-slate-50 text-slate-700'
+                            propertyType === t.value ? 'bg-[#f0fdfa] text-[#108474] font-black' : 'hover:bg-slate-50 text-slate-700'
                           }`}
                         >
                           <span>{t.label}</span>
-                          {propertyType === t.value && <Check className="w-4 h-4 text-brand-primary" />}
+                          {propertyType === t.value && <Check className="w-4 h-4 text-[#108474]" />}
                         </div>
                       ))}
                     </div>
@@ -312,10 +312,10 @@ export const HomeHeroInteractive: React.FC = () => {
                 <div className="md:col-span-4 relative">
                   <div
                     onClick={() => setOpenDropdown(openDropdown === 'budget' ? null : 'budget')}
-                    className="p-3 bg-slate-50 hover:bg-slate-100/80 border border-slate-200 rounded-2xl cursor-pointer flex items-center justify-between transition-all hover:border-emerald-400"
+                    className="p-3 bg-slate-50 hover:bg-slate-100/80 border border-slate-200 rounded-2xl cursor-pointer flex items-center justify-between transition-all hover:border-[#108474]"
                   >
                     <div className="flex items-center gap-2.5">
-                      <div className="w-8 h-8 rounded-xl bg-emerald-100 text-emerald-800 flex items-center justify-center shrink-0">
+                      <div className="w-8 h-8 rounded-xl bg-[#f0fdfa] text-[#108474] flex items-center justify-center shrink-0 border border-[#108474]/20">
                         <TrendingUp className="w-4 h-4" />
                       </div>
                       <div className="text-left">
@@ -335,7 +335,7 @@ export const HomeHeroInteractive: React.FC = () => {
                     <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-2xl shadow-2xl border border-slate-200 p-4 z-50 animate-in fade-in slide-in-from-top-2 duration-200 space-y-3">
                       <div className="flex items-center justify-between">
                         <span className="text-xs font-bold text-slate-500 uppercase">Max Budget</span>
-                        <span className="text-xs font-black text-brand-primary">{formatBudgetDisplay(budgetVal)}</span>
+                        <span className="text-xs font-black text-[#108474]">{formatBudgetDisplay(budgetVal)}</span>
                       </div>
                       <input
                         type="range"
@@ -344,7 +344,7 @@ export const HomeHeroInteractive: React.FC = () => {
                         step="10"
                         value={budgetVal}
                         onChange={(e) => setBudgetVal(parseInt(e.target.value))}
-                        className="w-full accent-brand-primary cursor-pointer"
+                        className="w-full accent-[#108474] cursor-pointer"
                       />
                       <div className="flex justify-between text-[10px] font-bold text-slate-400">
                         <span>Any</span>
@@ -356,7 +356,7 @@ export const HomeHeroInteractive: React.FC = () => {
                       <button
                         type="button"
                         onClick={() => setOpenDropdown(null)}
-                        className="w-full py-2 rounded-xl bg-slate-900 text-white text-xs font-bold active:scale-95 transition-transform"
+                        className="w-full py-2 rounded-xl bg-[#108474] hover:bg-[#0c6a5d] text-white text-xs font-bold active:scale-95 transition-transform"
                       >
                         Apply Budget
                       </button>
@@ -371,17 +371,17 @@ export const HomeHeroInteractive: React.FC = () => {
                     <button
                       type="button"
                       onClick={() => setIsSiteVisitModalOpen(true)}
-                      className="inline-flex items-center gap-1.5 text-amber-800 hover:text-amber-900 font-bold bg-amber-50 hover:bg-amber-100/80 px-3.5 py-2 rounded-2xl border border-amber-200/80 active:scale-95 transition-all shadow-sm"
+                      className="inline-flex items-center gap-1.5 text-[#108474] hover:text-[#0c6a5d] font-bold bg-[#f0fdfa] hover:bg-[#ccfbf1] px-3.5 py-2 rounded-2xl border border-[#108474]/30 active:scale-95 transition-all shadow-sm"
                     >
-                      <Car className="w-4 h-4 text-amber-600 animate-bounce" />
+                      <Car className="w-4 h-4 text-[#108474] animate-bounce" />
                       <span>Book Free AC Cab Site Visit</span>
                     </button>
                   </div>
 
-                  {/* Pulsing Glowing Search Submit Button */}
+                  {/* Pulsing Glowing Search Submit Button with #108474 & #e52e3d accessory */}
                   <button
                     type="submit"
-                    className="w-full sm:w-auto px-8 py-3.5 rounded-2xl bg-gradient-to-r from-brand-primary to-brand-primaryDark hover:opacity-95 text-white font-black text-sm flex items-center justify-center gap-2 animate-pulse-glow transition-all active:scale-95 cursor-pointer relative overflow-hidden group"
+                    className="w-full sm:w-auto px-8 py-3.5 rounded-2xl bg-[#108474] hover:bg-[#0c6a5d] text-white font-black text-sm flex items-center justify-center gap-2 animate-pulse-glow transition-all active:scale-95 cursor-pointer relative overflow-hidden group shadow-lg shadow-[#108474]/30"
                   >
                     <div className="absolute inset-0 animate-shimmer-sweep opacity-30 pointer-events-none" />
                     <Search className="w-4 h-4 group-hover:rotate-12 transition-transform" />
@@ -395,35 +395,35 @@ export const HomeHeroInteractive: React.FC = () => {
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-6">
               <Link
                 href="/projects?type=RESIDENTIAL_PLOT"
-                className="bg-white/5 hover:bg-white/12 backdrop-blur-md border border-white/10 hover:border-amber-400/40 p-3 rounded-2xl flex items-center gap-2.5 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl active:scale-95 group"
+                className="bg-white/5 hover:bg-white/12 backdrop-blur-md border border-white/10 hover:border-[#108474]/60 p-3 rounded-2xl flex items-center gap-2.5 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl active:scale-95 group"
               >
-                <div className="w-8 h-8 rounded-xl bg-amber-500/20 text-amber-300 flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:bg-amber-400 group-hover:text-slate-950 transition-all duration-300">
+                <div className="w-8 h-8 rounded-xl bg-[#108474]/30 text-emerald-300 flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:bg-[#108474] group-hover:text-white transition-all duration-300">
                   <Home className="w-4 h-4" />
                 </div>
                 <div className="text-left">
-                  <span className="text-xs font-bold text-white block group-hover:text-amber-300 transition-colors">Villa Plots</span>
+                  <span className="text-xs font-bold text-white block group-hover:text-emerald-300 transition-colors">Villa Plots</span>
                   <span className="text-[10px] text-slate-400">DTCP Approved</span>
                 </div>
               </Link>
 
               <Link
                 href="/projects?type=COMMERCIAL_PLOT"
-                className="bg-white/5 hover:bg-white/12 backdrop-blur-md border border-white/10 hover:border-rose-400/40 p-3 rounded-2xl flex items-center gap-2.5 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl active:scale-95 group"
+                className="bg-white/5 hover:bg-white/12 backdrop-blur-md border border-white/10 hover:border-[#108474]/60 p-3 rounded-2xl flex items-center gap-2.5 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl active:scale-95 group"
               >
-                <div className="w-8 h-8 rounded-xl bg-rose-500/20 text-rose-300 flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:bg-rose-400 group-hover:text-slate-950 transition-all duration-300">
+                <div className="w-8 h-8 rounded-xl bg-[#108474]/30 text-emerald-300 flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:bg-[#108474] group-hover:text-white transition-all duration-300">
                   <Building2 className="w-4 h-4" />
                 </div>
                 <div className="text-left">
-                  <span className="text-xs font-bold text-white block group-hover:text-rose-300 transition-colors">Commercial</span>
+                  <span className="text-xs font-bold text-white block group-hover:text-emerald-300 transition-colors">Commercial</span>
                   <span className="text-[10px] text-slate-400">High Footfall</span>
                 </div>
               </Link>
 
               <Link
                 href="/projects?type=FARMLAND"
-                className="bg-white/5 hover:bg-white/12 backdrop-blur-md border border-white/10 hover:border-emerald-400/40 p-3 rounded-2xl flex items-center gap-2.5 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl active:scale-95 group"
+                className="bg-white/5 hover:bg-white/12 backdrop-blur-md border border-white/10 hover:border-[#108474]/60 p-3 rounded-2xl flex items-center gap-2.5 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl active:scale-95 group"
               >
-                <div className="w-8 h-8 rounded-xl bg-emerald-500/20 text-emerald-300 flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:bg-emerald-400 group-hover:text-slate-950 transition-all duration-300">
+                <div className="w-8 h-8 rounded-xl bg-[#108474]/30 text-emerald-300 flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:bg-[#108474] group-hover:text-white transition-all duration-300">
                   <Trees className="w-4 h-4" />
                 </div>
                 <div className="text-left">
@@ -435,14 +435,14 @@ export const HomeHeroInteractive: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setIsSellModalOpen(true)}
-                className="bg-amber-500/15 hover:bg-amber-500/25 backdrop-blur-md border border-amber-500/35 hover:border-amber-400 p-3 rounded-2xl flex items-center gap-2.5 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl active:scale-95 group text-left"
+                className="bg-[#108474]/20 hover:bg-[#108474]/30 backdrop-blur-md border border-[#108474]/50 hover:border-[#108474] p-3 rounded-2xl flex items-center gap-2.5 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl active:scale-95 group text-left"
               >
-                <div className="w-8 h-8 rounded-xl bg-amber-400 text-slate-950 flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:rotate-12 transition-all duration-300 font-bold">
+                <div className="w-8 h-8 rounded-xl bg-[#e52e3d] text-white flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:rotate-12 transition-all duration-300 font-bold shadow-md shadow-[#e52e3d]/30">
                   <PlusCircle className="w-4 h-4" />
                 </div>
                 <div>
-                  <span className="text-xs font-black text-amber-300 block">Seller Desk</span>
-                  <span className="text-[10px] text-amber-200/90">List for Free</span>
+                  <span className="text-xs font-black text-white block">Seller Desk</span>
+                  <span className="text-[10px] text-emerald-300">List for Free</span>
                 </div>
               </button>
             </div>

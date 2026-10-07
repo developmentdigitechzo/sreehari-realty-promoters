@@ -29,33 +29,33 @@ export const Footer: React.FC = () => {
 
           {/* Quick Links */}
           <div>
-            <h4 className="text-xs font-black uppercase tracking-widest text-amber-400 mb-4 font-heading">
+            <h4 className="text-xs font-black uppercase tracking-widest text-[#149b88] mb-4 font-heading">
               Quick Navigation
             </h4>
             <ul className="space-y-2.5 text-xs text-slate-400 font-medium">
               <li>
-                <Link href="/" className="hover:text-amber-400 transition-colors flex items-center gap-1.5">
-                  <ArrowRight className="w-3 h-3 text-amber-600" /> Home
+                <Link href="/" className="hover:text-emerald-300 transition-colors flex items-center gap-1.5">
+                  <ArrowRight className="w-3 h-3 text-[#108474]" /> Home
                 </Link>
               </li>
               <li>
-                <Link href="/projects" className="hover:text-amber-400 transition-colors flex items-center gap-1.5">
-                  <ArrowRight className="w-3 h-3 text-amber-600" /> Find Your Property
+                <Link href="/projects" className="hover:text-emerald-300 transition-colors flex items-center gap-1.5">
+                  <ArrowRight className="w-3 h-3 text-[#108474]" /> Find Your Property
                 </Link>
               </li>
               <li>
-                <Link href="/about" className="hover:text-amber-400 transition-colors flex items-center gap-1.5">
-                  <ArrowRight className="w-3 h-3 text-amber-600" /> Our Story & Legacy
+                <Link href="/about" className="hover:text-emerald-300 transition-colors flex items-center gap-1.5">
+                  <ArrowRight className="w-3 h-3 text-[#108474]" /> Our Story & Legacy
                 </Link>
               </li>
               <li>
-                <Link href="/contact" className="hover:text-amber-400 transition-colors flex items-center gap-1.5">
-                  <ArrowRight className="w-3 h-3 text-amber-600" /> Contact & AC Cab Visit
+                <Link href="/contact" className="hover:text-emerald-300 transition-colors flex items-center gap-1.5">
+                  <ArrowRight className="w-3 h-3 text-[#108474]" /> Contact & AC Cab Visit
                 </Link>
               </li>
               <li>
-                <Link href="/admin/login" className="hover:text-amber-400 transition-colors flex items-center gap-1.5">
-                  <ArrowRight className="w-3 h-3 text-amber-600" /> Staff & Admin Portal
+                <Link href="/admin/login" className="hover:text-emerald-300 transition-colors flex items-center gap-1.5">
+                  <ArrowRight className="w-3 h-3 text-[#108474]" /> Staff & Admin Portal
                 </Link>
               </li>
             </ul>
@@ -63,28 +63,28 @@ export const Footer: React.FC = () => {
 
           {/* Popular Locations */}
           <div>
-            <h4 className="text-xs font-black uppercase tracking-widest text-amber-400 mb-4 font-heading">
+            <h4 className="text-xs font-black uppercase tracking-widest text-[#149b88] mb-4 font-heading">
               Key Growth Corridors
             </h4>
             <ul className="space-y-2.5 text-xs text-slate-400 font-medium">
               <li className="flex items-center gap-2">
-                <MapPin className="w-3.5 h-3.5 text-amber-400 flex-shrink-0" />
+                <MapPin className="w-3.5 h-3.5 text-[#108474] flex-shrink-0" />
                 <span>Tambaram West & 400ft ORR</span>
               </li>
               <li className="flex items-center gap-2">
-                <MapPin className="w-3.5 h-3.5 text-amber-400 flex-shrink-0" />
+                <MapPin className="w-3.5 h-3.5 text-[#108474] flex-shrink-0" />
                 <span>Guduvanchery & GST Highway</span>
               </li>
               <li className="flex items-center gap-2">
-                <MapPin className="w-3.5 h-3.5 text-amber-400 flex-shrink-0" />
+                <MapPin className="w-3.5 h-3.5 text-[#108474] flex-shrink-0" />
                 <span>Chengalpattu & Mahindra World City</span>
               </li>
               <li className="flex items-center gap-2">
-                <MapPin className="w-3.5 h-3.5 text-amber-400 flex-shrink-0" />
+                <MapPin className="w-3.5 h-3.5 text-[#108474] flex-shrink-0" />
                 <span>OMR IT Highway & Thiruporur</span>
               </li>
               <li className="flex items-center gap-2">
-                <MapPin className="w-3.5 h-3.5 text-amber-400 flex-shrink-0" />
+                <MapPin className="w-3.5 h-3.5 text-[#108474] flex-shrink-0" />
                 <span>Thanjavur & Central Tamil Nadu</span>
               </li>
             </ul>
@@ -92,16 +92,16 @@ export const Footer: React.FC = () => {
 
           {/* Contact Information */}
           <div>
-            <h4 className="text-xs font-black uppercase tracking-widest text-amber-400 mb-4 font-heading">
+            <h4 className="text-xs font-black uppercase tracking-widest text-[#149b88] mb-4 font-heading">
               Direct Helpline
             </h4>
             <div className="space-y-3 text-xs text-slate-400 font-medium">
               <p className="flex items-start gap-2.5">
-                <MapPin className="w-4 h-4 text-amber-400 flex-shrink-0 mt-0.5" />
+                <MapPin className="w-4 h-4 text-[#108474] flex-shrink-0 mt-0.5" />
                 <span>{address}</span>
               </p>
               <p className="flex items-center gap-2.5">
-                <Phone className="w-4 h-4 text-amber-400 flex-shrink-0" />
+                <Phone className="w-4 h-4 text-[#e52e3d] flex-shrink-0" />
                 <a href={getTelLink(phone)} className="hover:text-white transition-colors font-bold text-slate-200">
                   {phone}
                 </a>
@@ -118,7 +118,7 @@ export const Footer: React.FC = () => {
                 </a>
               </p>
               <p className="flex items-center gap-2.5">
-                <Mail className="w-4 h-4 text-amber-400 flex-shrink-0" />
+                <Mail className="w-4 h-4 text-[#108474] flex-shrink-0" />
                 <a href={`mailto:${email}`} className="hover:text-white transition-colors">
                   {email}
                 </a>

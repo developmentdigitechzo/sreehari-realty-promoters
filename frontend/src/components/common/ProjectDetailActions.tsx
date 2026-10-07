@@ -28,13 +28,13 @@ export const ProjectDetailActions: React.FC<ProjectDetailActionsProps> = ({
   return (
     <>
       <div className="space-y-3">
-        {/* Big Brochure Download Button matching Infinium Altitude Reference (Image 3) */}
+        {/* Big Brochure Download Button */}
         <button
           type="button"
           onClick={() => setIsBrochureOpen(true)}
-          className="w-full py-3.5 px-4 rounded-2xl bg-gradient-to-r from-amber-600 via-amber-700 to-amber-800 hover:opacity-95 text-white font-black text-xs sm:text-sm uppercase tracking-wider flex items-center justify-center gap-2 shadow-xl active:scale-95 transition-all"
+          className="w-full py-3.5 px-4 rounded-2xl bg-[#108474] hover:bg-[#0c6a5d] text-white font-black text-xs sm:text-sm uppercase tracking-wider flex items-center justify-center gap-2 shadow-xl shadow-[#108474]/25 active:scale-95 transition-all"
         >
-          <Download className="w-4 h-4" />
+          <Download className="w-4 h-4 text-emerald-200" />
           <span>Download Project Brochure (PDF)</span>
         </button>
 
@@ -43,7 +43,7 @@ export const ProjectDetailActions: React.FC<ProjectDetailActionsProps> = ({
           <button
             type="button"
             onClick={() => setIsCabVisitOpen(true)}
-            className="py-3 px-3 rounded-2xl bg-white border-2 border-slate-900 text-slate-900 hover:bg-slate-900 hover:text-white font-black text-xs flex items-center justify-center gap-1.5 transition-all active:scale-95"
+            className="py-3 px-3 rounded-2xl bg-[#f0fdfa] border-2 border-[#108474] text-[#108474] hover:bg-[#108474] hover:text-white font-black text-xs flex items-center justify-center gap-1.5 transition-all active:scale-95"
           >
             <Car className="w-3.5 h-3.5" />
             <span>Book Free Cab</span>
@@ -51,9 +51,9 @@ export const ProjectDetailActions: React.FC<ProjectDetailActionsProps> = ({
 
           <a
             href={getTelLink(phone)}
-            className="py-3 px-3 rounded-2xl bg-slate-900 text-white hover:bg-slate-800 font-black text-xs flex items-center justify-center gap-1.5 transition-all active:scale-95 shadow-sm"
+            className="py-3 px-3 rounded-2xl bg-[#e52e3d] hover:bg-[#cc1f2e] text-white font-black text-xs flex items-center justify-center gap-1.5 transition-all active:scale-95 shadow-md shadow-[#e52e3d]/25"
           >
-            <Phone className="w-3.5 h-3.5 text-amber-400" />
+            <Phone className="w-3.5 h-3.5" />
             <span>Call Site Head</span>
           </a>
         </div>

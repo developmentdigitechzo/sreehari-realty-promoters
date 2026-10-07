@@ -16,7 +16,7 @@
   body {
     background-color: #FAF8F5;
     color: #1C1917;
-    @apply antialiased selection:bg-rose-500 selection:text-white;
+    @apply antialiased selection:bg-[#108474] selection:text-white;
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -81,11 +81,15 @@
 
 @keyframes pulseGlow {
   0%, 100% {
-    box-shadow: 0 0 15px rgba(229, 46, 61, 0.4), 0 0 30px rgba(229, 46, 61, 0.15);
+    box-shadow: 0 0 15px rgba(16, 132, 116, 0.4), 0 0 30px rgba(16, 132, 116, 0.15);
   }
   50% {
-    box-shadow: 0 0 25px rgba(229, 46, 61, 0.7), 0 0 45px rgba(229, 46, 61, 0.3);
+    box-shadow: 0 0 25px rgba(16, 132, 116, 0.7), 0 0 45px rgba(16, 132, 116, 0.3);
   }
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 3s ease-in-out infinite;
 }
 
 /* Hero Section Animations */

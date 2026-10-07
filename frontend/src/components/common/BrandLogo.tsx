@@ -20,32 +20,32 @@ export const LotusIcon: React.FC<LotusIconProps> = ({ className = '', size = 'md
         {/* Center Lotus Petal */}
         <path
           d="M50 5 C50 5 62 25 60 55 C55 70 50 78 50 78 C50 78 45 70 40 55 C38 25 50 5 50 5Z"
-          fill="#c0175b"
+          fill="#108474"
         />
         {/* Left Petal */}
         <path
           d="M50 35 C42 20 22 25 18 45 C15 60 30 72 45 76 C46 65 48 50 50 35Z"
-          fill="#d81b60"
+          fill="#149b88"
         />
         {/* Right Petal */}
         <path
           d="M50 35 C58 20 78 25 82 45 C85 60 70 72 55 76 C54 65 52 50 50 35Z"
-          fill="#d81b60"
+          fill="#149b88"
         />
         {/* Outer Left Petal */}
         <path
           d="M38 52 C20 46 8 58 12 72 C16 80 32 82 42 78 C40 70 38 60 38 52Z"
-          fill="#e3427d"
+          fill="#2dd4bf"
         />
         {/* Outer Right Petal */}
         <path
           d="M62 52 C80 46 92 58 88 72 C84 80 68 82 58 78 C60 70 62 60 62 52Z"
-          fill="#e3427d"
+          fill="#2dd4bf"
         />
-        {/* Base Green Leaves */}
+        {/* Base Green / Accessory Leaves */}
         <path
           d="M10 75 C25 85 45 82 50 78 C55 82 75 85 90 75 C80 88 58 89 50 85 C42 89 20 88 10 75Z"
-          fill="#16a34a"
+          fill="#0c6a5d"
         />
         {/* Inner S-Monogram Stylized Accent */}
         <path
@@ -104,7 +104,7 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
         </span>
         <span
           className={`${subTextSizes[size]} font-semibold leading-tight mt-0.5 uppercase ${
-            isLight ? 'text-amber-300' : 'text-brand-primary font-bold'
+            isLight ? 'text-emerald-300' : 'text-[#108474] font-bold'
           }`}
         >
           Realty Promoters

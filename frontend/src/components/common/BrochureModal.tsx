@@ -80,12 +80,12 @@ export const BrochureModal: React.FC<BrochureModalProps> = ({
         {/* Brand Crest & Subtitle */}
         <div className="text-center space-y-2 mb-6">
           <div className="flex justify-center mb-1">
-            <span className="text-[11px] font-black uppercase tracking-[0.2em] text-amber-800 bg-amber-100/80 px-3 py-1 rounded-full border border-amber-300">
+            <span className="text-[11px] font-black uppercase tracking-[0.2em] text-[#108474] bg-[#f0fdfa] px-3 py-1 rounded-full border border-[#108474]/30">
               SREE HARI REALTY PROMOTERS
             </span>
           </div>
 
-          <h2 className="text-xl sm:text-2xl lg:text-3xl font-black font-heading uppercase tracking-tight text-amber-900">
+          <h2 className="text-xl sm:text-2xl lg:text-3xl font-black font-heading uppercase tracking-tight text-[#108474]">
             DOWNLOAD THE PROJECT BROCHURE
           </h2>
 
@@ -107,7 +107,7 @@ export const BrochureModal: React.FC<BrochureModalProps> = ({
               <button
                 type="button"
                 onClick={onClose}
-                className="px-6 py-2.5 rounded-xl bg-slate-900 text-white font-bold text-xs hover:bg-slate-800 transition-all active:scale-95"
+                className="px-6 py-2.5 rounded-xl bg-[#108474] hover:bg-[#0c6a5d] text-white font-bold text-xs transition-all active:scale-95 shadow-md"
               >
                 Done
               </button>
@@ -121,7 +121,7 @@ export const BrochureModal: React.FC<BrochureModalProps> = ({
               </div>
             )}
 
-            {/* 3-Column Luxury Inputs matching Reference Image 3 */}
+            {/* 3-Column Luxury Inputs */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               <div>
                 <input
@@ -130,7 +130,7 @@ export const BrochureModal: React.FC<BrochureModalProps> = ({
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder="Name*"
-                  className="w-full px-3.5 py-3 rounded-xl border border-amber-900/20 bg-white text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-amber-700 focus:ring-2 focus:ring-amber-500/20 transition-all shadow-sm font-medium"
+                  className="w-full px-3.5 py-3 rounded-xl border border-[#108474]/25 bg-white text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-[#108474] focus:ring-2 focus:ring-[#108474]/20 transition-all shadow-sm font-medium"
                 />
               </div>
 
@@ -141,7 +141,7 @@ export const BrochureModal: React.FC<BrochureModalProps> = ({
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
                   placeholder="Phone Number*"
-                  className="w-full px-3.5 py-3 rounded-xl border border-amber-900/20 bg-white text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-amber-700 focus:ring-2 focus:ring-amber-500/20 transition-all shadow-sm font-medium font-mono"
+                  className="w-full px-3.5 py-3 rounded-xl border border-[#108474]/25 bg-white text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-[#108474] focus:ring-2 focus:ring-[#108474]/20 transition-all shadow-sm font-medium font-mono"
                 />
               </div>
 
@@ -151,7 +151,7 @@ export const BrochureModal: React.FC<BrochureModalProps> = ({
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="Email id"
-                  className="w-full px-3.5 py-3 rounded-xl border border-amber-900/20 bg-white text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-amber-700 focus:ring-2 focus:ring-amber-500/20 transition-all shadow-sm font-medium"
+                  className="w-full px-3.5 py-3 rounded-xl border border-[#108474]/25 bg-white text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-[#108474] focus:ring-2 focus:ring-[#108474]/20 transition-all shadow-sm font-medium"
                 />
               </div>
             </div>
@@ -161,7 +161,7 @@ export const BrochureModal: React.FC<BrochureModalProps> = ({
               <button
                 type="submit"
                 disabled={loading}
-                className="px-8 py-3.5 rounded-xl bg-amber-700 hover:bg-amber-800 text-white font-black text-xs sm:text-sm uppercase tracking-wider transition-all shadow-lg active:scale-95 flex items-center justify-center gap-2 cursor-pointer w-full sm:w-auto"
+                className="px-8 py-3.5 rounded-xl bg-[#108474] hover:bg-[#0c6a5d] text-white font-black text-xs sm:text-sm uppercase tracking-wider transition-all shadow-lg active:scale-95 flex items-center justify-center gap-2 cursor-pointer w-full sm:w-auto shadow-[#108474]/25"
               >
                 {loading ? (
                   <>
@@ -170,7 +170,7 @@ export const BrochureModal: React.FC<BrochureModalProps> = ({
                   </>
                 ) : (
                   <>
-                    <Download className="w-4 h-4" />
+                    <Download className="w-4 h-4 text-emerald-200" />
                     <span>Download Brochure</span>
                   </>
                 )}

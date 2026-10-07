@@ -88,7 +88,7 @@ export const Navbar: React.FC = () => {
         {/* Main Navbar */}
         <nav
           className={`w-full transition-all duration-300 bg-white/95 backdrop-blur-md border-b ${
-            isScrolled ? 'shadow-md py-2.5 sm:py-3 border-amber-900/10' : 'py-3 sm:py-4 border-amber-900/5'
+            isScrolled ? 'shadow-md py-2.5 sm:py-3 border-[#108474]/15' : 'py-3 sm:py-4 border-slate-200/80'
           }`}
         >
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
@@ -105,13 +105,13 @@ export const Navbar: React.FC = () => {
                     href={link.href}
                     className={`text-sm font-bold transition-colors relative py-1 ${
                       isActive
-                        ? 'text-brand-primary'
-                        : 'text-slate-800 hover:text-brand-primary'
+                        ? 'text-[#108474]'
+                        : 'text-slate-800 hover:text-[#108474]'
                     }`}
                   >
                     {link.name}
                     {isActive && (
-                      <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-brand-primary rounded-full" />
+                      <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#108474] rounded-full" />
                     )}
                   </Link>
                 );
@@ -123,9 +123,9 @@ export const Navbar: React.FC = () => {
               {/* Free Site Visit */}
               <button
                 onClick={() => setIsSiteVisitOpen(true)}
-                className="flex items-center gap-1.5 px-3.5 py-2.5 rounded-2xl bg-amber-50 hover:bg-amber-100 text-amber-950 font-bold text-xs border border-amber-200/80 transition-all active:scale-95"
+                className="flex items-center gap-1.5 px-3.5 py-2.5 rounded-2xl bg-[#f0fdfa] hover:bg-[#ccfbf1] text-[#108474] font-bold text-xs border border-[#108474]/30 transition-all active:scale-95 shadow-sm"
               >
-                <Calendar className="w-3.5 h-3.5 text-amber-700" />
+                <Calendar className="w-3.5 h-3.5 text-[#108474]" />
                 <span>Book Site Visit</span>
               </button>
 
@@ -140,12 +140,12 @@ export const Navbar: React.FC = () => {
                 <span>WhatsApp</span>
               </a>
 
-              {/* Sell / List Property CTA (Inspired by Thanjai Property's 'Add New Property' Button) */}
+              {/* Sell / List Property CTA with #108474 primary & #e52e3d accessory highlight */}
               <button
                 onClick={() => setIsSellModalOpen(true)}
-                className="flex items-center gap-1.5 px-4 py-2.5 rounded-2xl bg-brand-primary hover:bg-brand-primaryDark text-white font-black text-xs shadow-md shadow-brand-primary/20 transition-all active:scale-95 cursor-pointer"
+                className="flex items-center gap-1.5 px-4 py-2.5 rounded-2xl bg-[#108474] hover:bg-[#0c6a5d] text-white font-black text-xs shadow-md shadow-[#108474]/25 transition-all active:scale-95 cursor-pointer"
               >
-                <PlusCircle className="w-4 h-4" />
+                <PlusCircle className="w-4 h-4 text-[#e52e3d]" />
                 <span>Sell / Promote Land</span>
               </button>
             </div>
@@ -164,7 +164,7 @@ export const Navbar: React.FC = () => {
 
               <a
                 href={getTelLink(phone)}
-                className="p-2 rounded-xl bg-brand-primary text-white text-xs active:scale-95"
+                className="p-2 rounded-xl bg-[#e52e3d] text-white text-xs active:scale-95 shadow-sm shadow-[#e52e3d]/30"
                 aria-label="Call Sree Hari Realty"
               >
                 <Phone className="w-4 h-4" />
@@ -180,9 +180,9 @@ export const Navbar: React.FC = () => {
             </div>
           </div>
 
-          {/* Mobile Drawer Dropdown (Dark Coffee Theme like Thanjai Property) */}
+          {/* Mobile Drawer Dropdown (Dark Coffee Theme) */}
           {mobileMenuOpen && (
-            <div className="md:hidden bg-[#1C1917] text-white border-b border-amber-900/30 px-5 pt-4 pb-7 space-y-4 animate-in slide-in-from-top duration-200 shadow-2xl">
+            <div className="md:hidden bg-[#071c19] text-white border-b border-[#108474]/30 px-5 pt-4 pb-7 space-y-4 animate-in slide-in-from-top duration-200 shadow-2xl">
               <div className="space-y-1">
                 {navLinks.map((link) => (
                   <Link
@@ -191,7 +191,7 @@ export const Navbar: React.FC = () => {
                     onClick={() => setMobileMenuOpen(false)}
                     className={`flex items-center justify-between px-3.5 py-3 rounded-2xl text-sm font-bold ${
                       pathname === link.href
-                        ? 'bg-brand-primary text-white shadow-md'
+                        ? 'bg-[#108474] text-white shadow-md'
                         : 'text-slate-200 hover:bg-white/10'
                     }`}
                   >
@@ -207,9 +207,9 @@ export const Navbar: React.FC = () => {
                   setMobileMenuOpen(false);
                   setIsSellModalOpen(true);
                 }}
-                className="w-full py-3 px-4 rounded-2xl bg-brand-primary text-white font-black text-xs flex items-center justify-center gap-2 active:scale-95 shadow-lg shadow-brand-primary/30"
+                className="w-full py-3 px-4 rounded-2xl bg-[#108474] hover:bg-[#0c6a5d] text-white font-black text-xs flex items-center justify-center gap-2 active:scale-95 shadow-lg shadow-[#108474]/30"
               >
-                <PlusCircle className="w-4 h-4" />
+                <PlusCircle className="w-4 h-4 text-[#e52e3d]" />
                 <span>Sell Your Land / Promote Property</span>
               </button>
 
@@ -219,9 +219,9 @@ export const Navbar: React.FC = () => {
                   setMobileMenuOpen(false);
                   setIsSiteVisitOpen(true);
                 }}
-                className="w-full py-3 px-4 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-300 font-bold text-xs flex items-center justify-center gap-2 active:scale-95"
+                className="w-full py-3 px-4 rounded-2xl bg-[#108474]/20 border border-[#108474]/50 text-emerald-300 font-bold text-xs flex items-center justify-center gap-2 active:scale-95"
               >
-                <Calendar className="w-4 h-4 text-amber-400" />
+                <Calendar className="w-4 h-4 text-[#108474]" />
                 <span>Book Free AC Cab Site Visit</span>
               </button>
 
@@ -238,9 +238,9 @@ export const Navbar: React.FC = () => {
                 </a>
                 <a
                   href={getTelLink(phone)}
-                  className="flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-xl bg-slate-800 text-white text-xs font-bold active:scale-95 shadow-sm border border-white/10"
+                  className="flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-xl bg-[#e52e3d] text-white text-xs font-bold active:scale-95 shadow-sm"
                 >
-                  <Phone className="w-4 h-4 text-amber-400" />
+                  <Phone className="w-4 h-4" />
                   <span>Call Us</span>
                 </a>
               </div>

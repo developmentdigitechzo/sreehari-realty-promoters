@@ -242,32 +242,32 @@ export const PlotFinderConcierge: React.FC = () => {
         <div className="fixed bottom-20 right-4 sm:bottom-6 sm:right-6 z-40">
           <button
             onClick={() => setIsOpen(true)}
-            className="group relative flex items-center gap-2.5 bg-gradient-to-r from-amber-600 via-brand-primary to-amber-700 hover:opacity-95 text-white p-3.5 sm:px-5 sm:py-3.5 rounded-full shadow-2xl transition-all duration-300 active:scale-95 animate-pulse-glow"
+            className="group relative flex items-center gap-2.5 bg-gradient-to-r from-[#0c6a5d] via-[#108474] to-[#149b88] hover:opacity-95 text-white p-3.5 sm:px-5 sm:py-3.5 rounded-full shadow-2xl transition-all duration-300 active:scale-95 animate-pulse-glow"
             aria-label="Open Sree Hari Plot Finder Concierge"
           >
             <div className="relative">
-              <Bot className="w-5 h-5 text-amber-200 animate-bounce" />
+              <Bot className="w-5 h-5 text-emerald-200 animate-bounce" />
               {hasUnread && (
-                <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-emerald-400 rounded-full border-2 border-white animate-ping" />
+                <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-[#e52e3d] rounded-full border-2 border-white animate-ping" />
               )}
             </div>
             <span className="hidden sm:inline text-xs font-black uppercase tracking-wider text-white">
               Plot Finder Concierge
             </span>
-            <span className="text-[10px] bg-white text-slate-900 font-extrabold px-2 py-0.5 rounded-full hidden lg:inline">
+            <span className="text-[10px] bg-white text-[#108474] font-extrabold px-2 py-0.5 rounded-full hidden lg:inline shadow-sm">
               Online
             </span>
           </button>
         </div>
       )}
 
-      {/* Floating Concierge Chat Window (Casagrand Assistant Style) */}
+      {/* Floating Concierge Chat Window */}
       {isOpen && (
-        <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 w-[calc(100vw-2rem)] sm:w-96 max-h-[85vh] h-[540px] bg-white rounded-3xl shadow-2xl border border-amber-900/15 flex flex-col overflow-hidden animate-in slide-in-from-bottom-5 duration-200 text-slate-900">
+        <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 w-[calc(100vw-2rem)] sm:w-96 max-h-[85vh] h-[540px] bg-white rounded-3xl shadow-2xl border border-[#108474]/20 flex flex-col overflow-hidden animate-in slide-in-from-bottom-5 duration-200 text-slate-900">
           {/* Header Bar */}
-          <div className="bg-[#1C1917] text-white p-4 flex items-center justify-between border-b border-amber-900/20 shrink-0">
+          <div className="bg-[#071c19] text-white p-4 flex items-center justify-between border-b border-[#108474]/30 shrink-0">
             <div className="flex items-center gap-2.5">
-              <div className="w-9 h-9 rounded-2xl bg-amber-500/20 border border-amber-400/40 text-amber-300 flex items-center justify-center font-bold">
+              <div className="w-9 h-9 rounded-2xl bg-[#108474]/25 border border-[#108474]/40 text-emerald-300 flex items-center justify-center font-bold">
                 <Bot className="w-5 h-5" />
               </div>
               <div>
@@ -275,7 +275,7 @@ export const PlotFinderConcierge: React.FC = () => {
                   <span>Sree Hari Property Advisor</span>
                   <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
                 </h3>
-                <span className="text-[10px] text-amber-300/80 font-medium">
+                <span className="text-[10px] text-emerald-300 font-medium">
                   DTCP Approved Gated Plots Advisor
                 </span>
               </div>
@@ -291,7 +291,7 @@ export const PlotFinderConcierge: React.FC = () => {
           </div>
 
           {/* Messages Feed */}
-          <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-[#FAF8F5]">
+          <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-[#f0fdfa]/40">
             {messages.map((msg, idx) => (
               <div
                 key={idx}
@@ -301,7 +301,7 @@ export const PlotFinderConcierge: React.FC = () => {
                 <div
                   className={`max-w-[85%] rounded-2xl px-3.5 py-2.5 text-xs leading-relaxed ${
                     msg.sender === 'user'
-                      ? 'bg-brand-primary text-white rounded-tr-none font-semibold shadow-sm'
+                      ? 'bg-[#108474] text-white rounded-tr-none font-semibold shadow-sm'
                       : 'bg-white text-slate-800 rounded-tl-none border border-slate-200/90 shadow-sm'
                   }`}
                 >
@@ -310,22 +310,22 @@ export const PlotFinderConcierge: React.FC = () => {
 
                 {/* Project Card Preview (if attached) */}
                 {msg.projectCard && (
-                  <div className="w-full bg-white rounded-2xl p-3.5 border border-amber-200/80 shadow-md space-y-2 text-left">
+                  <div className="w-full bg-white rounded-2xl p-3.5 border border-[#108474]/30 shadow-md space-y-2 text-left">
                     <div className="flex items-center justify-between">
-                      <span className="text-[10px] font-black uppercase bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-md">
+                      <span className="text-[10px] font-black uppercase bg-[#f0fdfa] text-[#108474] border border-[#108474]/20 px-2 py-0.5 rounded-md">
                         DTCP Approved
                       </span>
-                      <span className="text-xs font-black text-amber-800">{msg.projectCard.price.split('(')[0]}</span>
+                      <span className="text-xs font-black text-[#108474]">{msg.projectCard.price.split('(')[0]}</span>
                     </div>
                     <h4 className="font-bold text-sm text-slate-900">{msg.projectCard.name}</h4>
                     <p className="text-[11px] text-slate-500 flex items-center gap-1">
-                      <MapPin className="w-3 h-3 text-brand-primary shrink-0" />
+                      <MapPin className="w-3 h-3 text-[#108474] shrink-0" />
                       <span>{msg.projectCard.location}</span>
                     </p>
                     <div className="pt-2 flex items-center gap-2">
                       <Link
                         href={`/projects/${msg.projectCard.slug}`}
-                        className="flex-1 py-1.5 px-3 rounded-xl bg-slate-900 text-white text-[11px] font-bold text-center hover:bg-slate-800 transition-all active:scale-95"
+                        className="flex-1 py-1.5 px-3 rounded-xl bg-[#108474] hover:bg-[#0c6a5d] text-white text-[11px] font-bold text-center transition-all active:scale-95"
                       >
                         Explore Layout
                       </Link>
@@ -349,7 +349,7 @@ export const PlotFinderConcierge: React.FC = () => {
                         key={cIdx}
                         type="button"
                         onClick={chip.action}
-                        className="px-3 py-1.5 rounded-xl bg-white hover:bg-amber-50 text-slate-800 hover:text-amber-900 font-bold text-[11px] border border-slate-200/90 shadow-sm transition-all active:scale-95 text-left"
+                        className="px-3 py-1.5 rounded-xl bg-white hover:bg-[#f0fdfa] text-slate-800 hover:text-[#108474] hover:border-[#108474]/40 font-bold text-[11px] border border-slate-200/90 shadow-sm transition-all active:scale-95 text-left"
                       >
                         {chip.label}
                       </button>
@@ -361,9 +361,9 @@ export const PlotFinderConcierge: React.FC = () => {
             <div ref={messagesEndRef} />
           </div>
 
-          {/* Quick Phone Lead Capture Input (if step triggered) */}
+          {/* Quick Phone Lead Capture Input */}
           {phoneStep && (
-            <form onSubmit={handlePhoneSubmit} className="p-3 bg-amber-50 border-t border-amber-200 flex gap-2">
+            <form onSubmit={handlePhoneSubmit} className="p-3 bg-[#f0fdfa] border-t border-[#108474]/20 flex gap-2">
               <input
                 type="tel"
                 required
@@ -371,11 +371,11 @@ export const PlotFinderConcierge: React.FC = () => {
                 value={userPhone}
                 onChange={(e) => setUserPhone(e.target.value)}
                 placeholder="Enter 10-digit phone number..."
-                className="flex-1 px-3 py-2 bg-white rounded-xl border border-amber-300 text-xs focus:outline-none focus:ring-2 focus:ring-brand-primary font-mono"
+                className="flex-1 px-3 py-2 bg-white rounded-xl border border-[#108474]/40 text-xs focus:outline-none focus:ring-2 focus:ring-[#108474] font-mono"
               />
               <button
                 type="submit"
-                className="px-4 py-2 bg-brand-primary text-white text-xs font-bold rounded-xl active:scale-95 shrink-0"
+                className="px-4 py-2 bg-[#108474] hover:bg-[#0c6a5d] text-white text-xs font-bold rounded-xl active:scale-95 shrink-0"
               >
                 Submit
               </button>
@@ -389,12 +389,12 @@ export const PlotFinderConcierge: React.FC = () => {
               value={inputText}
               onChange={(e) => setInputText(e.target.value)}
               placeholder="Ask about plots, loans, or locations..."
-              className="flex-1 px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs focus:outline-none focus:border-brand-primary focus:bg-white text-slate-900 font-medium"
+              className="flex-1 px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs focus:outline-none focus:border-[#108474] focus:bg-white text-slate-900 font-medium"
             />
             <button
               type="submit"
               disabled={!inputText.trim()}
-              className="p-2.5 rounded-xl bg-brand-primary hover:bg-brand-primaryDark disabled:opacity-40 text-white transition-all active:scale-95 cursor-pointer shrink-0"
+              className="p-2.5 rounded-xl bg-[#108474] hover:bg-[#0c6a5d] disabled:opacity-40 text-white transition-all active:scale-95 cursor-pointer shrink-0"
               aria-label="Send message"
             >
               <Send className="w-4 h-4" />
