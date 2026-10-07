@@ -88,6 +88,34 @@
   }
 }
 
+/* Driving Animation from Right to Left matching Reference Image 1 */
+@keyframes driveRightToLeft {
+  0% {
+    transform: translateX(100vw);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes driveSeamless1 {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes driveSeamless2 {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-200%);
+  }
+}
+
 /* Custom Animation Utility Classes */
 .animate-kenburns {
   animation: kenburns 25s ease-in-out infinite alternate;
@@ -123,6 +151,14 @@
 
 .animate-pulse-glow {
   animation: pulseGlow 3s ease-in-out infinite;
+}
+
+.animate-drive-right-to-left {
+  animation: driveRightToLeft 14s linear infinite;
+}
+
+.animate-drive-right-to-left:hover {
+  animation-play-state: paused;
 }
 
 /* Custom subtle scrollbar */
