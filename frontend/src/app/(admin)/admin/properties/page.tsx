@@ -13,6 +13,8 @@ import {
   Building,
   CheckCircle2,
   Filter,
+  Compass,
+  Maximize2,
 } from 'lucide-react';
 import { api } from '@/lib/api';
 import { Property, Project } from '@/types';
@@ -65,9 +67,6 @@ export default function AdminPropertiesPage() {
       }
       if (projRes.success && projRes.data) {
         setProjects(projRes.data);
-        if (projRes.data.length > 0 && selectedProjectId === 'ALL') {
-          // Keep ALL as default or default to first project
-        }
       }
     } catch (err) {
       console.error('Error fetching data:', err);
@@ -208,31 +207,31 @@ export default function AdminPropertiesPage() {
   const activeProjectObj = projects.find((p) => p.id === selectedProjectId);
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
       {/* Page Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
-          <h1 className="text-2xl font-black font-heading text-slate-900">Plots Inventory & Matrix</h1>
+          <h1 className="text-xl sm:text-2xl font-black font-heading text-slate-900">Plots Inventory & Matrix</h1>
           <p className="text-xs text-slate-500">Manage individual layout plots, facing, dimensions, pricing, and live availability.</p>
         </div>
         <button
           onClick={handleOpenCreate}
-          className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-brand-primary hover:bg-brand-primaryDark text-white text-xs font-bold transition-colors shadow-sm active:scale-95"
+          className="inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl bg-brand-primary hover:bg-brand-primaryDark text-white text-xs font-bold transition-all shadow-sm active:scale-95 self-start sm:self-auto"
         >
           <Plus className="w-4 h-4" />
           <span>Add New Plot</span>
         </button>
       </div>
 
-      {/* Project Selector Ribbon */}
-      <div className="bg-white rounded-2xl p-4 border border-slate-200/80 shadow-sm flex flex-wrap items-center justify-between gap-4">
-        <div className="flex items-center gap-2 overflow-x-auto scrollbar-none max-w-full">
-          <span className="text-xs font-bold text-slate-500 uppercase flex items-center gap-1 mr-1">
+      {/* Project Selector & Search */}
+      <div className="bg-white rounded-2xl p-3.5 sm:p-4 border border-slate-200/80 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-3">
+        <div className="flex items-center gap-1.5 overflow-x-auto scrollbar-none pb-1 md:pb-0 max-w-full">
+          <span className="text-[11px] font-bold text-slate-500 uppercase flex items-center gap-1 mr-1 flex-shrink-0">
             <Building className="w-3.5 h-3.5" /> Project:
           </span>
           <button
             onClick={() => setSelectedProjectId('ALL')}
-            className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap ${
+            className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap active:scale-95 ${
               selectedProjectId === 'ALL'
                 ? 'bg-slate-900 text-white shadow-sm'
                 : 'bg-slate-100 hover:bg-slate-200 text-slate-700'
@@ -244,7 +243,7 @@ export default function AdminPropertiesPage() {
             <button
               key={proj.id}
               onClick={() => setSelectedProjectId(proj.id)}
-              className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap ${
+              className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap active:scale-95 ${
                 selectedProjectId === proj.id
                   ? 'bg-brand-primary text-white shadow-sm'
                   : 'bg-slate-100 hover:bg-slate-200 text-slate-700'
@@ -256,14 +255,14 @@ export default function AdminPropertiesPage() {
         </div>
 
         {/* Search */}
-        <div className="relative w-full sm:w-64">
+        <div className="relative w-full md:w-64">
           <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
           <input
             type="text"
             placeholder="Search plot #, facing, price..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-4 py-1.5 rounded-xl border border-slate-200 text-xs focus:ring-1 focus:ring-brand-primary"
+            className="w-full pl-10 pr-4 py-2 rounded-xl border border-slate-200 text-xs focus:ring-1 focus:ring-brand-primary"
           />
         </div>
       </div>
@@ -277,8 +276,102 @@ export default function AdminPropertiesPage() {
         onEditPlot={handleOpenEdit}
       />
 
-      {/* 2. PLOTS DATA TABLE */}
-      <div className="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden">
+      {/* 2. PLOTS MOBILE CARDS VIEW (Visible on `<md`) */}
+      <div className="md:hidden space-y-3">
+        <div className="flex items-center justify-between px-1">
+          <h3 className="font-bold text-xs uppercase tracking-wider text-slate-500">Plot List ({displayedProperties.length})</h3>
+        </div>
+
+        {loading ? (
+          <div className="p-8 text-center text-slate-400 bg-white rounded-2xl border border-slate-200">
+            <Loader2 className="w-6 h-6 animate-spin text-brand-primary mx-auto mb-2" />
+            <span className="text-xs">Loading plots...</span>
+          </div>
+        ) : displayedProperties.length === 0 ? (
+          <div className="p-8 text-center text-xs text-slate-400 bg-white rounded-2xl border border-slate-200">
+            No plots found for this selection.
+          </div>
+        ) : (
+          displayedProperties.map((prop) => (
+            <div
+              key={prop.id}
+              className="bg-white rounded-2xl p-4 border border-slate-200/90 shadow-xs space-y-3"
+            >
+              <div className="flex items-start justify-between gap-2">
+                <div className="flex items-center gap-2">
+                  <div className="w-9 h-9 rounded-xl bg-slate-900 text-amber-300 flex items-center justify-center font-black font-heading text-xs shadow-xs">
+                    #{prop.plot_number || '—'}
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-sm text-slate-900 leading-snug">{prop.title}</h4>
+                    <span className="text-[11px] text-slate-500 font-semibold">{prop.project_name || 'Standalone Plot'}</span>
+                  </div>
+                </div>
+
+                <select
+                  value={prop.status}
+                  onChange={(e) => handleStatusChange(prop.id, e.target.value)}
+                  className={`text-[11px] font-bold px-2.5 py-1 rounded-xl border focus:outline-none ${
+                    prop.status === 'AVAILABLE'
+                      ? 'bg-emerald-50 text-emerald-800 border-emerald-300'
+                      : prop.status === 'BOOKED'
+                      ? 'bg-amber-50 text-amber-800 border-amber-300'
+                      : 'bg-slate-100 text-slate-700 border-slate-300'
+                  }`}
+                >
+                  <option value="AVAILABLE">AVAILABLE</option>
+                  <option value="BOOKED">BOOKED</option>
+                  <option value="SOLD">SOLD</option>
+                </select>
+              </div>
+
+              {/* Specs Pill Grid */}
+              <div className="grid grid-cols-3 gap-2 bg-slate-50 p-2.5 rounded-xl border border-slate-100 text-xs">
+                <div>
+                  <span className="text-[9px] font-bold text-slate-400 uppercase">Extent</span>
+                  <div className="font-bold text-slate-800 mt-0.5">{prop.area_sqft} sq.ft</div>
+                </div>
+                <div>
+                  <span className="text-[9px] font-bold text-slate-400 uppercase">Facing</span>
+                  <div className="font-bold text-slate-800 mt-0.5 truncate">{prop.facing || 'East'}</div>
+                </div>
+                <div>
+                  <span className="text-[9px] font-bold text-slate-400 uppercase">Price</span>
+                  <div className="font-black text-brand-primary font-heading mt-0.5 truncate">
+                    {prop.price_display || `₹${(prop.price / 100000).toFixed(2)}L`}
+                  </div>
+                </div>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="flex items-center justify-between pt-1 border-t border-slate-100 text-xs">
+                <span className="text-[10px] text-slate-400">{prop.dimensions || 'Standard Rectangular'}</span>
+                <div className="flex items-center gap-1.5">
+                  <button
+                    type="button"
+                    onClick={() => handleOpenEdit(prop)}
+                    className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold active:scale-95"
+                  >
+                    <Edit2 className="w-3.5 h-3.5" />
+                    <span>Edit</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleDelete(prop.id, prop.title)}
+                    className="p-1.5 rounded-xl bg-rose-50 text-rose-600 hover:bg-rose-100 active:scale-95"
+                    title="Delete Plot"
+                  >
+                    <Trash2 className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))
+        )}
+      </div>
+
+      {/* 3. PLOTS DESKTOP DATA TABLE (Visible on `md:block`) */}
+      <div className="hidden md:block bg-white rounded-3xl border border-slate-200/80 shadow-xs overflow-hidden">
         <div className="px-5 py-4 border-b border-slate-100 flex items-center justify-between">
           <h3 className="font-bold text-sm text-slate-900">Tabular Inventory View</h3>
           <span className="text-xs font-semibold text-slate-500">{displayedProperties.length} plots displayed</span>
@@ -371,12 +464,12 @@ export default function AdminPropertiesPage() {
         </div>
       </div>
 
-      {/* Create / Edit Plot Modal */}
+      {/* Create / Edit Plot Modal (Mobile Fullscreen / Desktop Dialog) */}
       {modalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
-          <div className="relative w-full max-w-2xl bg-white rounded-3xl shadow-2xl p-6 md:p-8 max-h-[90vh] overflow-y-auto">
-            <div className="flex items-center justify-between pb-4 border-b border-slate-100 mb-6">
-              <h2 className="text-xl font-bold font-heading text-slate-900">
+        <div className="fixed inset-0 z-50 flex items-center justify-center sm:p-4 bg-black/70 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className="relative w-full sm:max-w-2xl bg-white sm:rounded-3xl shadow-2xl h-full sm:h-auto sm:max-h-[92vh] flex flex-col overflow-hidden">
+            <div className="flex items-center justify-between p-4 sm:p-6 border-b border-slate-100 bg-white sticky top-0 z-10">
+              <h2 className="text-lg sm:text-xl font-bold font-heading text-slate-900">
                 {editingProperty ? `Edit Plot "${editingProperty.title}"` : 'Add New Plot to Inventory'}
               </h2>
               <button
@@ -387,166 +480,170 @@ export default function AdminPropertiesPage() {
               </button>
             </div>
 
-            {errorMsg && (
-              <div className="mb-4 p-3 bg-rose-50 text-rose-700 text-xs rounded-xl flex items-center gap-2">
-                <AlertCircle className="w-4 h-4 flex-shrink-0" />
-                <span>{errorMsg}</span>
-              </div>
-            )}
-
-            <form onSubmit={handleSubmit} className="space-y-4 text-xs">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block font-bold text-slate-700 uppercase mb-1">Parent Project *</label>
-                  <select
-                    value={formData.project_id}
-                    onChange={(e) => setFormData({ ...formData, project_id: e.target.value })}
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-1 focus:ring-brand-primary bg-white"
-                  >
-                    <option value="">-- Standalone Plot --</option>
-                    {projects.map((p) => (
-                      <option key={p.id} value={p.id}>
-                        {p.name} ({p.location})
-                      </option>
-                    ))}
-                  </select>
+            <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4 text-xs">
+              {errorMsg && (
+                <div className="p-3 bg-rose-50 text-rose-700 text-xs rounded-xl flex items-center gap-2">
+                  <AlertCircle className="w-4 h-4 flex-shrink-0" />
+                  <span>{errorMsg}</span>
                 </div>
+              )}
+
+              <form id="plot-modal-form" onSubmit={handleSubmit} className="space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block font-bold text-slate-700 uppercase mb-1">Parent Project *</label>
+                    <select
+                      value={formData.project_id}
+                      onChange={(e) => setFormData({ ...formData, project_id: e.target.value })}
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-1 focus:ring-brand-primary bg-white min-h-[44px]"
+                    >
+                      <option value="">-- Standalone Plot --</option>
+                      {projects.map((p) => (
+                        <option key={p.id} value={p.id}>
+                          {p.name} ({p.location})
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block font-bold text-slate-700 uppercase mb-1">Plot Number *</label>
+                    <input
+                      type="text"
+                      required
+                      value={formData.plot_number}
+                      onChange={(e) => setFormData({ ...formData, plot_number: e.target.value })}
+                      placeholder="14"
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-1 focus:ring-brand-primary min-h-[44px]"
+                    />
+                  </div>
+                </div>
+
                 <div>
-                  <label className="block font-bold text-slate-700 uppercase mb-1">Plot Number *</label>
+                  <label className="block font-bold text-slate-700 uppercase mb-1">Plot Title *</label>
                   <input
                     type="text"
                     required
-                    value={formData.plot_number}
-                    onChange={(e) => setFormData({ ...formData, plot_number: e.target.value })}
-                    placeholder="14"
+                    value={formData.title}
+                    onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                    placeholder="Plot 14 - East Facing Villa Plot"
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-1 focus:ring-brand-primary min-h-[44px]"
+                  />
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                  <div>
+                    <label className="block font-bold text-slate-700 uppercase mb-1">Area in Sq.Ft *</label>
+                    <input
+                      type="number"
+                      required
+                      value={formData.area_sqft}
+                      onChange={(e) => setFormData({ ...formData, area_sqft: Number(e.target.value) })}
+                      placeholder="1200"
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-1 focus:ring-brand-primary min-h-[44px]"
+                    />
+                  </div>
+                  <div>
+                    <label className="block font-bold text-slate-700 uppercase mb-1">Dimensions</label>
+                    <input
+                      type="text"
+                      value={formData.dimensions}
+                      onChange={(e) => setFormData({ ...formData, dimensions: e.target.value })}
+                      placeholder="30 x 40 ft"
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-1 focus:ring-brand-primary min-h-[44px]"
+                    />
+                  </div>
+                  <div>
+                    <label className="block font-bold text-slate-700 uppercase mb-1">Facing</label>
+                    <select
+                      value={formData.facing}
+                      onChange={(e) => setFormData({ ...formData, facing: e.target.value })}
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-1 focus:ring-brand-primary bg-white min-h-[44px]"
+                    >
+                      <option value="East">East</option>
+                      <option value="North">North</option>
+                      <option value="West">West</option>
+                      <option value="South">South</option>
+                      <option value="North-East Corner">North-East Corner</option>
+                      <option value="North-West Corner">North-West Corner</option>
+                      <option value="South-East Corner">South-East Corner</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                  <div>
+                    <label className="block font-bold text-slate-700 uppercase mb-1">Total Price (₹) *</label>
+                    <input
+                      type="number"
+                      required
+                      value={formData.price}
+                      onChange={(e) => setFormData({ ...formData, price: Number(e.target.value) })}
+                      placeholder="3840000"
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-1 focus:ring-brand-primary min-h-[44px]"
+                    />
+                  </div>
+                  <div>
+                    <label className="block font-bold text-slate-700 uppercase mb-1">Price Label</label>
+                    <input
+                      type="text"
+                      value={formData.price_display}
+                      onChange={(e) => setFormData({ ...formData, price_display: e.target.value })}
+                      placeholder="₹38.40 Lakhs"
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-1 focus:ring-brand-primary min-h-[44px]"
+                    />
+                  </div>
+                  <div>
+                    <label className="block font-bold text-slate-700 uppercase mb-1">Availability</label>
+                    <select
+                      value={formData.status}
+                      onChange={(e) => setFormData({ ...formData, status: e.target.value })}
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-1 focus:ring-brand-primary bg-white min-h-[44px]"
+                    >
+                      <option value="AVAILABLE">AVAILABLE (🟢 Ready to book)</option>
+                      <option value="BOOKED">BOOKED (🟡 Advance received)</option>
+                      <option value="SOLD">SOLD (⚪ Registered)</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block font-bold text-slate-700 uppercase mb-1">Description / Notes</label>
+                  <textarea
+                    rows={2}
+                    value={formData.description}
+                    onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                    placeholder="Additional plot specifications..."
                     className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-1 focus:ring-brand-primary"
                   />
                 </div>
-              </div>
+              </form>
+            </div>
 
-              <div>
-                <label className="block font-bold text-slate-700 uppercase mb-1">Plot Title *</label>
-                <input
-                  type="text"
-                  required
-                  value={formData.title}
-                  onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                  placeholder="Plot 14 - East Facing Villa Plot"
-                  className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-1 focus:ring-brand-primary"
-                />
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div>
-                  <label className="block font-bold text-slate-700 uppercase mb-1">Area in Sq.Ft *</label>
-                  <input
-                    type="number"
-                    required
-                    value={formData.area_sqft}
-                    onChange={(e) => setFormData({ ...formData, area_sqft: Number(e.target.value) })}
-                    placeholder="1200"
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-1 focus:ring-brand-primary"
-                  />
-                </div>
-                <div>
-                  <label className="block font-bold text-slate-700 uppercase mb-1">Dimensions</label>
-                  <input
-                    type="text"
-                    value={formData.dimensions}
-                    onChange={(e) => setFormData({ ...formData, dimensions: e.target.value })}
-                    placeholder="30 x 40 ft"
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-1 focus:ring-brand-primary"
-                  />
-                </div>
-                <div>
-                  <label className="block font-bold text-slate-700 uppercase mb-1">Facing</label>
-                  <select
-                    value={formData.facing}
-                    onChange={(e) => setFormData({ ...formData, facing: e.target.value })}
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-1 focus:ring-brand-primary bg-white"
-                  >
-                    <option value="East">East</option>
-                    <option value="North">North</option>
-                    <option value="West">West</option>
-                    <option value="South">South</option>
-                    <option value="North-East Corner">North-East Corner</option>
-                    <option value="North-West Corner">North-West Corner</option>
-                    <option value="South-East Corner">South-East Corner</option>
-                  </select>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div>
-                  <label className="block font-bold text-slate-700 uppercase mb-1">Total Price (₹) *</label>
-                  <input
-                    type="number"
-                    required
-                    value={formData.price}
-                    onChange={(e) => setFormData({ ...formData, price: Number(e.target.value) })}
-                    placeholder="3840000"
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-1 focus:ring-brand-primary"
-                  />
-                </div>
-                <div>
-                  <label className="block font-bold text-slate-700 uppercase mb-1">Price Label</label>
-                  <input
-                    type="text"
-                    value={formData.price_display}
-                    onChange={(e) => setFormData({ ...formData, price_display: e.target.value })}
-                    placeholder="₹38.40 Lakhs"
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-1 focus:ring-brand-primary"
-                  />
-                </div>
-                <div>
-                  <label className="block font-bold text-slate-700 uppercase mb-1">Availability</label>
-                  <select
-                    value={formData.status}
-                    onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-1 focus:ring-brand-primary bg-white"
-                  >
-                    <option value="AVAILABLE">AVAILABLE</option>
-                    <option value="BOOKED">BOOKED</option>
-                    <option value="SOLD">SOLD</option>
-                  </select>
-                </div>
-              </div>
-
-              <div>
-                <label className="block font-bold text-slate-700 uppercase mb-1">Description / Notes</label>
-                <textarea
-                  rows={2}
-                  value={formData.description}
-                  onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                  placeholder="Additional plot specifications..."
-                  className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-1 focus:ring-brand-primary"
-                />
-              </div>
-
-              <div className="pt-4 border-t border-slate-100 flex items-center justify-end gap-3">
-                <button
-                  type="button"
-                  onClick={() => setModalOpen(false)}
-                  className="px-4 py-2 rounded-xl text-slate-600 hover:bg-slate-100 font-bold"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  disabled={saving}
-                  className="px-6 py-2.5 rounded-xl bg-brand-primary hover:bg-brand-primaryDark text-white font-bold transition-all flex items-center gap-2 active:scale-95"
-                >
-                  {saving ? (
-                    <>
-                      <Loader2 className="w-4 h-4 animate-spin" />
-                      <span>Saving Plot...</span>
-                    </>
-                  ) : (
-                    <span>Save Plot</span>
-                  )}
-                </button>
-              </div>
-            </form>
+            {/* Modal Footer */}
+            <div className="p-4 sm:p-5 border-t border-slate-100 bg-slate-50 flex items-center justify-end gap-2 sticky bottom-0 z-10 pb-[max(1rem,env(safe-area-inset-bottom))]">
+              <button
+                type="button"
+                onClick={() => setModalOpen(false)}
+                className="px-4 py-2.5 rounded-xl text-slate-600 hover:bg-slate-200 font-bold active:scale-95"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                form="plot-modal-form"
+                disabled={saving}
+                className="px-6 py-2.5 rounded-xl bg-brand-primary hover:bg-brand-primaryDark text-white font-bold transition-all flex items-center gap-2 active:scale-95 shadow-md"
+              >
+                {saving ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    <span>Saving Plot...</span>
+                  </>
+                ) : (
+                  <span>Save Plot</span>
+                )}
+              </button>
+            </div>
           </div>
         </div>
       )}

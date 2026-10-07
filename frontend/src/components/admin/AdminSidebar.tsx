@@ -32,7 +32,7 @@ export const AdminSidebar: React.FC = () => {
   };
 
   return (
-    <aside className="w-64 bg-slate-950 text-slate-300 flex flex-col justify-between border-r border-slate-800 min-h-screen">
+    <aside className="hidden md:flex w-64 bg-slate-950 text-slate-300 flex-col justify-between border-r border-slate-800 min-h-screen sticky top-0 h-screen overflow-y-auto">
       <div>
         {/* Logo Bar */}
         <div className="p-6 border-b border-slate-800">
