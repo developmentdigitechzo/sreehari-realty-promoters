@@ -79,6 +79,12 @@ export const getProjects = async (req: Request, res: Response, next: NextFunctio
           [proj.id]
         );
         proj.amenities = amenitiesRes.rows;
+        if (typeof proj.highlights === 'string') {
+          try { proj.highlights = JSON.parse(proj.highlights); } catch { proj.highlights = []; }
+        }
+        if (typeof proj.connectivity === 'string') {
+          try { proj.connectivity = JSON.parse(proj.connectivity); } catch { proj.connectivity = []; }
+        }
       }
 
       return sendSuccess(res, 'Projects fetched successfully', projects);
@@ -154,6 +160,13 @@ export const getProjectBySlug = async (req: Request, res: Response, next: NextFu
         [project.id]
       );
       project.properties = propertiesRes.rows;
+
+      if (typeof project.highlights === 'string') {
+        try { project.highlights = JSON.parse(project.highlights); } catch { project.highlights = []; }
+      }
+      if (typeof project.connectivity === 'string') {
+        try { project.connectivity = JSON.parse(project.connectivity); } catch { project.connectivity = []; }
+      }
 
       return sendSuccess(res, 'Project details fetched successfully', project);
     }

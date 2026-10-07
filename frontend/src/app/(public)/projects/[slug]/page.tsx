@@ -25,7 +25,7 @@ import { WhatsAppButton } from '@/components/common/WhatsAppButton';
 import { MobileStickyBar } from '@/components/home/MobileStickyBar';
 import { getTelLink, getWhatsAppLink } from '@/lib/utils';
 
-// Fallback project data if backend is offline during build
+// Fallback project data if backend is offline or compiling
 const fallbackProjects: Record<string, Partial<Project>> = {
   'sri-hari-green-enclave': {
     name: 'Sri Hari Green Enclave',
@@ -119,6 +119,111 @@ const fallbackProjects: Record<string, Partial<Project>> = {
       },
     ],
   },
+  'lotus-gated-county': {
+    name: 'Lotus Gated County',
+    slug: 'lotus-gated-county',
+    tagline: 'Luxury Gated Villa Plots with Grand Entrance Arch at Guduvanchery',
+    description:
+      'Landmark 18-acre gated plotted community nestled in the booming corridor of Guduvanchery near SRM University. 200+ residential plots, dedicated parks, children play zones, and underground utilities.',
+    location: 'Guduvanchery, GST Road, Chennai',
+    address: 'Near SRM University Campus, GST Road, Guduvanchery, Chennai - 603202',
+    city: 'Chennai',
+    state: 'Tamil Nadu',
+    total_area: '18 Acres',
+    total_units: '210 Plots',
+    price_range: '₹24 Lakhs - ₹55 Lakhs',
+    price_per_sqft: 2600,
+    status: 'ONGOING',
+    is_featured: true,
+    is_visible: true,
+    main_image_url: 'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1200&q=80',
+    highlights: [
+      { title: 'Grand Clubhouse Zone', description: 'Designed community space for wellness and gatherings.' },
+      { title: 'Close to SRM & Mahindra City', description: 'High rental and capital appreciation potential.' },
+    ],
+    connectivity: [
+      { title: 'Guduvanchery Bus Terminus', distance: '5 Mins' },
+      { title: 'SRM University', distance: '10 Mins' },
+      { title: 'Mahindra World City', distance: '15 Mins' },
+    ],
+    amenities: [
+      { id: '1', name: 'Grand Entrance Archway', category: 'SECURITY' },
+      { id: '2', name: '40ft & 30ft Paver Roads', category: 'INFRASTRUCTURE' },
+      { id: '3', name: 'Parks & Play Zones', category: 'ENVIRONMENT' },
+    ],
+    properties: [
+      {
+        id: 'p21',
+        title: 'Plot 08 - East Facing Villa Plot',
+        slug: 'lotus-gated-county-plot-08',
+        plot_number: '08',
+        property_type: 'RESIDENTIAL_PLOT',
+        area_sqft: 1200,
+        dimensions: '30 x 40 ft',
+        facing: 'East',
+        price: 3120000,
+        price_display: '₹31.20 Lakhs',
+        status: 'AVAILABLE',
+        is_featured: true,
+        is_visible: true,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+      },
+    ],
+  },
+  'sri-hari-emerald-meadows': {
+    name: 'Sri Hari Emerald Meadows',
+    slug: 'sri-hari-emerald-meadows',
+    tagline: 'Eco-Luxury Nature Plots & Farm Villas at Chengalpattu Highway',
+    description:
+      'Expansive layout plots from 1200 sqft to 3000 sqft surrounded by lush mango groves and scenic hill views. Perfect for both weekend resort living and long-term capital appreciation.',
+    location: 'Chengalpattu, Tamil Nadu',
+    address: 'Near NH 32 Highway Junction, Chengalpattu, Tamil Nadu - 603001',
+    city: 'Chengalpattu',
+    state: 'Tamil Nadu',
+    total_area: '25 Acres',
+    total_units: '180 Plots',
+    price_range: '₹18 Lakhs - ₹42 Lakhs',
+    price_per_sqft: 1750,
+    status: 'UPCOMING',
+    is_featured: true,
+    is_visible: true,
+    main_image_url: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80',
+    highlights: [
+      { title: 'Pure Organic Living', description: 'Over 200 fruit-bearing trees and landscaped greenery.' },
+      { title: 'Rapid Industrial Growth', description: 'Close to Chengalpattu Medical College & Auto Hubs.' },
+    ],
+    connectivity: [
+      { title: 'Chengalpattu Railway', distance: '10 Mins' },
+      { title: 'National Highway NH 32', distance: '4 Mins' },
+    ],
+    amenities: [
+      { id: '1', name: 'Avenue Trees & Plantation', category: 'ENVIRONMENT' },
+      { id: '2', name: 'Solar Street Lights', category: 'INFRASTRUCTURE' },
+    ],
+    properties: [],
+  },
+  'vedic-temple-city-layout': {
+    name: 'Vedic Temple City Layout',
+    slug: 'vedic-temple-city-layout',
+    tagline: 'Fully Sold Out Gated Layout Near Thiruporur Murugan Temple',
+    description: 'Completed and delivered gated plot project by Sree Hari Realty Promoters in Thiruporur, OMR.',
+    location: 'OMR - Thiruporur, Chennai',
+    city: 'Chennai',
+    state: 'Tamil Nadu',
+    total_area: '8 Acres',
+    total_units: '95 Plots',
+    price_range: '₹22 Lakhs - ₹50 Lakhs',
+    price_per_sqft: 2200,
+    status: 'COMPLETED',
+    is_featured: false,
+    is_visible: true,
+    main_image_url: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1200&q=80',
+    highlights: [{ title: '100% Sold Out & Delivered', description: 'Families already residing in independent villas.' }],
+    connectivity: [{ title: 'OMR IT Corridor', distance: '2 Mins' }],
+    amenities: [],
+    properties: [],
+  },
 };
 
 async function getProject(slug: string): Promise<Project | null> {
@@ -173,6 +278,28 @@ export default async function ProjectDetailPage({
 
   const phone = process.env.NEXT_PUBLIC_COMPANY_PHONE || '+91 98765 43210';
   const whatsAppMsg = `Hi Sree Hari Realty, I am interested in ${project.name} located at ${project.location}. Please send me the complete brochure, master plan, and pricing.`;
+
+  const highlights: any[] = Array.isArray(project.highlights)
+    ? project.highlights
+    : typeof project.highlights === 'string'
+    ? (() => { try { return JSON.parse(project.highlights); } catch { return []; } })()
+    : [];
+
+  const connectivity: any[] = Array.isArray(project.connectivity)
+    ? project.connectivity
+    : typeof project.connectivity === 'string'
+    ? (() => { try { return JSON.parse(project.connectivity); } catch { return []; } })()
+    : [];
+
+  const amenities: any[] = Array.isArray(project.amenities)
+    ? project.amenities
+    : typeof project.amenities === 'string'
+    ? (() => { try { return JSON.parse(project.amenities); } catch { return []; } })()
+    : [];
+
+  const properties: any[] = Array.isArray(project.properties)
+    ? project.properties
+    : [];
 
   return (
     <div className="bg-slate-50 min-h-screen pb-24 md:pb-0">
@@ -296,14 +423,14 @@ export default async function ProjectDetailPage({
             </div>
 
             {/* Key Project Highlights */}
-            {project.highlights && project.highlights.length > 0 && (
+            {highlights.length > 0 && (
               <div className="bg-white p-6 md:p-8 rounded-2xl border border-slate-200 shadow-sm space-y-5">
                 <h2 className="text-xl md:text-2xl font-bold font-heading text-slate-900 flex items-center gap-2">
                   <ShieldCheck className="w-5 h-5 text-emerald-600" />
                   <span>Key Project Highlights & Approvals</span>
                 </h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {project.highlights.map((hl: any, idx: number) => (
+                  {highlights.map((hl: any, idx: number) => (
                     <div key={idx} className="p-4 rounded-xl bg-slate-50 border border-slate-100 flex items-start gap-3">
                       <CheckCircle2 className="w-5 h-5 text-emerald-600 flex-shrink-0 mt-0.5" />
                       <div>
@@ -321,19 +448,19 @@ export default async function ProjectDetailPage({
             )}
 
             {/* Individual Plot Inventory & Interactive Availability Matrix */}
-            {project.properties && project.properties.length > 0 && (
-              <VisualPlotGrid plots={project.properties} projectName={project.name} />
+            {properties.length > 0 && (
+              <VisualPlotGrid plots={properties} projectName={project.name} />
             )}
 
             {/* Gated Community Amenities */}
-            {project.amenities && project.amenities.length > 0 && (
+            {amenities.length > 0 && (
               <div className="bg-white p-6 md:p-8 rounded-2xl border border-slate-200 shadow-sm space-y-5">
                 <h2 className="text-xl md:text-2xl font-bold font-heading text-slate-900 flex items-center gap-2">
                   <Trees className="w-5 h-5 text-emerald-600" />
                   <span>Layout Amenities & Infrastructure</span>
                 </h2>
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-                  {project.amenities.map((amenity) => (
+                  {amenities.map((amenity: any) => (
                     <div
                       key={amenity.id}
                       className="p-3.5 rounded-xl bg-slate-50 border border-slate-200/60 flex items-center gap-3 text-xs font-bold text-slate-800"
@@ -349,14 +476,14 @@ export default async function ProjectDetailPage({
             )}
 
             {/* Location & Connectivity Matrix */}
-            {project.connectivity && project.connectivity.length > 0 && (
+            {connectivity.length > 0 && (
               <div className="bg-white p-6 md:p-8 rounded-2xl border border-slate-200 shadow-sm space-y-5">
                 <h2 className="text-xl md:text-2xl font-bold font-heading text-slate-900 flex items-center gap-2">
                   <Clock className="w-5 h-5 text-blue-600" />
                   <span>Strategic Location & Travel Times</span>
                 </h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  {project.connectivity.map((conn: any, idx: number) => (
+                  {connectivity.map((conn: any, idx: number) => (
                     <div
                       key={idx}
                       className="p-3.5 rounded-xl bg-blue-50/50 border border-blue-100 flex items-center justify-between text-xs"
